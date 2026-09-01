@@ -1,6 +1,7 @@
 package com.iamasaw.moviebox
 
 import android.os.Bundle
+import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -8,6 +9,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +22,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.DrawerValue
@@ -38,7 +41,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +53,10 @@ import androidx.compose.ui.unit.sp
 import com.iamasaw.moviebox.ui.theme.Beidge10
 import com.iamasaw.moviebox.ui.theme.Beidge30
 import com.iamasaw.moviebox.ui.theme.Beidge50
+import com.iamasaw.moviebox.ui.theme.Black
+import com.iamasaw.moviebox.ui.theme.Grey10
 import com.iamasaw.moviebox.ui.theme.MovieBoxTheme
+import com.iamasaw.moviebox.ui.theme.White
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -93,7 +101,7 @@ fun LoadInitialScreen() {
                     text = "Bottom Bar"
                 )
             }
-        }, containerColor = Beidge10
+        }, containerColor = Black
         ) { innerPadding ->
 
             Box(modifier = Modifier.padding(top = innerPadding.calculateTopPadding())) {
@@ -116,35 +124,62 @@ fun LoadInitialScreen() {
 
 @Composable
 fun MovieCard(movie: Movie) {
-    Row(
-        modifier = Modifier
-            .padding(10.dp)
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(Beidge50)
-            .padding(10.dp),
-    ) {
-        val image = painterResource(R.drawable.androidparty)
-        val imageModifier = Modifier
-            .size(150.dp, 300.dp)
+    val image = painterResource(R.drawable.interstellar)
+    val imageModifier =
+        Modifier
+            .size(90.dp, 150.dp)
             .border(BorderStroke(1.dp, Color.Black))
             .background(Beidge50)
 
-        Image(
-            painter = image,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = imageModifier
-        )
-        Column(modifier = Modifier.padding(start = 5.dp)) {
-            Text("Movie number ${movie.id}", color = Beidge10)
-            Spacer(modifier = Modifier.padding(20.dp))
-            Text(
-                "In a dystopian future where Earth has become near-uninhabitable, a team of astronauts embark on a mission to find a new home for humanity.",
-                fontSize = 12.sp,
-                color = Beidge10,
-                fontWeight = FontWeight.Light
+    Row(
+        modifier = Modifier
+            .padding(0.dp)
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(8.dp))
+            .background(Black)
+            .padding(10.dp),
+    ) {
+            Image(
+                painter = image,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = imageModifier
             )
+            Column(modifier = Modifier.padding(start = 10.dp)) {
+                Text(
+                    "Movie number ${movie.id}",
+                    color = White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+                Spacer(modifier = Modifier.padding(4.dp))
+                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                    Text(
+                        "\uD83D\uDCC5" + " 06 April, 2022",
+                        color = Grey10,
+                        fontWeight = FontWeight.Light,
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp
+                    )
+                    Text(
+                        "☆" + " 6.8 (2,060)",
+                        color = Grey10,
+                        fontWeight = FontWeight.Light,
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp
+                    )
+                    Text(
+                        "\uD83D\uDD57" + " 2hr 22min",
+                        color = Grey10,
+                        fontWeight = FontWeight.Light,
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp
+                    )
+                }
+            }
+        Spacer(modifier = Modifier.weight(1f))  // moves the button to right side
+            IconButton(onClick = {}) {
+                Icon(Icons.Default.Clear, contentDescription = "Delete from favourites", tint = White, )
+            }
         }
     }
-}
