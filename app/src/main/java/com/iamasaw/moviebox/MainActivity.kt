@@ -1,7 +1,6 @@
 package com.iamasaw.moviebox
 
 import android.os.Bundle
-import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,7 +8,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,21 +35,20 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.iamasaw.moviebox.ui.theme.Beidge10
 import com.iamasaw.moviebox.ui.theme.Beidge30
 import com.iamasaw.moviebox.ui.theme.Beidge50
 import com.iamasaw.moviebox.ui.theme.Black
@@ -112,9 +110,11 @@ fun LoadInitialScreen() {
                         .clip(shape = RoundedCornerShape(8.dp)),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(movies.size) { index ->
+                    items(count = movies.size,
+                        key = {
+                            movies[it].id
+                        }) { index ->
                         MovieCard(movies[index])
-
                     }
                 }
             }
@@ -124,7 +124,8 @@ fun LoadInitialScreen() {
 
 @Composable
 fun MovieCard(movie: Movie) {
-    val image = painterResource(R.drawable.interstellar)
+    val context = LocalContext.current
+    val image =  painterResource(R.drawable.interstellar)
     val imageModifier =
         Modifier
             .size(90.dp, 150.dp)
@@ -133,53 +134,58 @@ fun MovieCard(movie: Movie) {
 
     Row(
         modifier = Modifier
+            .clickable(onClick = { showMovieDetails() })
             .padding(0.dp)
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(8.dp))
             .background(Black)
             .padding(10.dp),
     ) {
-            Image(
-                painter = image,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = imageModifier
+        Image(
+            painter = image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = imageModifier
+        )
+        Column(modifier = Modifier.padding(start = 10.dp)) {
+            Text(
+                "Movie number ${movie.id}",
+                color = White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
             )
-            Column(modifier = Modifier.padding(start = 10.dp)) {
+            Spacer(modifier = Modifier.padding(4.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
                 Text(
-                    "Movie number ${movie.id}",
-                    color = White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    "\uD83D\uDCC5" + " 06 April, 2022",
+                    color = Grey10,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp
                 )
-                Spacer(modifier = Modifier.padding(4.dp))
-                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
-                    Text(
-                        "\uD83D\uDCC5" + " 06 April, 2022",
-                        color = Grey10,
-                        fontWeight = FontWeight.Light,
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp
-                    )
-                    Text(
-                        "☆" + " 6.8 (2,060)",
-                        color = Grey10,
-                        fontWeight = FontWeight.Light,
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp
-                    )
-                    Text(
-                        "\uD83D\uDD57" + " 2hr 22min",
-                        color = Grey10,
-                        fontWeight = FontWeight.Light,
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp
-                    )
-                }
-            }
-        Spacer(modifier = Modifier.weight(1f))  // moves the button to right side
-            IconButton(onClick = {}) {
-                Icon(Icons.Default.Clear, contentDescription = "Delete from favourites", tint = White, )
+                Text(
+                    "☆" + " 6.8 (2,060)",
+                    color = Grey10,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp
+                )
+                Text(
+                    "\uD83D\uDD57" + " 2hr 22min",
+                    color = Grey10,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp
+                )
             }
         }
+        Spacer(modifier = Modifier.weight(1f))  // moves the button to right side
+        IconButton(onClick = {}) {
+            Icon(Icons.Default.Clear, contentDescription = "Delete from favourites", tint = White)
+        }
     }
+}
+
+fun showMovieDetails() {
+    // needs to be implemented
+}
