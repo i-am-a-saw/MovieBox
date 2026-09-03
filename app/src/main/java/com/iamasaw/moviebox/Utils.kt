@@ -13,49 +13,33 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
 
-private const val transitionDuration = 400
+private const val transitionDuration = 250
 
 
 fun NavGraphBuilder.composableSlideInOut(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    enterTransition:
-    (@JvmSuppressWildcards
-    AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
-        {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                tween(transitionDuration)
-            )
-        },
-    exitTransition:
-    (@JvmSuppressWildcards
-    AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
-        {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                tween(transitionDuration)
-            )
-        },
-    popEnterTransition:
-    (@JvmSuppressWildcards
-    AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
-        {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                tween(transitionDuration)
-            )
-        },
-    popExitTransition:
-    (@JvmSuppressWildcards
-    AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
-        {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                tween(transitionDuration)
-            )
-        },
+    enterTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
+        slideIntoContainer(
+            AnimatedContentTransitionScope.SlideDirection.Left, tween(transitionDuration)
+        )
+    },
+    exitTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = {
+        slideOutOfContainer(
+            AnimatedContentTransitionScope.SlideDirection.Left, tween(transitionDuration)
+        )
+    },
+    popEnterTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
+        slideIntoContainer(
+            AnimatedContentTransitionScope.SlideDirection.Right, tween(transitionDuration)
+        )
+    },
+    popExitTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = {
+        slideOutOfContainer(
+            AnimatedContentTransitionScope.SlideDirection.Right, tween(transitionDuration)
+        )
+    },
     content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
 ) {
 

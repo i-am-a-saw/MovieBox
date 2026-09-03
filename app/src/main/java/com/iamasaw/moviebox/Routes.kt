@@ -32,6 +32,6 @@ class MovieDetailsDestination(val index: Int) : NavDestination {
         private const val root = "item_details"
         private const val inputArg = "index"
         const val route = "$root/{$inputArg}"
-        val navArgs = listOf(navArgument(inputArg) { type = NavType.IntType } )
+        val navArgs = listOf(navArgument(inputArg) { type = NavType.IntType })
     }
 }

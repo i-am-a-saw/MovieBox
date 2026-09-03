@@ -2,34 +2,18 @@ package com.iamasaw.moviebox
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -52,35 +36,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavDeepLink
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHost
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.iamasaw.moviebox.HomeDestination.route
 import com.iamasaw.moviebox.ui.theme.Beidge30
 import com.iamasaw.moviebox.ui.theme.Beidge50
 import com.iamasaw.moviebox.ui.theme.Black
-import com.iamasaw.moviebox.ui.theme.Grey10
 import com.iamasaw.moviebox.ui.theme.MovieBoxTheme
-import com.iamasaw.moviebox.ui.theme.White
 import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.compose.koinViewModel
@@ -122,8 +86,7 @@ fun AppScreen(
 
     NavHost(navController = navController, startDestination = HomeDestination.route) {
         composable(HomeDestination.route) {
-            HomeScreen(viewModel.movieList, { viewModel.navigateToProfile() }
-            ) { item ->
+            HomeScreen(viewModel.movieList, { viewModel.navigateToProfile() }) { item ->
                 viewModel.navigateToItem(item.id)
             }
         }
@@ -131,8 +94,7 @@ fun AppScreen(
         composableSlideInOut(ProfileDestination.route) { ProfileScreen() }
 
         composableSlideInOut(
-            MovieDetailsDestination.route,
-            arguments = MovieDetailsDestination.navArgs
+            MovieDetailsDestination.route, arguments = MovieDetailsDestination.navArgs
         ) {
             MovieScreen()
         }

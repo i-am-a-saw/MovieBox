@@ -62,10 +62,7 @@ fun MovieCard(movie: Movie, onTapItem: (Movie) -> Unit) {
         )
         Column(modifier = Modifier.padding(start = 10.dp)) {
             Text(
-                movie.name,
-                color = White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
+                movie.name, color = White, fontWeight = FontWeight.Bold, fontSize = 16.sp
             )
             Spacer(modifier = Modifier.padding(4.dp))
             Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {

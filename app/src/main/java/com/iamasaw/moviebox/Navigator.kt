@@ -18,8 +18,10 @@ class RealNavigator : Navigator {
     }
 
     override fun navigate(route: NavDestination, builder: NavOptionsBuilder.() -> Unit) {
-        navController?.navigate(route.buildRoute(), builder)
-            ?: Log.w("Navigator", "No navController set in the Navigator")
+        navController?.navigate(route.buildRoute(), builder) ?: Log.w(
+            "Navigator",
+            "No navController set in the Navigator"
+        )
     }
 
     override fun popBackStack() {

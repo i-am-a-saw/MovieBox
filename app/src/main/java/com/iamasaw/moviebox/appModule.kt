@@ -23,8 +23,7 @@ val appModule = module {
 
 
 class AppViewModel(
-    itemService: MovieService,
-    private val navigator: com.iamasaw.moviebox.Navigator
+    itemService: MovieService, private val navigator: com.iamasaw.moviebox.Navigator
 ) : ViewModel() {
     val movieList = itemService.items
 
