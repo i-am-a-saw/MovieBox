@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    viewModelOf(::ItemsDetailsViewModel)
+    viewModelOf(::MovieDetailsViewModel)
 
     viewModelOf(::ProfileViewModel)
 
@@ -33,18 +33,18 @@ class AppViewModel(
     }
 
     fun navigateToItem(index: Int) {
-        navigator.navigate(ItemDetailsDestination(index))
+        navigator.navigate(MovieDetailsDestination(index))
     }
 }
 
 
-class ItemsDetailsViewModel(
+class MovieDetailsViewModel(
     itemService: MovieService,
     private val navigator: com.iamasaw.moviebox.Navigator,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val route = ItemDetailsDestination(savedStateHandle)
+    private val route = MovieDetailsDestination(savedStateHandle)
 
     val item = itemService.items[route.index]
 
@@ -52,6 +52,7 @@ class ItemsDetailsViewModel(
         navigator.popBackStack()
     }
 }
+
 
 class ProfileViewModel(private val navigator: Navigator<NavDestination>) : ViewModel() {
     fun navigateBack() {

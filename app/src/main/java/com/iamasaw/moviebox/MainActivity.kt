@@ -87,8 +87,6 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
 
-private const val transitionDuration = 400
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +96,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 class MainApp : Application() {
     override fun onCreate() {
@@ -123,7 +122,7 @@ fun AppScreen(
 
     NavHost(navController = navController, startDestination = HomeDestination.route) {
         composable(HomeDestination.route) {
-            LoadInitialScreen(viewModel.movieList, { viewModel.navigateToProfile() }
+            HomeScreen(viewModel.movieList, { viewModel.navigateToProfile() }
             ) { item ->
                 viewModel.navigateToItem(item.id)
             }
@@ -132,10 +131,10 @@ fun AppScreen(
         composableSlideInOut(ProfileDestination.route) { ProfileScreen() }
 
         composableSlideInOut(
-            ItemDetailsDestination.route,
-            arguments = ItemDetailsDestination.navArgs
+            MovieDetailsDestination.route,
+            arguments = MovieDetailsDestination.navArgs
         ) {
-            MovieDetails()
+            MovieScreen()
         }
     }
 }
@@ -143,7 +142,7 @@ fun AppScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoadInitialScreen(
+fun HomeScreen(
     items: List<Movie>, onTapProfile: () -> Unit, onTapItem: (Movie) -> Unit
 ) {
     MovieBoxTheme {
@@ -186,85 +185,15 @@ fun LoadInitialScreen(
                         .clip(shape = RoundedCornerShape(8.dp)),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(count = movies.size, key = {
-                        movies[it].id
+                    items(count = items.size, key = {
+                        items[it].id
                     }) { index ->
-                        MovieCard(movies[index], onTapItem)
+                        MovieCard(items[index], onTapItem)
                     }
                 }
             }
         }
     }
-}
-
-
-@Composable
-fun MovieCard(movie: Movie, onTapItem: (Movie) -> Unit) {
-    val context = LocalContext.current
-    val image = painterResource(R.drawable.interstellar)
-    val imageModifier =
-        Modifier
-            .size(90.dp, 150.dp)
-            .border(BorderStroke(1.dp, Color.Black))
-            .background(Beidge50)
-
-    Row(
-        modifier = Modifier
-            .clickable(onClick = { onTapItem(movie) })
-            .padding(0.dp)
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(Black)
-            .padding(10.dp),
-    ) {
-        Image(
-            painter = image,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = imageModifier
-        )
-        Column(modifier = Modifier.padding(start = 10.dp)) {
-            Text(
-                "Movie number ${movie.id}",
-                color = White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-            Spacer(modifier = Modifier.padding(4.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
-                Text(
-                    "\uD83D\uDCC5" + " 06 April, 2022",
-                    color = Grey10,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp
-                )
-                Text(
-                    "☆" + " 6.8 (2,060)",
-                    color = Grey10,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp
-                )
-                Text(
-                    "\uD83D\uDD57" + " 2hr 22min",
-                    color = Grey10,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp
-                )
-            }
-        }
-        Spacer(modifier = Modifier.weight(1f))  // moves the button to right side
-        IconButton(onClick = {}) {
-            Icon(Icons.Default.Clear, contentDescription = "Delete from favourites", tint = White)
-        }
-    }
-}
-
-
-fun showMovieDetails() {
-    // needs to be implemented
 }
 
 
@@ -298,9 +227,9 @@ fun ProfileScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieDetails() {
+fun MovieScreen() {
 
-    val viewModel: ItemsDetailsViewModel = koinViewModel()
+    val viewModel: MovieDetailsViewModel = koinViewModel()
 
     Scaffold(
         topBar = {
@@ -319,138 +248,5 @@ fun MovieDetails() {
         ) {
             Text("Movie details screen!")
         }
-    }
-}
-
-
-interface MovieService {
-    val items: List<Movie>
-}
-
-
-class RealMovieService : MovieService {
-    override val items: List<Movie> = generateItems()
-
-    private fun generateItems(): List<Movie> = (0 until 100).map {
-        Movie(
-            id = it,
-            name = "Great Getsby",
-            producer = "Myself",
-        )
-    }
-}
-
-
-fun NavGraphBuilder.composableSlideInOut(
-    route: String,
-    arguments: List<NamedNavArgument> = emptyList(),
-    deepLinks: List<NavDeepLink> = emptyList(),
-    enterTransition:
-    (@JvmSuppressWildcards
-    AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
-        {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                tween(transitionDuration)
-            )
-        },
-    exitTransition:
-    (@JvmSuppressWildcards
-    AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
-        {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                tween(transitionDuration)
-            )
-        },
-    popEnterTransition:
-    (@JvmSuppressWildcards
-    AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
-        {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                tween(transitionDuration)
-            )
-        },
-    popExitTransition:
-    (@JvmSuppressWildcards
-    AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
-        {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                tween(transitionDuration)
-            )
-        },
-    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
-) {
-
-    composable(
-        route,
-        arguments,
-        deepLinks,
-        enterTransition,
-        exitTransition,
-        popEnterTransition,
-        popExitTransition,
-        content
-    )
-}
-
-interface NavDestination {
-    fun buildRoute(): String
-}
-
-object HomeDestination : NavDestination {
-    override fun buildRoute(): String = route
-    private const val root = "home"
-    const val route = root
-}
-
-object ProfileDestination : NavDestination{
-    override fun buildRoute(): String = route
-    private const val root = "profile"
-    const val route = root
-}
-
-class ItemDetailsDestination(val index: Int) : NavDestination {
-
-    constructor(
-        savedStateHandle: SavedStateHandle
-    ) : this(index = requireNotNull(savedStateHandle.get<Int>(inputArg)))
-
-    override fun buildRoute(): String = "$root/$index"
-
-    companion object {
-        private const val root = "item_details"
-        private const val inputArg = "index"
-        const val route = "$root/{$inputArg}"
-        val navArgs = listOf(navArgument(inputArg) { type = NavType.IntType } )
-    }
-}
-
-interface Navigator {
-    fun setController(navControlles: NavController)
-    fun navigate(route: NavDestination, builder: NavOptionsBuilder.() -> Unit = {})
-    fun popBackStack()
-    fun popBackStack(route: NavDestination, inclusive: Boolean, saveState: Boolean = false)
-}
-
-class RealNavigator : Navigator {
-    private var navController: NavController? = null
-    override fun setController(navController: NavController) {
-        this.navController = navController
-    }
-
-    override fun navigate(route: NavDestination, builder: NavOptionsBuilder.() -> Unit) {
-        navController?.navigate(route.buildRoute(), builder)
-            ?: Log.w("Navigator", "No navController set in the Navigator")
-    }
-
-    override fun popBackStack() {
-        navController?.popBackStack() ?: Log.w("Navigator", "No navController set in the Navigator")
-    }
-
-    override fun popBackStack(route: NavDestination, inclusive: Boolean, saveState: Boolean) {
-        navController?.popBackStack(route.buildRoute(), inclusive, saveState)
     }
 }
