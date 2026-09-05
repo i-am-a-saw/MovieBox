@@ -49,6 +49,21 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.1")
+
+    val composeNavVersion = "2.7.7"
+
+    implementation("androidx.navigation:navigation-compose:$composeNavVersion")
+
+    val koinVersion = "3.5.6"
+
+    implementation("io.insert-koin:koin-core:$koinVersion")
+
+    implementation("io.insert-koin:koin-android:$koinVersion")
+
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
