@@ -1,4 +1,4 @@
-package com.iamasaw.moviebox
+package com.iamasaw.moviebox.ui
 
 import android.media.Image
 import androidx.compose.foundation.BorderStroke
@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.ui.theme.Beidge50
 import com.iamasaw.moviebox.ui.theme.Black
 import com.iamasaw.moviebox.ui.theme.Grey10

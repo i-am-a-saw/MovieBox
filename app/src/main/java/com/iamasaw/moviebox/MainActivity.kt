@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,9 +18,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Login
@@ -33,8 +38,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -48,6 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,6 +66,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.iamasaw.moviebox.ui.HomeDestination
+import com.iamasaw.moviebox.ui.Movie
+import com.iamasaw.moviebox.ui.MovieCard
+import com.iamasaw.moviebox.ui.MovieDetailsDestination
+import com.iamasaw.moviebox.ui.Navigator
+import com.iamasaw.moviebox.ui.ProfileDestination
+import com.iamasaw.moviebox.ui.theme.Beidge10
 import com.iamasaw.moviebox.ui.theme.Beidge30
 import com.iamasaw.moviebox.ui.theme.Beidge50
 import com.iamasaw.moviebox.ui.theme.Black
@@ -283,10 +299,7 @@ fun MovieScreen() {
                             colors = ButtonDefaults.buttonColors(containerColor = Black),
                             shape = RoundedCornerShape(8.dp),
                             contentPadding = PaddingValues(
-                                top = 6.dp,
-                                bottom = 6.dp,
-                                start = 16.dp,
-                                end = 16.dp
+                                top = 6.dp, bottom = 6.dp, start = 16.dp, end = 16.dp
                             )
                         ) {
                             Text("Action")
@@ -296,10 +309,7 @@ fun MovieScreen() {
                             colors = ButtonDefaults.buttonColors(containerColor = Black),
                             shape = RoundedCornerShape(8.dp),
                             contentPadding = PaddingValues(
-                                top = 6.dp,
-                                bottom = 6.dp,
-                                start = 16.dp,
-                                end = 16.dp
+                                top = 6.dp, bottom = 6.dp, start = 16.dp, end = 16.dp
                             )
                         ) {
                             Text("Drama")
@@ -316,10 +326,157 @@ fun MovieScreen() {
                         Text("Your go-to resource for mastering Android Jetpack compose development with Kotlin. Explore in-depth tutorials, industry insights, and career advice to accelerate your journey as a professional Android developer.")
                     }
                 }
-
-
             }
         }
     }
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchScreen(
+    onSearch: (String) -> Unit
+) {
+
+    val viewModel: SearchViewModel = koinViewModel()
+    var expanded by remember { mutableStateOf(false) }
+    var textFieldState: TextFieldState = TextFieldState()
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Beidge10)
+            .padding(top = 22.dp, start = 6.dp, end = 12.dp, bottom = 26.dp),
+    ) {
+
+        Box(modifier = Modifier.padding(top = 35.dp)) {
+            IconButton(
+                onClick = { viewModel.navigateBack() },
+            ) {
+                Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Go back")
+            }
+        }
+
+        Column(modifier = Modifier.fillMaxSize()) {
+            SearchBar(
+                inputField = {
+                SearchBarDefaults.InputField(
+                    query = textFieldState.text.toString(),
+                    onQueryChange = {
+                        textFieldState.edit { replace(0, length, it) }
+                    },
+                    onSearch = {
+                        onSearch(textFieldState.text.toString())
+                        expanded = false
+                    },
+                    expanded = expanded,
+                    onExpandedChange = { expanded = it },
+                    placeholder = { Text("Search") })
+            },
+                expanded = expanded,
+                onExpandedChange = { expanded = it },
+                modifier = Modifier.padding(start = 50.dp)
+            ) {
+                Text("Hello")
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, end = 8.dp, top = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Movies (52)", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                TextButton(
+                    onClick = {},
+                    Modifier.background(Color.Transparent),
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    Text(
+                        "SEE ALL",
+                        color = Color(0xFF06C6D9),
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 14.sp
+                    )
+                }
+            }
+
+            LazyRow(
+                modifier = Modifier
+                    .padding(top = 4.dp, start = 10.dp, end = 10.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+
+                items(
+                    count = viewModel.movieList.size,
+                    key = { viewModel.movieList[it].id }) { index ->
+                    ShortMovieCard(viewModel.movieList[index], viewModel)
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, end = 8.dp, top = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Movies (52)", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                TextButton(
+                    onClick = {},
+                    Modifier.background(Color.Transparent),
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    Text(
+                        "SEE ALL",
+                        color = Color(0xFF06C6D9),
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 14.sp
+                    )
+                }
+            }
+
+            LazyRow(
+                modifier = Modifier
+                    .padding(top = 4.dp, start = 10.dp, end = 10.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+
+                items(
+                    count = viewModel.movieList.size,
+                    key = { viewModel.movieList[it].id }) { index ->
+                    ShortMovieCard(viewModel.movieList[index], viewModel)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ShortMovieCard(movie: Movie, viewModel: SearchViewModel) {
+    val image = painterResource(R.drawable.interstellar)
+
+    Box(
+        modifier = Modifier
+            .clickable(onClick = { viewModel.navigateToItem(movie.id) })
+            .fillMaxWidth()
+    ) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .width(115.dp)) {
+            Image(
+                image,
+                contentScale = ContentScale.Crop,
+                contentDescription = "Movie photo",
+                modifier = Modifier.size(115.dp, 185.dp)
+            )
+            Text("Spider-Man", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Row(
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("2002", fontSize = 12.sp)
+                Text("⭐ 7.2", fontSize = 12.sp)
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.iamasaw.moviebox
+package com.iamasaw.moviebox.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavType

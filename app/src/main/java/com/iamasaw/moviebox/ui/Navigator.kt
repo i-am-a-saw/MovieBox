@@ -1,4 +1,4 @@
-package com.iamasaw.moviebox
+package com.iamasaw.moviebox.ui
 
 import android.util.Log
 import androidx.navigation.NavController
