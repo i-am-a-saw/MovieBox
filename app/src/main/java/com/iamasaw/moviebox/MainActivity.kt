@@ -27,7 +27,11 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Login
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -60,21 +64,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.iamasaw.moviebox.ui.FavouritesDestination
 import com.iamasaw.moviebox.ui.HomeDestination
 import com.iamasaw.moviebox.ui.Movie
 import com.iamasaw.moviebox.ui.MovieCard
 import com.iamasaw.moviebox.ui.MovieDetailsDestination
 import com.iamasaw.moviebox.ui.Navigator
 import com.iamasaw.moviebox.ui.ProfileDestination
+import com.iamasaw.moviebox.ui.SearchDestination
 import com.iamasaw.moviebox.ui.theme.Beidge10
 import com.iamasaw.moviebox.ui.theme.Beidge30
-import com.iamasaw.moviebox.ui.theme.Beidge50
 import com.iamasaw.moviebox.ui.theme.Black
 import com.iamasaw.moviebox.ui.theme.MovieBoxTheme
 import com.iamasaw.moviebox.ui.theme.White
@@ -119,12 +123,23 @@ fun AppScreen(
 
     NavHost(navController = navController, startDestination = HomeDestination.route) {
         composable(HomeDestination.route) {
-            HomeScreen(viewModel.movieList, { viewModel.navigateToProfile() }) { item ->
-                viewModel.navigateToItem(item.id)
-            }
+            HomeScreen(
+                viewModel.movieList,
+                { viewModel.navigateToProfile() },
+                { item -> viewModel.navigateToItem(item.id) },
+                { viewModel.navigateToFavourites() },
+                { viewModel.navigateToSearch() })
         }
 
         composableSlideInOut(ProfileDestination.route) { ProfileScreen() }
+
+        composableSlideInOut(SearchDestination.route) { SearchScreen() }
+
+        composableSlideInOut(FavouritesDestination.route) { FavouritesScreen(viewModel.movieList,
+            { viewModel.navigateToProfile() },
+            { item: Movie -> viewModel.navigateToItem(item.id) },
+            { viewModel.navigateToFavourites() },
+            { viewModel.navigateToSearch() }) }
 
         composableSlideInOut(
             MovieDetailsDestination.route, arguments = MovieDetailsDestination.navArgs
@@ -137,8 +152,60 @@ fun AppScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    items: List<Movie>, onTapProfile: () -> Unit, onTapItem: (Movie) -> Unit
+fun HomeScreen(items: List<Movie>,
+               onTapProfile: () -> Unit,
+               onTapItem: (Movie) -> Unit,
+               onTapFavourites: () -> Unit,
+               onTapSearch: () -> Unit) {
+    var showNavigationIcon by rememberSaveable { mutableStateOf(true) }
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("MovieBox") }, navigationIcon = {
+                if (showNavigationIcon) {
+                    IconButton(onClick = { scope.launch { drawerState.apply { if (isOpen) close() else open() } } }) {
+                        Icon(Icons.Default.Menu, contentDescription = "fuck")
+                    }
+                } else {
+                    IconButton(onClick = { scope.launch { drawerState.apply { if (isOpen) close() else open() } } }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "fuck"
+                        )
+                    }
+                }
+            })
+        }, bottomBar = {
+            BottomAppBar(actions = {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Default.Home, contentDescription = "Home")
+                }
+                IconButton(onClick = { onTapProfile() }) {
+                    Icon(Icons.Default.Person, contentDescription = "Profile")
+                }
+                IconButton(onClick = { onTapFavourites() }) {
+                    Icon(Icons.Default.FavoriteBorder, contentDescription = "Favourite")
+                }
+                IconButton(onClick = { onTapSearch() }) {
+                    Icon(Icons.Default.Search, contentDescription = "Search")
+                }
+            })
+        }, containerColor = Black
+    ) {innerPadding ->
+        Text("Hello", modifier = Modifier.padding(innerPadding))}
+
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FavouritesScreen(
+    items: List<Movie>,
+    onTapProfile: () -> Unit,
+    onTapItem: (Movie) -> Unit,
+    onTapFavourites: () -> Unit,
+    onTapSearch: () -> Unit
 ) {
     MovieBoxTheme {
 
@@ -162,13 +229,20 @@ fun HomeScreen(
                 }
             })
         }, bottomBar = {
-            BottomAppBar(containerColor = Beidge30, contentColor = Beidge50) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "Bottom Bar"
-                )
-            }
+            BottomAppBar(actions = {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Default.Home, contentDescription = "Home")
+                }
+                IconButton(onClick = { onTapProfile() }) {
+                    Icon(Icons.Default.Person, contentDescription = "Profile")
+                }
+                IconButton(onClick = {  }) {
+                    Icon(Icons.Default.FavoriteBorder, contentDescription = "Favourite")
+                }
+                IconButton(onClick = { onTapSearch() }) {
+                    Icon(Icons.Default.Search, contentDescription = "Search")
+                }
+            })
         }, containerColor = Black
         ) { innerPadding ->
 
@@ -334,7 +408,7 @@ fun MovieScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit = {}
 ) {
 
     val viewModel: SearchViewModel = koinViewModel()
@@ -461,9 +535,11 @@ fun ShortMovieCard(movie: Movie, viewModel: SearchViewModel) {
             .clickable(onClick = { viewModel.navigateToItem(movie.id) })
             .fillMaxWidth()
     ) {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .width(115.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .width(115.dp)
+        ) {
             Image(
                 image,
                 contentScale = ContentScale.Crop,

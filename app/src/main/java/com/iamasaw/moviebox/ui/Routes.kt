@@ -20,6 +20,18 @@ object ProfileDestination : NavDestination {
     const val route = root
 }
 
+object FavouritesDestination : NavDestination {
+    override fun buildRoute(): String = route
+    private const val root = "favourites"
+    const val route = root
+}
+
+object SearchDestination : NavDestination {
+    override fun buildRoute(): String = route
+    private const val root = "search"
+    const val route = root
+}
+
 class MovieDetailsDestination(val index: Int) : NavDestination {
 
     constructor(

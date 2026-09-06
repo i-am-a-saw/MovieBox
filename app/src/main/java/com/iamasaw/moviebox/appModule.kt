@@ -4,12 +4,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigator
+import com.iamasaw.moviebox.ui.FavouritesDestination
 import com.iamasaw.moviebox.ui.HomeDestination
 import com.iamasaw.moviebox.ui.MovieDetailsDestination
 import com.iamasaw.moviebox.ui.MovieService
 import com.iamasaw.moviebox.ui.ProfileDestination
 import com.iamasaw.moviebox.ui.RealMovieService
 import com.iamasaw.moviebox.ui.RealNavigator
+import com.iamasaw.moviebox.ui.SearchDestination
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
@@ -43,6 +45,14 @@ class AppViewModel(
     fun navigateToItem(index: Int) {
         navigator.navigate(MovieDetailsDestination(index))
     }
+
+    fun navigateToFavourites() {
+        navigator.navigate(FavouritesDestination)
+    }
+
+    fun navigateToSearch() {
+        navigator.navigate(SearchDestination)
+    }
 }
 
 
@@ -66,6 +76,18 @@ class ProfileViewModel(private val navigator: com.iamasaw.moviebox.ui.Navigator)
     fun navigateBack() {
         navigator.popBackStack()
     }
+
+    fun navigateToFavourites() {
+        navigator.navigate(FavouritesDestination)
+    }
+
+    fun navigateToSearch() {
+        navigator.navigate(SearchDestination)
+    }
+
+    fun navigateToHome() {
+        navigator.navigate(HomeDestination)
+    }
 }
 
 class SearchViewModel(itemService: MovieService, private val navigator: com.iamasaw.moviebox.ui.Navigator) : ViewModel() {
@@ -77,5 +99,17 @@ class SearchViewModel(itemService: MovieService, private val navigator: com.iama
 
     fun navigateBack() {
         navigator.popBackStack()
+    }
+
+    fun navigateToFavourites() {
+        navigator.navigate(FavouritesDestination)
+    }
+
+    fun navigateToProfile() {
+        navigator.navigate(ProfileDestination)
+    }
+
+    fun navigateToHome() {
+        navigator.navigate(HomeDestination)
     }
 }
