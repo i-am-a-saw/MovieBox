@@ -87,6 +87,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
+import org.koin.dsl.module
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,11 +136,14 @@ fun AppScreen(
 
         composableSlideInOut(SearchDestination.route) { SearchScreen() }
 
-        composableSlideInOut(FavouritesDestination.route) { FavouritesScreen(viewModel.movieList,
-            { viewModel.navigateToProfile() },
-            { item: Movie -> viewModel.navigateToItem(item.id) },
-            { viewModel.navigateToFavourites() },
-            { viewModel.navigateToSearch() }) }
+        composableSlideInOut(FavouritesDestination.route) {
+            FavouritesScreen(
+                viewModel.movieList,
+                { viewModel.navigateToProfile() },
+                { item: Movie -> viewModel.navigateToItem(item.id) },
+                { viewModel.navigateToFavourites() },
+                { viewModel.navigateToSearch() })
+        }
 
         composableSlideInOut(
             MovieDetailsDestination.route, arguments = MovieDetailsDestination.navArgs
@@ -152,48 +156,51 @@ fun AppScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(items: List<Movie>,
-               onTapProfile: () -> Unit,
-               onTapItem: (Movie) -> Unit,
-               onTapFavourites: () -> Unit,
-               onTapSearch: () -> Unit) {
+fun HomeScreen(
+    items: List<Movie>,
+    onTapProfile: () -> Unit,
+    onTapItem: (Movie) -> Unit,
+    onTapFavourites: () -> Unit,
+    onTapSearch: () -> Unit
+) {
     var showNavigationIcon by rememberSaveable { mutableStateOf(true) }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("MovieBox") }, navigationIcon = {
-                if (showNavigationIcon) {
-                    IconButton(onClick = { scope.launch { drawerState.apply { if (isOpen) close() else open() } } }) {
-                        Icon(Icons.Default.Menu, contentDescription = "fuck")
-                    }
-                } else {
-                    IconButton(onClick = { scope.launch { drawerState.apply { if (isOpen) close() else open() } } }) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "fuck"
-                        )
-                    }
+        TopAppBar(title = { Text("MovieBox") }, navigationIcon = {
+            if (showNavigationIcon) {
+                IconButton(onClick = { scope.launch { drawerState.apply { if (isOpen) close() else open() } } }) {
+                    Icon(Icons.Default.Menu, contentDescription = "fuck")
                 }
-            })
-        }, bottomBar = {
-            BottomAppBar(actions = {
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.Home, contentDescription = "Home")
+            } else {
+                IconButton(onClick = { scope.launch { drawerState.apply { if (isOpen) close() else open() } } }) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "fuck"
+                    )
                 }
-                IconButton(onClick = { onTapProfile() }) {
-                    Icon(Icons.Default.Person, contentDescription = "Profile")
-                }
-                IconButton(onClick = { onTapFavourites() }) {
-                    Icon(Icons.Default.FavoriteBorder, contentDescription = "Favourite")
-                }
-                IconButton(onClick = { onTapSearch() }) {
-                    Icon(Icons.Default.Search, contentDescription = "Search")
-                }
-            })
-        }, containerColor = Black
-    ) {innerPadding ->
-        Text("Hello", modifier = Modifier.padding(innerPadding))}
+            }
+        })
+    }, bottomBar = {
+        BottomAppBar(actions = {
+            IconButton(onClick = {}) {
+                Icon(Icons.Default.Home, contentDescription = "Home")
+            }
+            IconButton(onClick = { onTapProfile() }) {
+                Icon(Icons.Default.Person, contentDescription = "Profile")
+            }
+            IconButton(onClick = { onTapFavourites() }) {
+                Icon(Icons.Default.FavoriteBorder, contentDescription = "Favourite")
+            }
+            IconButton(onClick = { onTapSearch() }) {
+                Icon(Icons.Default.Search, contentDescription = "Search")
+            }
+        })
+    }, containerColor = Black
+    ) { innerPadding ->
+        Text("Hello", modifier = Modifier.padding(innerPadding))
+    }
 
 }
 
@@ -236,7 +243,7 @@ fun FavouritesScreen(
                 IconButton(onClick = { onTapProfile() }) {
                     Icon(Icons.Default.Person, contentDescription = "Profile")
                 }
-                IconButton(onClick = {  }) {
+                IconButton(onClick = { }) {
                     Icon(Icons.Default.FavoriteBorder, contentDescription = "Favourite")
                 }
                 IconButton(onClick = { onTapSearch() }) {

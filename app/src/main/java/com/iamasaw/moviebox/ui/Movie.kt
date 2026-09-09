@@ -35,7 +35,13 @@ import com.iamasaw.moviebox.ui.theme.Grey10
 import com.iamasaw.moviebox.ui.theme.White
 
 
-class Movie(val id: Int, val name: String, val producer: String, val logo: Image? = null)
+class Movie(val id: Int,
+            val name: String,
+            val overview: String = "",
+            val poster_path: String = "",
+            val vote_average: Double = 0.0,
+            val release_date: String = "",
+            val logo: Image? = null)
 
 
 @Composable
@@ -109,7 +115,6 @@ class RealMovieService : MovieService {
         Movie(
             id = it,
             name = "Great Getsby",
-            producer = "Myself",
         )
     }
 }
