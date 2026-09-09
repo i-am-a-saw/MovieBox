@@ -52,6 +52,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -66,9 +67,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.iamasaw.moviebox.network.MovieViewModel
 import com.iamasaw.moviebox.ui.FavouritesDestination
 import com.iamasaw.moviebox.ui.HomeDestination
 import com.iamasaw.moviebox.ui.Movie
@@ -167,6 +173,9 @@ fun HomeScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    val viewModel: MovieViewModel = viewModel()
+    val data = viewModel.homeMovies.observeAsState().value
+
     Scaffold(
         topBar = {
         TopAppBar(title = { Text("MovieBox") }, navigationIcon = {
@@ -199,7 +208,7 @@ fun HomeScreen(
         })
     }, containerColor = Black
     ) { innerPadding ->
-        Text("Hello", modifier = Modifier.padding(innerPadding))
+        Text(if (data != null) data else "Hello!", modifier = Modifier.padding(innerPadding), color = White)
     }
 
 }

@@ -9,7 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
 object RetrofitClient {
-    private const val BASE_URL = "https://api.themoviedb.org/3"
+    private const val BASE_URL = "https://api.themoviedb.org/3/"
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     private val okHttpClient = OkHttpClient.Builder()
@@ -20,7 +20,7 @@ object RetrofitClient {
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    val MovieAPIService: MovieAPIService by lazy {
+    val movieAPIService: MovieAPIService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
