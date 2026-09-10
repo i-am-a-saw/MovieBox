@@ -1,7 +1,5 @@
 package com.iamasaw.moviebox.network
 
-import com.squareup.moshi.Json
-
 data class Item(
     val adult: Boolean,
     val backdropPath: String?,
@@ -20,8 +18,5 @@ data class Item(
 )
 
 data class Root(
-    val page: Int,
-    val results: List<Item>,
-    val totalPages: Int?,
-    val totalResults: Int?
+    val page: Int, val results: List<Item>, val totalPages: Int?, val totalResults: Int?
 )
