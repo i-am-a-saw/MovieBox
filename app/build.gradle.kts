@@ -1,3 +1,6 @@
+import com.android.build.api.variant.BuildConfigField
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -20,6 +23,18 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val keystoreFile = project.rootProject.file("scratch.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        val tmdb_api_key = properties.getProperty("TMDB_API_KEY") ?: ""
+
+        buildConfigField(
+            type = "String",
+            name = "API_KEY",
+            value = tmdb_api_key
+        )
     }
 
     buildTypes {
@@ -35,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

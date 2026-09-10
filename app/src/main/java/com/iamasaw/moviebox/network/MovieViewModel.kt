@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iamasaw.moviebox.BuildConfig
 import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel() {
@@ -24,6 +25,6 @@ class MovieViewModel : ViewModel() {
     }
 
     private suspend fun getMovies() {
-        _homeMovies.value = RetrofitClient.movieAPIService.getMovies(token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiYTUxZDQ3YTViNjY1ODZiMjRjZjRjYjYyMGY4YTRiZiIsIm5iZiI6MTc4ODY5OTUxNi45NDMsInN1YiI6IjZhOWQ2MzdjZDQzZmY0MGE2MjAwNTVmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.F1CM0pPkGRBJjBpby9RKLE0JZ5mcQUzLuGgoSV3JuBc")
+        _homeMovies.value = RetrofitClient.movieAPIService.getMovies(token = "Bearer " + BuildConfig.API_KEY)
     }
 }
