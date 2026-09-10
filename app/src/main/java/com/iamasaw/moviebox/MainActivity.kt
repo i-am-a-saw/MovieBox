@@ -36,6 +36,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -61,8 +62,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -74,7 +77,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.iamasaw.moviebox.network.Item
 import com.iamasaw.moviebox.network.MovieViewModel
+import com.iamasaw.moviebox.network.Root
 import com.iamasaw.moviebox.ui.FavouritesDestination
 import com.iamasaw.moviebox.ui.HomeDestination
 import com.iamasaw.moviebox.ui.Movie
@@ -93,7 +100,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
-import org.koin.dsl.module
+import java.math.RoundingMode
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -206,11 +213,30 @@ fun HomeScreen(
                 Icon(Icons.Default.Search, contentDescription = "Search")
             }
         })
-    }, containerColor = Black
-    ) { innerPadding ->
-        Text(if (data != null) data else "Hello!", modifier = Modifier.padding(innerPadding), color = White)
     }
+    ) { innerPadding ->
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+            if (data == null) {
+                CircularProgressIndicator(color = Black)
+            } else {
 
+                Box(modifier = Modifier.fillMaxSize().padding(12.dp).align(Alignment.TopCenter)) {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        items(
+                            data.results.size,
+                            key = {
+                                data.results[it].id
+                            }
+                        ) { movie ->
+                            ShortMovieCard(data.results[movie])
+                        }
+                    }
+                }
+
+//                Text(data.results[2].toString(), color = White)
+            }
+        }
+    }
 }
 
 
@@ -500,7 +526,7 @@ fun SearchScreen(
                 items(
                     count = viewModel.movieList.size,
                     key = { viewModel.movieList[it].id }) { index ->
-                    ShortMovieCard(viewModel.movieList[index], viewModel)
+//                    ShortMovieCard(viewModel.movieList[index], viewModel)
                 }
             }
 
@@ -535,7 +561,7 @@ fun SearchScreen(
                 items(
                     count = viewModel.movieList.size,
                     key = { viewModel.movieList[it].id }) { index ->
-                    ShortMovieCard(viewModel.movieList[index], viewModel)
+//                    ShortMovieCard(viewModel.movieList[index], viewModel)
                 }
             }
         }
@@ -543,8 +569,10 @@ fun SearchScreen(
 }
 
 @Composable
-fun ShortMovieCard(movie: Movie, viewModel: SearchViewModel) {
+fun ShortMovieCard(movie: Item, viewModel: SearchViewModel = koinViewModel()) {
     val image = painterResource(R.drawable.interstellar)
+    val poster_path = "https://image.tmdb.org/t/p/w500" + movie.poster_path
+//    val indicator = CircularProgressIndicator()
 
     Box(
         modifier = Modifier
@@ -557,17 +585,17 @@ fun ShortMovieCard(movie: Movie, viewModel: SearchViewModel) {
                 .width(115.dp)
         ) {
             Image(
-                image,
+                painter = rememberAsyncImagePainter(poster_path),
                 contentScale = ContentScale.Crop,
                 contentDescription = "Movie photo",
                 modifier = Modifier.size(115.dp, 185.dp)
             )
-            Text("Spider-Man", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(movie.title.toString(), fontWeight = FontWeight.Bold, fontSize = 14.sp)
             Row(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("2002", fontSize = 12.sp)
-                Text("⭐ 7.2", fontSize = 12.sp)
+                movie.release_date?.let { Text(it.substring(0,4), fontSize = 12.sp) }
+                movie.vote_average?.let { Text("⭐ " + it.toBigDecimal().setScale(1, RoundingMode.UP).toString(), fontSize = 12.sp) }
             }
         }
     }

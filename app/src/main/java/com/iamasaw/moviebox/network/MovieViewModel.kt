@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel() {
-    private val _homeMovies = MutableLiveData("No Data")
-    val homeMovies: LiveData<String> get() = _homeMovies
+    private val _homeMovies = MutableLiveData<Root>()
+    val homeMovies: LiveData<Root> get() = _homeMovies
 
     init {
         viewModelScope.launch {
@@ -24,6 +24,6 @@ class MovieViewModel : ViewModel() {
     }
 
     private suspend fun getMovies() {
-        _homeMovies.value = RetrofitClient.movieAPIService.getMovies(token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiYTUxZDQ3YTViNjY1ODZiMjRjZjRjYjYyMGY4YTRiZiIsIm5iZiI6MTc4ODY5OTUxNi45NDMsInN1YiI6IjZhOWQ2MzdjZDQzZmY0MGE2MjAwNTVmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.F1CM0pPkGRBJjBpby9RKLE0JZ5mcQUzLuGgoSV3JuBc").toString()
+        _homeMovies.value = RetrofitClient.movieAPIService.getMovies(token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiYTUxZDQ3YTViNjY1ODZiMjRjZjRjYjYyMGY4YTRiZiIsIm5iZiI6MTc4ODY5OTUxNi45NDMsInN1YiI6IjZhOWQ2MzdjZDQzZmY0MGE2MjAwNTVmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.F1CM0pPkGRBJjBpby9RKLE0JZ5mcQUzLuGgoSV3JuBc")
     }
 }
