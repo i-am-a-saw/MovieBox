@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -61,27 +62,24 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.iamasaw.moviebox.network.Item
 import com.iamasaw.moviebox.network.MovieViewModel
-import com.iamasaw.moviebox.network.Root
 import com.iamasaw.moviebox.ui.FavouritesDestination
 import com.iamasaw.moviebox.ui.HomeDestination
 import com.iamasaw.moviebox.ui.Movie
@@ -183,8 +181,7 @@ fun HomeScreen(
     val viewModel: MovieViewModel = viewModel()
     val data = viewModel.homeMovies.observeAsState().value
 
-    Scaffold(
-        topBar = {
+    Scaffold(topBar = {
         TopAppBar(title = { Text("MovieBox") }, navigationIcon = {
             if (showNavigationIcon) {
                 IconButton(onClick = { scope.launch { drawerState.apply { if (isOpen) close() else open() } } }) {
@@ -213,26 +210,117 @@ fun HomeScreen(
                 Icon(Icons.Default.Search, contentDescription = "Search")
             }
         })
-    }
-    ) { innerPadding ->
-        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+    }) { innerPadding ->
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
             if (data == null) {
                 CircularProgressIndicator(color = Black)
             } else {
 
-                Box(modifier = Modifier.fillMaxSize().padding(12.dp).align(Alignment.TopCenter)) {
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        items(
-                            data.results.size,
-                            key = {
-                                data.results[it].id
+                val trendingFilm by remember { mutableStateOf(data.results[0]) }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Box {
+                        Image(
+                            painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w500" + trendingFilm.poster_path),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillWidth,
+                            colorFilter = ColorFilter.tint(Black, blendMode = BlendMode.ColorDodge),
+                            alpha = 0.4F,
+                            alignment = Alignment.BottomCenter,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(400.dp, 430.dp)
+                                .blur(radius = 4.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)
+                        )
+
+                        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Text(
+                                trendingFilm.title ?: "",
+                                fontSize = 22.sp,
+                                color = White,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(
+                                    start = 18.dp, top = 100.dp
+                                ),
+                                letterSpacing = 0.4.sp
+                            )
+
+                            Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+                                Text(
+                                    trendingFilm.release_date ?: "",
+                                    fontSize = 16.sp,
+                                    color = White,
+                                    fontWeight = FontWeight.Light,
+                                    modifier = Modifier.padding(
+                                        start = 18.dp,
+                                    )
+                                )
+
+                                Text(
+                                    "⭐ " + (trendingFilm.vote_average.toString() ?: "Unknown"),
+                                    fontSize = 16.sp,
+                                    color = White,
+                                    fontWeight = FontWeight.Light,
+                                )
                             }
-                        ) { movie ->
-                            ShortMovieCard(data.results[movie])
+
+                            Text(
+                                trendingFilm.overview.toString(),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Light,
+                                maxLines = 4,
+                                color = White,
+                                modifier = Modifier.padding(
+                                    top = 20.dp, start = 18.dp, end = 18.dp
+                                ),
+                                lineHeight = 20.sp,
+                                letterSpacing = 0.3.sp
+                            )
+
+                            Button(
+                                {},
+                                modifier = Modifier.padding(start = 18.dp, top = 20.dp),
+                                contentPadding = PaddingValues(20.dp, 15.dp),
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Icon(
+                                    Icons.Default.PlayArrow,
+                                    contentDescription = "Watch trailer",
+                                    modifier = Modifier.padding(end = 12.dp)
+                                )
+                                Text("Watch trailer", letterSpacing = 0.3.sp)
+                            }
+                        }
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(12.dp)
+                            .align(Alignment.CenterHorizontally),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Text("Popular Movies",
+                            fontSize = 18.sp,
+                            color = Black,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.4.sp)
+
+                        LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            items(
+                                data.results.size, key = {
+                                    data.results[it].id + 1
+                                }) { movie ->
+                                ShortMovieCard(data.results[movie])
+                            }
                         }
                     }
                 }
-
 //                Text(data.results[2].toString(), color = White)
             }
         }
@@ -594,8 +682,13 @@ fun ShortMovieCard(movie: Item, viewModel: SearchViewModel = koinViewModel()) {
             Row(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                movie.release_date?.let { Text(it.substring(0,4), fontSize = 12.sp) }
-                movie.vote_average?.let { Text("⭐ " + it.toBigDecimal().setScale(1, RoundingMode.UP).toString(), fontSize = 12.sp) }
+                movie.release_date?.let { Text(it.substring(0, 4), fontSize = 12.sp) }
+                movie.vote_average?.let {
+                    Text(
+                        "⭐ " + it.toBigDecimal().setScale(1, RoundingMode.UP).toString(),
+                        fontSize = 12.sp
+                    )
+                }
             }
         }
     }
