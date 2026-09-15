@@ -3,7 +3,6 @@ package com.iamasaw.moviebox.navigation
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import androidx.savedstate.SavedState
 
 interface NavDestination {
     val route: String

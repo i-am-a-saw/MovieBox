@@ -1,10 +1,6 @@
 package com.iamasaw.moviebox.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.navigation.NavController
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.iamasaw.moviebox.composableSlideInOut
@@ -13,7 +9,6 @@ import com.iamasaw.moviebox.presentation.favourites.FavouritesScreen
 import com.iamasaw.moviebox.presentation.home.HomeScreen
 import com.iamasaw.moviebox.presentation.profile.ProfileScreen
 import com.iamasaw.moviebox.presentation.search.SearchScreen
-import org.koin.dsl.module
 
 @Composable
 fun AppNavHost() {

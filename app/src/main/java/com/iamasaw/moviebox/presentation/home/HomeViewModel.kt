@@ -1,7 +1,6 @@
 package com.iamasaw.moviebox.presentation.home
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.network.HttpException

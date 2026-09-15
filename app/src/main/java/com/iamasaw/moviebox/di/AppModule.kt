@@ -7,7 +7,6 @@ import com.iamasaw.moviebox.presentation.details.MovieDetailsViewModel
 import com.iamasaw.moviebox.presentation.home.HomeViewModel
 import com.iamasaw.moviebox.presentation.search.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val AppModule = module {
