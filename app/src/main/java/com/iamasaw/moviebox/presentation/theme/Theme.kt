@@ -1,4 +1,4 @@
-package com.iamasaw.moviebox.ui.theme
+package com.iamasaw.moviebox.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
