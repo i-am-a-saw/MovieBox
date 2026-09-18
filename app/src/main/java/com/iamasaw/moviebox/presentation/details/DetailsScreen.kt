@@ -3,6 +3,7 @@ package com.iamasaw.moviebox.presentation.details
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +31,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun MovieDetailsScreen(
     onBackClick: () -> Unit,
+    innerPaddingValues: PaddingValues,
     viewModel: MovieDetailsViewModel = koinViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -57,7 +59,7 @@ fun MovieDetailsScreen(
             val movie = state.movie
 
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(innerPaddingValues)
             ) {
                 AsyncImage(
                     model = movie?.backdropUrl ?: movie?.posterUrl,

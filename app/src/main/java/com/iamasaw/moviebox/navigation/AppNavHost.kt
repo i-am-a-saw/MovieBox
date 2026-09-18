@@ -1,20 +1,18 @@
 package com.iamasaw.moviebox.navigation
 
-import android.annotation.SuppressLint
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,19 +26,12 @@ import com.iamasaw.moviebox.presentation.profile.ProfileScreen
 import com.iamasaw.moviebox.presentation.search.SearchScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
 
     Scaffold(
-        topBar = {
-        TopAppBar(title = { Text("MovieBox") }, navigationIcon = {
-            IconButton(onClick = {}) {
-                Icon(Icons.Default.Menu, contentDescription = "fuck")
-            }
-        })
-    }, bottomBar = { BottomNavBar(navController) }) {
+        bottomBar = { BottomNavBar(navController) }) { paddingValues ->
 
         NavHost(
             navController = navController, startDestination = HomeDestination.route
@@ -57,14 +48,14 @@ fun AppNavHost() {
                     navController.navigate(SearchDestination.route)
                 }, onFavouritesClick = {
                     navController.navigate(FavouritesDestination.route)
-                })
+                }, innerPaddingValues = paddingValues)
             }
 
             composable(ProfileDestination.route) {
                 ProfileScreen(
                     onBackClick = {
-                        navController.popBackStack()
-                    })
+                    navController.popBackStack()
+                }, innerPaddingValues = paddingValues)
             }
 
             composable(SearchDestination.route) {
@@ -74,7 +65,7 @@ fun AppNavHost() {
                     navController.navigate(
                         MovieDetailsDestination(movieId).buildRoute()
                     )
-                })
+                }, innerPaddingValues = paddingValues)
             }
 
             composable(FavouritesDestination.route) {
@@ -84,7 +75,7 @@ fun AppNavHost() {
                     navController.navigate(
                         MovieDetailsDestination(movieId).buildRoute()
                     )
-                })
+                }, innerPaddingValues = paddingValues)
             }
 
             composableSlideInOut(
@@ -92,8 +83,8 @@ fun AppNavHost() {
             ) {
                 MovieDetailsScreen(
                     onBackClick = {
-                        navController.popBackStack()
-                    })
+                    navController.popBackStack()
+                }, innerPaddingValues = paddingValues)
             }
         }
     }
@@ -103,7 +94,7 @@ fun AppNavHost() {
 fun BottomNavBar(navController: NavHostController) {
 
     NavigationBar(
-        containerColor = Color.Green
+        containerColor = Color.Green, modifier = Modifier.height(115.dp)
     ) {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -115,8 +106,7 @@ fun BottomNavBar(navController: NavHostController) {
             NavigationBarItem(
                 selected = currentRoute == navItem.route,
                 onClick = {
-                    if (currentRoute != navItem.route)
-                        navController.navigate(navItem.route)
+                    if (currentRoute != navItem.route) navController.navigate(navItem.route)
                 },
                 icon = { Icon(navItem.icon, contentDescription = navItem.label) },
                 label = { Text(navItem.label) },
@@ -130,5 +120,4 @@ fun BottomNavBar(navController: NavHostController) {
             )
         }
     }
-
 }

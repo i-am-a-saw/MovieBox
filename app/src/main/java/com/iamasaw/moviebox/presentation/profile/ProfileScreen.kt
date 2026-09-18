@@ -1,6 +1,8 @@
 package com.iamasaw.moviebox.presentation.profile
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -15,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    innerPaddingValues: PaddingValues
 ) {
     Scaffold(
         topBar = {
@@ -33,11 +37,11 @@ fun ProfileScreen(
                     )
                 }
             })
-        }) { innerPadding ->
+        }) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPaddingValues),
             contentAlignment = Alignment.Center
         ) {
             Text("This is your profile.")

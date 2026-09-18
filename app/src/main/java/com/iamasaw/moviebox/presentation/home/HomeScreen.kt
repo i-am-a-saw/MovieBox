@@ -1,5 +1,6 @@
 package com.iamasaw.moviebox.presentation.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,6 +51,7 @@ import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.White
 import org.koin.androidx.compose.koinViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -57,6 +59,7 @@ fun HomeScreen(
     onProfileClick: () -> Unit,
     onFavouritesClick: () -> Unit,
     onSearchClick: () -> Unit,
+    innerPaddingValues: PaddingValues,
     viewModel: HomeViewModel = koinViewModel()
 ) {
 
@@ -71,29 +74,14 @@ fun HomeScreen(
                         Icon(Icons.Default.Menu, contentDescription = "fuck")
                     }
                 })
-        }, bottomBar = {
-            BottomAppBar(actions = {
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.Home, contentDescription = "Home")
-                }
-                IconButton(onClick = { onProfileClick() }) {
-                    Icon(Icons.Default.Person, contentDescription = "Profile")
-                }
-                IconButton(onClick = { onFavouritesClick() }) {
-                    Icon(Icons.Default.FavoriteBorder, contentDescription = "Favourite")
-                }
-                IconButton(onClick = { onSearchClick() }) {
-                    Icon(Icons.Default.Search, contentDescription = "Search")
-                }
-            })
         }
-    ) { innerPadding ->
+    ) {
 
         HomeContent(
             state = state,
             onMovieClick = onMovieClick,
             onRetry = viewModel::loadMovies,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPaddingValues)
         )
     }
 }
