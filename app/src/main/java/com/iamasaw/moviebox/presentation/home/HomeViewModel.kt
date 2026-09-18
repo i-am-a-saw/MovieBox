@@ -34,11 +34,13 @@ class HomeViewModel(
 
             try {
                 val movies = repository.getPopularMovies()
+                val tvShows = repository.getPopularTVShows()
 
                 _uiState.update {
                     it.copy(
+                        movies = movies,
+                        tvShows = tvShows,
                         isLoading = false,
-                        movies = movies
                     )
                 }
             } catch (e: IOException) {
@@ -65,7 +67,7 @@ class HomeViewModel(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = "Не удалось загрузить фильмы"
+                        error = "Не удалось загрузить данные"
                     )
                 }
             }

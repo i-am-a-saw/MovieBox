@@ -37,7 +37,7 @@ class SearchViewModel(
             }
 
             try {
-                val movies = repository.searchMovies(query)
+                val movies = repository.searchMovie(query)
 
                 _uiState.update {
                     it.copy(

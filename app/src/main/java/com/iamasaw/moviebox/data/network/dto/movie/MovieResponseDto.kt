@@ -1,4 +1,4 @@
-package com.iamasaw.moviebox.data.network.dto
+package com.iamasaw.moviebox.data.network.dto.movie
 
 import com.squareup.moshi.Json
 

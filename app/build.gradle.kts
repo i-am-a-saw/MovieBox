@@ -69,6 +69,8 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.0.0-rc01")
 
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.12.0")
+
 
     implementation(libs.androidx.compose.runtime.livedata)
 

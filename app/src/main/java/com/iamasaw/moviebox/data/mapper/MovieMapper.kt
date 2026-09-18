@@ -1,7 +1,7 @@
 package com.iamasaw.moviebox.data.mapper
 
-import com.iamasaw.moviebox.data.network.dto.MovieDetailsDto
-import com.iamasaw.moviebox.data.network.dto.MovieDto
+import com.iamasaw.moviebox.data.network.dto.movie.MovieDetailsDto
+import com.iamasaw.moviebox.data.network.dto.movie.MovieDto
 import com.iamasaw.moviebox.domain.model.Movie
 import com.iamasaw.moviebox.domain.model.MovieDetails
 
@@ -38,6 +38,7 @@ fun MovieDetailsDto.toDomain(): MovieDetails {
         voteAverage = voteAverage,
         voteCount = voteCount,
         runtime = runtime,
-        genres = genres.map { it.name }
+        genres = genres.map { it.name },
+        galleryImagesUrl = images?.backdrops?.map { IMAGE_BASE_URL + "w1280" + it.filePath },
     )
 }

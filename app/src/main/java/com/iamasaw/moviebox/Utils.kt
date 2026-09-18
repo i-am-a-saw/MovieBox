@@ -11,6 +11,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import java.math.RoundingMode
 
 
 private const val transitionDuration = 250
@@ -53,4 +54,27 @@ fun NavGraphBuilder.composableSlideInOut(
         popExitTransition,
         content
     )
+}
+
+fun formatDate(date: String): String {
+    val months = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Nov", "Dec")
+
+    if (date == "") return "Unknown"
+    return "${date.substring(8..9)} ${months[date.substring(5..6).toInt()]} ${date.take(4)}"
+}
+
+fun formatVoteAverage(vote: Double, scale: Int): String {
+    return vote.toBigDecimal().setScale(scale, RoundingMode.HALF_UP).toString()
+}
+
+fun formatRuntime(runtime: Int? ): String {
+    val validTime = runtime ?: run {
+        return "Unknown runtime"
+    }
+
+    val hours = validTime / 60
+    val minutes = validTime % 60
+
+    return if (hours > 60) {"${hours}h ${minutes}min"}
+    else {"${minutes}min"}
 }

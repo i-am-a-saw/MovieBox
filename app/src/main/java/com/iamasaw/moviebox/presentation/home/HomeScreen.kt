@@ -36,19 +36,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.iamasaw.moviebox.domain.model.Movie
+import com.iamasaw.moviebox.domain.model.TVShow
+import com.iamasaw.moviebox.formatDate
+import com.iamasaw.moviebox.formatVoteAverage
 import com.iamasaw.moviebox.presentation.components.ShortMovieCard
+import com.iamasaw.moviebox.presentation.components.ShortTVShowCard
 import com.iamasaw.moviebox.presentation.theme.Beidge10
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.White
+import com.iamasaw.moviebox.presentation.theme.rubikFontFamily
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -56,9 +64,6 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
     onMovieClick: (Int) -> Unit,
-    onProfileClick: () -> Unit,
-    onFavouritesClick: () -> Unit,
-    onSearchClick: () -> Unit,
     innerPaddingValues: PaddingValues,
     viewModel: HomeViewModel = koinViewModel()
 ) {
@@ -141,6 +146,11 @@ private fun HomeContent(
                         movies = state.movies,
                         onMovieClick = onMovieClick
                     )
+
+                    PopularTVShows(
+                        tvShows = state.tvShows,
+                        onMovieClick = {}
+                    )
                 }
             }
         }
@@ -155,19 +165,30 @@ private fun FeaturedMovie(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(430.dp)
+            .height(520.dp)
             .clickable(onClick=onClick)
     ) {
-        AsyncImage(
-            model = movie.backdropUrl ?: movie.posterUrl,
-            contentDescription = movie.title,
-            contentScale = ContentScale.Crop,
-            alignment = Alignment.BottomCenter,
-            colorFilter = ColorFilter.tint(
-                Color.Black.copy(alpha = 0.4f)
-            ),
-            modifier = Modifier.fillMaxSize()
-        )
+        Box {
+            AsyncImage(
+                model = movie.backdropUrl ?: movie.posterUrl,
+                contentDescription = movie.title,
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.BottomCenter,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Box(modifier = Modifier.matchParentSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.6f)
+                        )
+                    )
+                )
+            )
+        }
+
 
         Column(
             modifier = Modifier
@@ -182,22 +203,25 @@ private fun FeaturedMovie(
                 movie.title,
                 color = White,
                 fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
+                fontFamily = rubikFontFamily,
+                fontWeight = FontWeight.Medium,
                 letterSpacing = 0.4.sp
             )
 
             Text(
-                movie.releaseDate.take(4),
+                formatDate(movie.releaseDate),
                 fontSize = 16.sp,
                 color = White,
+                fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Light,
+                modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
             )
 
             Text(
-                "⭐ " + movie.voteAverage.toString(),
+                "⭐ " + formatVoteAverage(movie.voteAverage, 1),
                 fontSize = 16.sp,
-                color = White,
-                fontWeight = FontWeight.Light,
+                fontFamily = rubikFontFamily,
+                fontWeight = FontWeight.Normal,
             )
 
             Button(
@@ -245,6 +269,41 @@ fun PopularMovies(
                     movie,
                     onClick = {
                         onMovieClick(movie.id)
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun PopularTVShows(
+    tvShows: List<TVShow>,
+    onMovieClick: (Int) -> Unit
+) {
+    Column(
+        modifier = Modifier.padding(horizontal = 12.dp)
+    ) {
+        Text(
+            "Popular TV Shows",
+            fontSize = 18.sp,
+            color = Black,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 0.4.sp
+        )
+
+        LazyRow(
+            contentPadding = PaddingValues(top = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(
+                items = tvShows,
+                key = { it.id }
+            ) { tvShow ->
+                ShortTVShowCard(
+                    tvShow,
+                    onClick = {
+                        onMovieClick(tvShow.id)
                     }
                 )
             }

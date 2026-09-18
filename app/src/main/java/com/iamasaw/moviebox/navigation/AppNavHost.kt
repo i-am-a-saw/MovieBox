@@ -28,26 +28,25 @@ import com.iamasaw.moviebox.presentation.search.SearchScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavHost() {
+
     val navController = rememberNavController()
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Scaffold(
-        bottomBar = { BottomNavBar(navController) }) { paddingValues ->
+        bottomBar = { currentRoute?.startsWith("movie_details")?.let { if (!it) BottomNavBar(navController) } }) { paddingValues ->
 
         NavHost(
             navController = navController, startDestination = HomeDestination.route
         ) {
 
             composable(HomeDestination.route) {
-                HomeScreen(onMovieClick = { movieId ->
+                HomeScreen(
+                    onMovieClick = { movieId ->
                     navController.navigate(
                         MovieDetailsDestination(movieId).buildRoute()
                     )
-                }, onProfileClick = {
-                    navController.navigate(ProfileDestination.route)
-                }, onSearchClick = {
-                    navController.navigate(SearchDestination.route)
-                }, onFavouritesClick = {
-                    navController.navigate(FavouritesDestination.route)
                 }, innerPaddingValues = paddingValues)
             }
 

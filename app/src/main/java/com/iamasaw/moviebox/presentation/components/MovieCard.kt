@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.iamasaw.moviebox.domain.model.Movie
+import com.iamasaw.moviebox.formatVoteAverage
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.Grey10
 import com.iamasaw.moviebox.presentation.theme.White
@@ -68,10 +69,7 @@ fun MovieCard(
                 lineHeight = 20.sp
             )
             Text(
-                "☆" + movie.voteAverage
-                    .toBigDecimal()
-                    .setScale(1, RoundingMode.HALF_UP)
-                    .toString(),
+                "☆" + formatVoteAverage(movie.voteAverage, 1),
                 color = Grey10,
                 fontWeight = FontWeight.Light,
                 fontSize = 12.sp,
