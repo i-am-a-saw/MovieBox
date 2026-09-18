@@ -1,6 +1,7 @@
 package com.iamasaw.moviebox.presentation.search
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.iamasaw.moviebox.presentation.components.MovieCard
+import com.iamasaw.moviebox.presentation.theme.Black
+import com.iamasaw.moviebox.presentation.theme.White
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -35,7 +38,7 @@ fun SearchScreen(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(Black)) {
 
         SearchBar(
             inputField = {
@@ -66,7 +69,7 @@ fun SearchScreen(
             state.error != null -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
-                        state.error.toString(), modifier = Modifier.padding(16.dp)
+                        state.error.toString(), modifier = Modifier.padding(16.dp), color = White
                     )
                 }
             }

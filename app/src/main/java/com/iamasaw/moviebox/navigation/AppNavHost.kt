@@ -24,6 +24,7 @@ import com.iamasaw.moviebox.presentation.favourites.FavouritesScreen
 import com.iamasaw.moviebox.presentation.home.HomeScreen
 import com.iamasaw.moviebox.presentation.profile.ProfileScreen
 import com.iamasaw.moviebox.presentation.search.SearchScreen
+import com.iamasaw.moviebox.presentation.theme.Black
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,7 +78,7 @@ fun AppNavHost() {
                 }, innerPaddingValues = paddingValues)
             }
 
-            composableSlideInOut(
+            composable(
                 route = MovieDetailsDestination.route, arguments = MovieDetailsDestination.navArgs
             ) {
                 MovieDetailsScreen(
@@ -93,7 +94,7 @@ fun AppNavHost() {
 fun BottomNavBar(navController: NavHostController) {
 
     NavigationBar(
-        containerColor = Color.Green, modifier = Modifier.height(115.dp)
+        containerColor = Black, contentColor = Color.DarkGray, modifier = Modifier.height(115.dp),
     ) {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -114,7 +115,7 @@ fun BottomNavBar(navController: NavHostController) {
                     selectedIconColor = Color.White,
                     unselectedIconColor = Color.White,
                     selectedTextColor = Color.White,
-                    indicatorColor = Color(0xFF195334)
+                    indicatorColor = Color(0xFF656565)
                 )
             )
         }

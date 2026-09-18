@@ -28,7 +28,6 @@ import com.iamasaw.moviebox.formatVoteAverage
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.Grey10
 import com.iamasaw.moviebox.presentation.theme.White
-import java.math.RoundingMode
 
 @Composable
 fun MovieCard(
@@ -56,7 +55,7 @@ fun MovieCard(
         ) {
             Text(
                 movie.title,
-                color = Black,
+                color = White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )

@@ -60,7 +60,7 @@ fun formatDate(date: String): String {
     val months = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Nov", "Dec")
 
     if (date == "") return "Unknown"
-    return "${date.substring(8..9)} ${months[date.substring(5..6).toInt()]} ${date.take(4)}"
+    return "${date.substring(8..9)} ${months[date.substring(5..6).toInt() - 1]} ${date.take(4)}"
 }
 
 fun formatVoteAverage(vote: Double, scale: Int): String {
