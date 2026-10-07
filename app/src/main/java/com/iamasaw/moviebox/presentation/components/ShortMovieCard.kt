@@ -13,6 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.iamasaw.moviebox.domain.model.Movie
+import com.iamasaw.moviebox.presentation.theme.White
 
 @Composable
 fun ShortMovieCard(
@@ -34,18 +35,21 @@ fun ShortMovieCard(
         )
 
         Text(
-            movie.title
+            movie.title,
+            color = White
         )
 
         Row {
             Text(
-                movie.releaseDate.take(4)
+                movie.releaseDate.take(4),
+                color = White
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
             Text(
-                "%.1f".format(movie.voteAverage)
+                "%.1f".format(movie.voteAverage),
+                color = White
             )
         }
     }

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.iamasaw.moviebox.presentation.components.MovieCard
 import com.iamasaw.moviebox.presentation.theme.Black
+import com.iamasaw.moviebox.presentation.theme.Grey30
 import com.iamasaw.moviebox.presentation.theme.White
 import org.koin.androidx.compose.koinViewModel
 
@@ -38,7 +39,9 @@ fun SearchScreen(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier.fillMaxSize().background(Black)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(Black)) {
 
         SearchBar(
             inputField = {
@@ -52,10 +55,32 @@ fun SearchScreen(
                 onExpandedChange = {},
                 placeholder = {
                     Text("Search...")
-                })
+                },
+                colors = SearchBarDefaults.inputFieldColors(
+                    focusedContainerColor = Grey30,
+                    unfocusedContainerColor = Grey30,
+                    focusedTextColor = White,
+                    unfocusedTextColor = White,
+                    focusedPlaceholderColor = White,
+                    unfocusedPlaceholderColor = White
+
+                )
+            )
         },
             expanded = false,
             onExpandedChange = {},
+            tonalElevation = 0.dp,
+            shadowElevation = 0.dp,
+            colors = SearchBarDefaults.colors(
+                containerColor = Grey30, inputFieldColors = SearchBarDefaults.inputFieldColors(
+                    focusedContainerColor = Grey30,
+                    unfocusedContainerColor = Grey30,
+                    focusedTextColor = White,
+                    unfocusedTextColor = White,
+                    focusedPlaceholderColor = White,
+                    unfocusedPlaceholderColor = White
+                )
+            ),
             modifier = Modifier.padding(horizontal = 12.dp)
         ) {}
 
@@ -79,8 +104,7 @@ fun SearchScreen(
                     contentPadding = PaddingValues(12.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier.padding(
-                        top = 10.dp,
-                        bottom = innerPaddingValues.calculateBottomPadding()
+                        top = 10.dp, bottom = innerPaddingValues.calculateBottomPadding()
                     )
                 ) {
                     items(

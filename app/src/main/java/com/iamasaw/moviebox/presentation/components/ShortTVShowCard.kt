@@ -13,6 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.iamasaw.moviebox.domain.model.TVShow
+import com.iamasaw.moviebox.presentation.theme.White
 
 @Composable
 fun ShortTVShowCard(
@@ -34,18 +35,21 @@ fun ShortTVShowCard(
         )
 
         Text(
-            tvShow.title
+            tvShow.title,
+            color = White
         )
 
         Row {
             Text(
-                tvShow.releaseDate.take(4)
+                tvShow.releaseDate.take(4),
+                color = White
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
             Text(
-                "%.1f".format(tvShow.voteAverage)
+                "%.1f".format(tvShow.voteAverage),
+                color = White
             )
         }
     }

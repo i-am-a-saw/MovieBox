@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.network.HttpException
 import com.iamasaw.moviebox.data.repository.MovieRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +25,7 @@ class HomeViewModel(
     }
 
     fun loadMovies() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = Dispatchers.IO) {
             _uiState.update {
                 it.copy(
                     isLoading = true,

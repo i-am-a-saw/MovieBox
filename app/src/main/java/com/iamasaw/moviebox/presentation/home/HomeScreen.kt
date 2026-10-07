@@ -27,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -45,7 +46,6 @@ import com.iamasaw.moviebox.formatDate
 import com.iamasaw.moviebox.formatVoteAverage
 import com.iamasaw.moviebox.presentation.components.ShortMovieCard
 import com.iamasaw.moviebox.presentation.components.ShortTVShowCard
-import com.iamasaw.moviebox.presentation.theme.Beidge10
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.White
 import com.iamasaw.moviebox.presentation.theme.rubikFontFamily
@@ -65,14 +65,20 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("MovieBox") },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Default.Menu, contentDescription = "fuck")
-                    }
-                })
-        }
-    ) {
+                title = { Text("MovieBox") }, navigationIcon = {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Default.Menu, contentDescription = "fuck")
+                }
+            }, colors = TopAppBarColors(
+                containerColor = Black,
+                scrolledContainerColor = Black,
+                navigationIconContentColor = White,
+                titleContentColor = White,
+                actionIconContentColor = White,
+                subtitleContentColor = White,
+            )
+            )
+        }) {
 
         HomeContent(
             state = state,
@@ -93,7 +99,7 @@ private fun HomeContent(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Beidge10)
+            .background(Black)
     ) {
         when {
             state.isLoading -> {
@@ -122,27 +128,21 @@ private fun HomeContent(
 
                 Column(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
+                    modifier = Modifier.verticalScroll(rememberScrollState())
                 ) {
                     featuredMovie?.let { movie ->
                         FeaturedMovie(
-                            movie = movie,
-                            onClick = {
+                            movie = movie, onClick = {
                                 onMovieClick(movie.id)
-                            }
-                        )
+                            })
                     }
 
                     PopularMovies(
-                        movies = state.movies,
-                        onMovieClick = onMovieClick
+                        movies = state.movies, onMovieClick = onMovieClick
                     )
 
                     PopularTVShows(
-                        tvShows = state.tvShows,
-                        onMovieClick = {}
-                    )
+                        tvShows = state.tvShows, onMovieClick = {})
                 }
             }
         }
@@ -151,14 +151,13 @@ private fun HomeContent(
 
 @Composable
 private fun FeaturedMovie(
-    movie: Movie,
-    onClick: () -> Unit
+    movie: Movie, onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(520.dp)
-            .clickable(onClick=onClick)
+            .clickable(onClick = onClick)
     ) {
         Box {
             AsyncImage(
@@ -169,15 +168,16 @@ private fun FeaturedMovie(
                 modifier = Modifier.fillMaxSize()
             )
 
-            Box(modifier = Modifier.matchParentSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.6f)
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent, Color.Black.copy(alpha = 0.6f)
+                            )
                         )
                     )
-                )
             )
         }
 
@@ -186,10 +186,8 @@ private fun FeaturedMovie(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    start = 18.dp,
-                    end = 18.dp,
-                    bottom = 20.dp),
-            verticalArrangement = Arrangement.Bottom
+                    start = 18.dp, end = 18.dp, bottom = 20.dp
+                ), verticalArrangement = Arrangement.Bottom
         ) {
             Text(
                 movie.title,
@@ -214,6 +212,7 @@ private fun FeaturedMovie(
                 fontSize = 16.sp,
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Normal,
+                color = White
             )
 
             Button(
@@ -235,8 +234,7 @@ private fun FeaturedMovie(
 
 @Composable
 fun PopularMovies(
-    movies: List<Movie>,
-    onMovieClick: (Int) -> Unit
+    movies: List<Movie>, onMovieClick: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 12.dp)
@@ -244,7 +242,7 @@ fun PopularMovies(
         Text(
             "Popular Movies",
             fontSize = 18.sp,
-            color = Black,
+            color = White,
             fontWeight = FontWeight.Bold,
             letterSpacing = 0.4.sp
         )
@@ -254,15 +252,11 @@ fun PopularMovies(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(
-                items = movies,
-                key = { it.id }
-            ) { movie ->
+                items = movies, key = { it.id }) { movie ->
                 ShortMovieCard(
-                    movie,
-                    onClick = {
+                    movie, onClick = {
                         onMovieClick(movie.id)
-                    }
-                )
+                    })
             }
         }
     }
@@ -270,8 +264,7 @@ fun PopularMovies(
 
 @Composable
 fun PopularTVShows(
-    tvShows: List<TVShow>,
-    onMovieClick: (Int) -> Unit
+    tvShows: List<TVShow>, onMovieClick: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 12.dp)
@@ -279,7 +272,7 @@ fun PopularTVShows(
         Text(
             "Popular TV Shows",
             fontSize = 18.sp,
-            color = Black,
+            color = White,
             fontWeight = FontWeight.Bold,
             letterSpacing = 0.4.sp
         )
@@ -289,15 +282,11 @@ fun PopularTVShows(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(
-                items = tvShows,
-                key = { it.id }
-            ) { tvShow ->
+                items = tvShows, key = { it.id }) { tvShow ->
                 ShortTVShowCard(
-                    tvShow,
-                    onClick = {
+                    tvShow, onClick = {
                         onMovieClick(tvShow.id)
-                    }
-                )
+                    })
             }
         }
     }

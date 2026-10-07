@@ -3,9 +3,10 @@ package com.iamasaw.moviebox.presentation.details
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.iamasaw.moviebox.data.repository.MovieRepository
 import com.iamasaw.moviebox.navigation.MovieDetailsDestination
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -14,16 +15,14 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class MovieDetailsViewModel(
-    private val repository: MovieRepository,
-    savedStateHandle: SavedStateHandle
+    private val repository: MovieRepository, savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val movieId: Int =
-        checkNotNull(
-            savedStateHandle.get<Int>(
-                MovieDetailsDestination.ARG_MOVIE_ID
-            )
+    private val movieId: Int = checkNotNull(
+        savedStateHandle.get<Int>(
+            MovieDetailsDestination.ARG_MOVIE_ID
         )
+    )
 
     private val _uiState = MutableStateFlow(DetailsUiState())
     val uiState = _uiState.asStateFlow()
@@ -33,11 +32,10 @@ class MovieDetailsViewModel(
     }
 
     private fun loadMovie() {
-        viewModelScope.launch {
+        CoroutineScope(context = Dispatchers.IO).launch {
             _uiState.update {
                 it.copy(
-                    isLoading = true,
-                    error = null
+                    isLoading = true, error = null
                 )
             }
 
@@ -46,9 +44,7 @@ class MovieDetailsViewModel(
 
                 _uiState.update {
                     it.copy(
-                        movie = movie,
-                        isLoading = false,
-                        error = null
+                        movie = movie, isLoading = false, error = null
                     )
                 }
             } catch (e: IOException) {
@@ -56,8 +52,7 @@ class MovieDetailsViewModel(
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false,
-                        error = "Проверь подключение к интернету"
+                        isLoading = false, error = "Проверь подключение к интернету"
                     )
                 }
 
@@ -66,8 +61,7 @@ class MovieDetailsViewModel(
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false,
-                        error = "Ошибка сервера: ${e.code()}"
+                        isLoading = false, error = "Ошибка сервера: ${e.code()}"
                     )
                 }
 
@@ -76,8 +70,7 @@ class MovieDetailsViewModel(
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false,
-                        error = "Не удалось загрузить фильм"
+                        isLoading = false, error = "Не удалось загрузить фильм"
                     )
                 }
             }
