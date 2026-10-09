@@ -14,9 +14,8 @@ import kotlinx.coroutines.launch
 import okio.IOException
 
 class HomeViewModel(
-    private val repository: MovieRepository
+    private val repository: MovieRepository,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
@@ -29,7 +28,7 @@ class HomeViewModel(
             _uiState.update {
                 it.copy(
                     isLoading = true,
-                    error = null
+                    error = null,
                 )
             }
 
@@ -50,7 +49,7 @@ class HomeViewModel(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = "Проверьте подключение к интернету"
+                        error = "Проверьте подключение к интернету",
                     )
                 }
             } catch (e: HttpException) {
@@ -59,7 +58,7 @@ class HomeViewModel(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = "Ошибка сервера: ${e.toString().substring(0, 20) + "..."}"
+                        error = "Ошибка сервера: ${e.toString().substring(0, 20) + "..."}",
                     )
                 }
             } catch (e: Exception) {
@@ -68,7 +67,7 @@ class HomeViewModel(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = "Не удалось загрузить данные"
+                        error = "Не удалось загрузить данные",
                     )
                 }
             }

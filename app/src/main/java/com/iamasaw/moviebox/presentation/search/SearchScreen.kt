@@ -34,54 +34,58 @@ fun SearchScreen(
     onBackClick: () -> Unit,
     onMovieClick: (Int) -> Unit,
     innerPaddingValues: PaddingValues,
-    viewModel: SearchViewModel = koinViewModel()
+    viewModel: SearchViewModel = koinViewModel(),
 ) {
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Black)) {
-
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(Black),
+    ) {
         SearchBar(
             inputField = {
-            SearchBarDefaults.InputField(
-                query = state.query,
-                onQueryChange = viewModel::onQueryChange,
-                onSearch = {
-                    viewModel.search()
-                },
-                expanded = false,
-                onExpandedChange = {},
-                placeholder = {
-                    Text("Search...")
-                },
-                colors = SearchBarDefaults.inputFieldColors(
-                    focusedContainerColor = Grey30,
-                    unfocusedContainerColor = Grey30,
-                    focusedTextColor = White,
-                    unfocusedTextColor = White,
-                    focusedPlaceholderColor = White,
-                    unfocusedPlaceholderColor = White
-
+                SearchBarDefaults.InputField(
+                    query = state.query,
+                    onQueryChange = viewModel::onQueryChange,
+                    onSearch = {
+                        viewModel.search()
+                    },
+                    expanded = false,
+                    onExpandedChange = {},
+                    placeholder = {
+                        Text("Search...")
+                    },
+                    colors =
+                        SearchBarDefaults.inputFieldColors(
+                            focusedContainerColor = Grey30,
+                            unfocusedContainerColor = Grey30,
+                            focusedTextColor = White,
+                            unfocusedTextColor = White,
+                            focusedPlaceholderColor = White,
+                            unfocusedPlaceholderColor = White,
+                        ),
                 )
-            )
-        },
+            },
             expanded = false,
             onExpandedChange = {},
             tonalElevation = 0.dp,
             shadowElevation = 0.dp,
-            colors = SearchBarDefaults.colors(
-                containerColor = Grey30, inputFieldColors = SearchBarDefaults.inputFieldColors(
-                    focusedContainerColor = Grey30,
-                    unfocusedContainerColor = Grey30,
-                    focusedTextColor = White,
-                    unfocusedTextColor = White,
-                    focusedPlaceholderColor = White,
-                    unfocusedPlaceholderColor = White
-                )
-            ),
-            modifier = Modifier.padding(horizontal = 12.dp)
+            colors =
+                SearchBarDefaults.colors(
+                    containerColor = Grey30,
+                    inputFieldColors =
+                        SearchBarDefaults.inputFieldColors(
+                            focusedContainerColor = Grey30,
+                            unfocusedContainerColor = Grey30,
+                            focusedTextColor = White,
+                            unfocusedTextColor = White,
+                            focusedPlaceholderColor = White,
+                            unfocusedPlaceholderColor = White,
+                        ),
+                ),
+            modifier = Modifier.padding(horizontal = 12.dp),
         ) {}
 
         when {
@@ -94,7 +98,9 @@ fun SearchScreen(
             state.error != null -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
-                        state.error.toString(), modifier = Modifier.padding(16.dp), color = White
+                        state.error.toString(),
+                        modifier = Modifier.padding(16.dp),
+                        color = White,
                     )
                 }
             }
@@ -103,16 +109,16 @@ fun SearchScreen(
                 LazyColumn(
                     contentPadding = PaddingValues(12.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
-                    modifier = Modifier.padding(
-                        top = 10.dp, bottom = innerPaddingValues.calculateBottomPadding()
-                    )
+                    modifier =
+                        Modifier.padding(
+                            top = 10.dp,
+                            bottom = innerPaddingValues.calculateBottomPadding(),
+                        ),
                 ) {
-                    items(
-                        items = state.movies, key = { it.id }) { movie ->
-                        MovieCard(
-                            movie = movie, onMovieClick = {
-                                onMovieClick(movie.id)
-                            })
+                    items(items = state.movies, key = { it.id }) { movie ->
+                        MovieCard(movie = movie, onMovieClick = {
+                            onMovieClick(movie.id)
+                        })
                     }
                 }
             }

@@ -11,5 +11,5 @@ data class MovieDetails(
     val voteCount: Int,
     val runtime: Int?,
     val genres: List<String>,
-    val galleryImagesUrl: List<String>?
+    val galleryImagesUrl: List<String>?,
 )

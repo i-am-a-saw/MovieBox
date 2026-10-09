@@ -56,14 +56,15 @@ import org.koin.androidx.compose.koinViewModel
 fun MovieDetailsScreen(
     onBackClick: () -> Unit,
     innerPaddingValues: PaddingValues,
-    viewModel: MovieDetailsViewModel = koinViewModel()
+    viewModel: MovieDetailsViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     when {
         state.isLoading -> {
             Box(
-                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator()
             }
@@ -71,7 +72,8 @@ fun MovieDetailsScreen(
 
         state.error != null -> {
             Box(
-                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
             ) {
                 Text(state.error.toString())
             }
@@ -81,21 +83,25 @@ fun MovieDetailsScreen(
             val movie = state.movie
 
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPaddingValues)
-                    .background(Black)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(innerPaddingValues)
+                        .background(Black),
             ) {
-
                 BackgroundImage(movie)
 
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(
-                            top = 150.dp, start = 10.dp, end = 10.dp
-                        ), verticalArrangement = Arrangement.spacedBy(20.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(
+                                top = 150.dp,
+                                start = 10.dp,
+                                end = 10.dp,
+                            ),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
                 ) {
                     PageHeader(movie) { movie -> viewModel.insertMovie(movie) }
                     Overview(movie)
@@ -105,40 +111,43 @@ fun MovieDetailsScreen(
             }
 
             IconButton(
-                onClick = onBackClick, modifier = Modifier.padding(
-                    start = 12.dp, top = 24.dp
-                )
+                onClick = onBackClick,
+                modifier =
+                    Modifier.padding(
+                        start = 12.dp,
+                        top = 24.dp,
+                    ),
             ) {
                 Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Back")
             }
-
         }
     }
 }
 
 @Composable
-fun BackgroundImage(
-    movie: MovieDetails?
-) {
+fun BackgroundImage(movie: MovieDetails?) {
     Box(modifier = Modifier.wrapContentHeight()) {
         AsyncImage(
             model = movie?.backdropUrl ?: movie?.posterUrl,
             contentDescription = movie?.title,
             contentScale = ContentScale.Fit,
             alignment = Alignment.TopCenter,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Box(
-            modifier = Modifier
-                .matchParentSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent, Color.Black.copy(alpha = 1f)
-                        )
-                    )
-                )
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors =
+                                listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(alpha = 1f),
+                                ),
+                        ),
+                    ),
         )
     }
 }
@@ -149,61 +158,66 @@ fun PageHeader(
     onAddToFavourites: (movie: MovieDetails) -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-
         AsyncImage(
             model = movie?.posterUrl,
             contentDescription = movie?.title,
             contentScale = ContentScale.Fit,
             alignment = Alignment.TopCenter,
-            modifier = Modifier
-                .height(200.dp)
-                .width(150.dp)
+            modifier =
+                Modifier
+                    .height(200.dp)
+                    .width(150.dp),
         )
 
         Column(
             horizontalAlignment = Alignment.Start,
             modifier = Modifier.padding(top = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-
             Text(
                 movie?.title.toString(),
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                color = White
+                color = White,
             )
 
             Text(
-                formatDate(movie?.releaseDate.toString()) + " • " + formatRuntime(
-                    movie?.runtime
-                ),
+                formatDate(movie?.releaseDate.toString()) + " • " +
+                    formatRuntime(
+                        movie?.runtime,
+                    ),
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Light,
                 fontSize = 12.sp,
-                color = White
+                color = White,
             )
 
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy((-14).dp)
+                verticalArrangement = Arrangement.spacedBy((-14).dp),
             ) {
-
                 movie?.genres?.take(3)?.forEach {
-
                     Button(
-                        onClick = {}, shape = RoundedCornerShape(12.dp), colors = ButtonColors(
-                            containerColor = Color.DarkGray,
-                            contentColor = White,
-                            disabledContainerColor = Color.DarkGray,
-                            disabledContentColor = White
-                        ), contentPadding = PaddingValues(
-                            horizontal = 6.dp, vertical = 0.dp
-                        ), modifier = Modifier.defaultMinSize(minHeight = 25.dp)
+                        onClick = {},
+                        shape = RoundedCornerShape(12.dp),
+                        colors =
+                            ButtonColors(
+                                containerColor = Color.DarkGray,
+                                contentColor = White,
+                                disabledContainerColor = Color.DarkGray,
+                                disabledContentColor = White,
+                            ),
+                        contentPadding =
+                            PaddingValues(
+                                horizontal = 6.dp,
+                                vertical = 0.dp,
+                            ),
+                        modifier = Modifier.defaultMinSize(minHeight = 25.dp),
                     ) {
-
                         Text(
                             it.replaceFirstChar { char -> char.uppercaseChar() },
                             fontFamily = rubikFontFamily,
@@ -215,38 +229,42 @@ fun PageHeader(
             }
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-
                 Button(
                     onClick = {
                         if (movie != null) {
                             onAddToFavourites(movie)
                         }
-                    }, shape = RoundedCornerShape(20.dp), colors = ButtonColors(
-                        containerColor = White,
-                        contentColor = Black,
-                        disabledContainerColor = White,
-                        disabledContentColor = Black
-                    )
+                    },
+                    shape = RoundedCornerShape(20.dp),
+                    colors =
+                        ButtonColors(
+                            containerColor = White,
+                            contentColor = Black,
+                            disabledContainerColor = White,
+                            disabledContentColor = Black,
+                        ),
                 ) {
                     Text(
                         text = "В избранное",
                         fontSize = 16.sp,
                         fontFamily = rubikFontFamily,
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Normal,
                     )
                 }
 
                 IconButton(
-                    onClick = {}, colors = IconButtonColors(
-                        containerColor = Color.DarkGray,
-                        contentColor = White,
-                        disabledContainerColor = Color.DarkGray,
-                        disabledContentColor = White
-                    ),
+                    onClick = {},
+                    colors =
+                        IconButtonColors(
+                            containerColor = Color.DarkGray,
+                            contentColor = White,
+                            disabledContainerColor = Color.DarkGray,
+                            disabledContentColor = White,
+                        ),
                     shape = CircleShape,
-                    modifier = Modifier.defaultMinSize(minHeight = 40.dp)
+                    modifier = Modifier.defaultMinSize(minHeight = 40.dp),
                 ) {
                     Icon(Icons.Default.Share, contentDescription = "Save")
                 }
@@ -256,9 +274,7 @@ fun PageHeader(
 }
 
 @Composable
-fun Overview(
-    movie: MovieDetails?
-) {
+fun Overview(movie: MovieDetails?) {
     val description = movie?.overview.toString()
 
     Text(
@@ -266,27 +282,24 @@ fun Overview(
         fontFamily = rubikFontFamily,
         fontSize = 14.sp,
         fontWeight = FontWeight.Light,
-        color = White
+        color = White,
     )
 }
 
 @Composable
-fun Gallery(
-    movie: MovieDetails?
-) {
+fun Gallery(movie: MovieDetails?) {
     Text(
         "Галерея",
         fontSize = 22.sp,
         color = White,
         fontWeight = FontWeight.Bold,
         fontFamily = rubikFontFamily,
-        modifier = Modifier.padding(top = 10.dp)
+        modifier = Modifier.padding(top = 10.dp),
     )
 
     if (movie?.galleryImagesUrl != null) {
         LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            items(
-                items = movie.galleryImagesUrl, key = { it }) { path ->
+            items(items = movie.galleryImagesUrl, key = { it }) { path ->
                 AsyncImage(
                     model = path,
                     contentDescription = movie.title,
@@ -298,9 +311,7 @@ fun Gallery(
 }
 
 @Composable
-fun Information(
-    movie: MovieDetails?
-) {
+fun Information(movie: MovieDetails?) {
     val column1Weight = 0.4f
     val column2Weight = 0.6f
 
@@ -313,7 +324,7 @@ fun Information(
         color = White,
         fontWeight = FontWeight.Bold,
         fontFamily = rubikFontFamily,
-        modifier = Modifier.padding(top = 10.dp)
+        modifier = Modifier.padding(top = 10.dp),
     )
 
     Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -347,15 +358,18 @@ fun Information(
     }
 }
 
-
 @Composable
 fun RowScope.TableCell(
-    text: String, weight: Float, color: Color
+    text: String,
+    weight: Float,
+    color: Color,
 ) {
     Text(
-        text = text, color = color, modifier = Modifier
-            .weight(weight)
-            .padding(8.dp)
-
+        text = text,
+        color = color,
+        modifier =
+            Modifier
+                .weight(weight)
+                .padding(8.dp),
     )
 }

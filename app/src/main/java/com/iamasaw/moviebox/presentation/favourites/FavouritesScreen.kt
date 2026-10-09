@@ -44,42 +44,44 @@ fun FavouritesScreen(
     onBackClick: () -> Unit,
     onMovieClick: (Int) -> Unit,
     innerPaddingValues: PaddingValues,
-    viewModel: FavouritesViewModel = koinViewModel()
+    viewModel: FavouritesViewModel = koinViewModel(),
 ) {
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(
+            title = {
                 Text("Favourites", color = White)
-            }, navigationIcon = {
+            },
+            navigationIcon = {
                 IconButton(
-                    onClick = onBackClick
+                    onClick = onBackClick,
                 ) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back",
-                        tint = White
+                        tint = White,
                     )
                 }
-            }, colors = TopAppBarColors(
-                containerColor = Black,
-                scrolledContainerColor = Black,
-                navigationIconContentColor = White,
-                titleContentColor = White,
-                actionIconContentColor = White,
-                subtitleContentColor = White
-            )
-            )
-        }) {
+            },
+            colors =
+                TopAppBarColors(
+                    containerColor = Black,
+                    scrolledContainerColor = Black,
+                    navigationIconContentColor = White,
+                    titleContentColor = White,
+                    actionIconContentColor = White,
+                    subtitleContentColor = White,
+                ),
+        )
+    }) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPaddingValues)
-                .background(Black),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPaddingValues)
+                    .background(Black),
+            contentAlignment = Alignment.Center,
         ) {
             FavouritesContent(state)
         }
@@ -92,26 +94,26 @@ fun FavouritesContent(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Black)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Black),
     ) {
         when {
             state.isLoading -> {
                 CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
 
             state.error != null -> {
                 Column(
                     modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(state.error)
 
-                    IconButton(
-                        onClick = {}) {
+                    IconButton(onClick = {}) {
                         Icon(Icons.Default.PlayArrow, contentDescription = "Retry")
                     }
                 }
@@ -120,7 +122,7 @@ fun FavouritesContent(
             else -> {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.verticalScroll(rememberScrollState())
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
                 ) {
                     PopularMovies(movies = state.movies) { }
                 }
@@ -131,29 +133,28 @@ fun FavouritesContent(
 
 @Composable
 fun PopularMovies(
-    movies: List<MovieClass>, onMovieClick: (Int) -> Unit
+    movies: List<MovieClass>,
+    onMovieClick: (Int) -> Unit,
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 12.dp)
+        modifier = Modifier.padding(horizontal = 12.dp),
     ) {
         Text(
             "Popular Movies",
             fontSize = 18.sp,
             color = White,
             fontWeight = FontWeight.Bold,
-            letterSpacing = 0.4.sp
+            letterSpacing = 0.4.sp,
         )
 
         LazyRow(
             contentPadding = PaddingValues(top = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(
-                items = movies, key = { it.id }) { movie ->
-                ShortMovieCard(
-                    movie.toMovie(), onClick = {
-                        onMovieClick(movie.id)
-                    })
+            items(items = movies, key = { it.id }) { movie ->
+                ShortMovieCard(movie.toMovie(), onClick = {
+                    onMovieClick(movie.id)
+                })
             }
         }
     }

@@ -5,15 +5,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
-
 }
 
 android {
     namespace = "com.iamasaw.moviebox"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version =
+            release(36) {
+                minorApiLevel = 1
+            }
     }
 
     defaultConfig {
@@ -30,12 +30,12 @@ android {
         val properties = Properties()
         properties.load(keystoreFile.inputStream())
 
-        val tmdb_api_key = properties.getProperty("TMDB_API_KEY") ?: ""
+        val tmdbApiKey = properties.getProperty("TMDB_API_KEY") ?: ""
 
         buildConfigField(
             type = "String",
             name = "API_KEY",
-            value = tmdb_api_key
+            value = tmdbApiKey,
         )
     }
 
@@ -73,7 +73,6 @@ dependencies {
 
     implementation("androidx.compose.ui:ui-text-google-fonts:1.12.0")
 
-
     implementation(libs.androidx.compose.runtime.livedata)
 
     implementation(libs.androidx.compose.ui)
@@ -81,7 +80,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.1")
 
     val composeNavVersion = "2.7.7"
@@ -111,5 +110,4 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
 
     implementation("com.google.code.gson:gson:2.11.0")
-
 }

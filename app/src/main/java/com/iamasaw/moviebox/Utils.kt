@@ -13,37 +13,44 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import java.math.RoundingMode
 
-
-private const val transitionDuration = 250
-
+private const val TRANSLATION_DURATION = 250
 
 fun NavGraphBuilder.composableSlideInOut(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    enterTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
+    enterTransition: (
+        @JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() ->
+        EnterTransition?
+    )? = {
         slideIntoContainer(
-            AnimatedContentTransitionScope.SlideDirection.Left, tween(transitionDuration)
+            AnimatedContentTransitionScope.SlideDirection.Left,
+            tween(TRANSLATION_DURATION),
         )
     },
     exitTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = {
         slideOutOfContainer(
-            AnimatedContentTransitionScope.SlideDirection.Left, tween(transitionDuration)
+            AnimatedContentTransitionScope.SlideDirection.Left,
+            tween(TRANSLATION_DURATION),
         )
     },
-    popEnterTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
+    popEnterTransition:
+        (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
         slideIntoContainer(
-            AnimatedContentTransitionScope.SlideDirection.Right, tween(transitionDuration)
+            AnimatedContentTransitionScope.SlideDirection.Right,
+            tween(TRANSLATION_DURATION),
         )
     },
-    popExitTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = {
+    popExitTransition: (
+        @JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?
+    )? = {
         slideOutOfContainer(
-            AnimatedContentTransitionScope.SlideDirection.Right, tween(transitionDuration)
+            AnimatedContentTransitionScope.SlideDirection.Right,
+            tween(TRANSLATION_DURATION),
         )
     },
-    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
+    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
 ) {
-
     composable(
         route,
         arguments,
@@ -52,7 +59,7 @@ fun NavGraphBuilder.composableSlideInOut(
         exitTransition,
         popEnterTransition,
         popExitTransition,
-        content
+        content,
     )
 }
 
@@ -63,18 +70,23 @@ fun formatDate(date: String): String {
     return "${date.substring(8..9)} ${months[date.substring(5..6).toInt() - 1]} ${date.take(4)}"
 }
 
-fun formatVoteAverage(vote: Double, scale: Int): String {
-    return vote.toBigDecimal().setScale(scale, RoundingMode.HALF_UP).toString()
-}
+fun formatVoteAverage(
+    vote: Double,
+    scale: Int,
+): String = vote.toBigDecimal().setScale(scale, RoundingMode.HALF_UP).toString()
 
-fun formatRuntime(runtime: Int? ): String {
-    val validTime = runtime ?: run {
-        return "Unknown runtime"
-    }
+fun formatRuntime(runtime: Int?): String {
+    val validTime =
+        runtime ?: run {
+            return "Unknown runtime"
+        }
 
     val hours = validTime / 60
     val minutes = validTime % 60
 
-    return if (hours > 60) {"${hours}h ${minutes}min"}
-    else {"${minutes}min"}
+    return if (hours > 60) {
+        "${hours}h ${minutes}min"
+    } else {
+        "${minutes}min"
+    }
 }

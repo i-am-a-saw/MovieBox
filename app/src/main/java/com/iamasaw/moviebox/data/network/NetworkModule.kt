@@ -8,26 +8,30 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object NetworkModule {
-
     private const val BASE_URL = "https://api.themoviedb.org/3/"
 
     fun createTmdbApi(): TmdbApi {
+        val loggingInterceptor =
+            HttpLoggingInterceptor().apply {
+                redactHeader("Authorization")
+                level = HttpLoggingInterceptor.Level.BODY
+            }
 
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            redactHeader("Authorization")
-            level = HttpLoggingInterceptor.Level.BODY
-        }
+        val client =
+            OkHttpClient
+                .Builder()
+                .addInterceptor(TmdbAuthInterceptor())
+                .addInterceptor(loggingInterceptor)
+                .build()
 
-        val client = OkHttpClient.Builder()
-            .addInterceptor(TmdbAuthInterceptor())
-            .addInterceptor(loggingInterceptor)
-            .build()
+        val moshi =
+            Moshi
+                .Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
 
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-
-        return Retrofit.Builder()
+        return Retrofit
+            .Builder()
             .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create(moshi))

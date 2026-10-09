@@ -12,9 +12,8 @@ import kotlinx.coroutines.launch
 import okio.IOException
 
 class SearchViewModel(
-    private val repository: MovieRepository
+    private val repository: MovieRepository,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -32,7 +31,8 @@ class SearchViewModel(
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    isLoading = true, error = null
+                    isLoading = true,
+                    error = null,
                 )
             }
 
@@ -41,7 +41,8 @@ class SearchViewModel(
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false, movies = movies
+                        isLoading = false,
+                        movies = movies,
                     )
                 }
             } catch (e: IOException) {
@@ -49,7 +50,8 @@ class SearchViewModel(
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false, error = "Проверьте подключение к интернету"
+                        isLoading = false,
+                        error = "Проверьте подключение к интернету",
                     )
                 }
             } catch (e: HttpException) {
@@ -58,7 +60,7 @@ class SearchViewModel(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = "Ошибка сервера: ${e.toString().substring(0, 20) + "..."}"
+                        error = "Ошибка сервера: ${e.toString().substring(0, 20) + "..."}",
                     )
                 }
             } catch (e: Exception) {
@@ -66,7 +68,8 @@ class SearchViewModel(
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false, error = "Не удалось выполнить поиск"
+                        isLoading = false,
+                        error = "Не удалось выполнить поиск",
                     )
                 }
             }

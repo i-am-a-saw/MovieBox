@@ -6,6 +6,7 @@ import androidx.navigation.navArgument
 
 interface NavDestination {
     val route: String
+
     fun buildRoute(): String = route
 }
 
@@ -26,9 +27,8 @@ object SearchDestination : NavDestination {
 }
 
 class MovieDetailsDestination(
-    val movieId: Int
+    val movieId: Int,
 ) : NavDestination {
-
     override val route: String
         get() = "$ROOT/$movieId"
 
@@ -37,22 +37,22 @@ class MovieDetailsDestination(
 
         const val ARG_MOVIE_ID = "movieId"
 
-        const val route = "$ROOT/{$ARG_MOVIE_ID}"
+        const val ROUTE = "$ROOT/{$ARG_MOVIE_ID}"
+        val route = ROUTE
 
-        val navArgs = listOf(
-            navArgument(ARG_MOVIE_ID) {
-                type = NavType.IntType
-            }
-        )
-
-        fun fromSavedStateHandle(
-            savedStateHandle: SavedStateHandle
-        ): MovieDetailsDestination {
-            return MovieDetailsDestination(
-                movieId = checkNotNull(
-                    savedStateHandle.get<Int>(ARG_MOVIE_ID)
-                )
+        val navArgs =
+            listOf(
+                navArgument(ARG_MOVIE_ID) {
+                    type = NavType.IntType
+                },
             )
-        }
+
+        fun fromSavedStateHandle(savedStateHandle: SavedStateHandle): MovieDetailsDestination =
+            MovieDetailsDestination(
+                movieId =
+                    checkNotNull(
+                        savedStateHandle.get<Int>(ARG_MOVIE_ID),
+                    ),
+            )
     }
 }

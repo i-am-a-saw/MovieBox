@@ -7,5 +7,5 @@ data class HomeUiState(
     val movies: List<Movie> = emptyList(),
     val tvShows: List<TVShow> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
 )

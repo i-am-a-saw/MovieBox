@@ -11,8 +11,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class FavouritesViewModel(private val roomRepository: RoomRepository) : ViewModel() {
-
+class FavouritesViewModel(
+    private val roomRepository: RoomRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState())
     val uiState: StateFlow<FavouritesUiState> = _uiState.asStateFlow()
 
@@ -25,7 +26,7 @@ class FavouritesViewModel(private val roomRepository: RoomRepository) : ViewMode
             _uiState.update {
                 it.copy(
                     isLoading = true,
-                    error = null
+                    error = null,
                 )
             }
 
@@ -35,25 +36,24 @@ class FavouritesViewModel(private val roomRepository: RoomRepository) : ViewMode
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                error = exception.message ?: "Неизвестная ошибка"
+                                error = exception.message ?: "Неизвестная ошибка",
                             )
                         }
                     }.collect { movies ->
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                movies = movies
+                                movies = movies,
                             )
                         }
                     }
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 Log.e(TAG, "Unexpected error", e)
 
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = "Не удалось загрузить данные"
+                        error = "Не удалось загрузить данные",
                     )
                 }
             }

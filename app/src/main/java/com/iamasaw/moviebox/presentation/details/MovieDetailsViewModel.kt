@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.iamasaw.moviebox.data.repository.MovieRepository
 import com.iamasaw.moviebox.data.room.MovieClass
 import com.iamasaw.moviebox.data.room.RoomRepository
-import com.iamasaw.moviebox.domain.model.Movie
 import com.iamasaw.moviebox.domain.model.MovieDetails
 import com.iamasaw.moviebox.navigation.MovieDetailsDestination
 import kotlinx.coroutines.CoroutineScope
@@ -20,15 +19,16 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class MovieDetailsViewModel(
-    private val repository: MovieRepository, savedStateHandle: SavedStateHandle,
-    private val roomRepository: RoomRepository
+    private val repository: MovieRepository,
+    savedStateHandle: SavedStateHandle,
+    private val roomRepository: RoomRepository,
 ) : ViewModel() {
-
-    private val movieId: Int = checkNotNull(
-        savedStateHandle.get<Int>(
-            MovieDetailsDestination.ARG_MOVIE_ID
+    private val movieId: Int =
+        checkNotNull(
+            savedStateHandle.get<Int>(
+                MovieDetailsDestination.ARG_MOVIE_ID,
+            ),
         )
-    )
 
     private val _uiState = MutableStateFlow(DetailsUiState())
     val uiState = _uiState.asStateFlow()
@@ -38,7 +38,6 @@ class MovieDetailsViewModel(
     }
 
     fun insertMovie(movie: MovieDetails) {
-
         Log.w("SUCCESS", "HELLO")
         viewModelScope.launch {
             roomRepository.insertMovie(
@@ -53,8 +52,8 @@ class MovieDetailsViewModel(
                     voteCount = movie.voteCount,
                     runtime = movie.runtime,
                     genres = movie.genres,
-                    galleryImagesUrl = movie.galleryImagesUrl
-                )
+                    galleryImagesUrl = movie.galleryImagesUrl,
+                ),
             )
         }
     }
@@ -63,7 +62,8 @@ class MovieDetailsViewModel(
         CoroutineScope(context = Dispatchers.IO).launch {
             _uiState.update {
                 it.copy(
-                    isLoading = true, error = null
+                    isLoading = true,
+                    error = null,
                 )
             }
 
@@ -72,7 +72,9 @@ class MovieDetailsViewModel(
 
                 _uiState.update {
                     it.copy(
-                        movie = movie, isLoading = false, error = null
+                        movie = movie,
+                        isLoading = false,
+                        error = null,
                     )
                 }
             } catch (e: IOException) {
@@ -80,25 +82,26 @@ class MovieDetailsViewModel(
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false, error = "Проверь подключение к интернету"
+                        isLoading = false,
+                        error = "Проверь подключение к интернету",
                     )
                 }
-
             } catch (e: HttpException) {
                 Log.e(TAG, "HTTP error while loading movie", e)
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false, error = "Ошибка сервера: ${e.code()}"
+                        isLoading = false,
+                        error = "Ошибка сервера: ${e.code()}",
                     )
                 }
-
             } catch (e: Exception) {
                 Log.e(TAG, "Unexpected error while loading movie", e)
 
                 _uiState.update {
                     it.copy(
-                        isLoading = false, error = "Не удалось загрузить фильм"
+                        isLoading = false,
+                        error = "Не удалось загрузить фильм",
                     )
                 }
             }

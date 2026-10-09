@@ -16,55 +16,56 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.dsl.single
 
-val AppModule = module {
+val AppModule =
+    module {
 
-    single<TmdbApi> {
-        NetworkModule.createTmdbApi()
-    }
+        single<TmdbApi> {
+            NetworkModule.createTmdbApi()
+        }
 
-    single {
-        MovieRepository(
-            api = get<TmdbApi>()
-        )
-    }
+        single {
+            MovieRepository(
+                api = get<TmdbApi>(),
+            )
+        }
 
-    single {
-        AppDatabase.getInstance(androidContext())
-    }
+        single {
+            AppDatabase.getInstance(androidContext())
+        }
 
-    single<MovieDao> {
-        get<AppDatabase>().movieDao()
-    }
+        single<MovieDao> {
+            get<AppDatabase>().movieDao()
+        }
 
-    single {
-        RoomRepository(
-            movieDao = get()
-        )
-    }
+        single {
+            RoomRepository(
+                movieDao = get(),
+            )
+        }
 
-    viewModel {
-        HomeViewModel(
-            repository = get<MovieRepository>()
-        )
-    }
+        viewModel {
+            HomeViewModel(
+                repository = get<MovieRepository>(),
+            )
+        }
 
-    viewModel {
-        SearchViewModel(
-            repository = get<MovieRepository>()
-        )
-    }
+        viewModel {
+            SearchViewModel(
+                repository = get<MovieRepository>(),
+            )
+        }
 
-    viewModel {
-        FavouritesViewModel(
-            roomRepository = get<RoomRepository>()
-        )
-    }
+        viewModel {
+            FavouritesViewModel(
+                roomRepository = get<RoomRepository>(),
+            )
+        }
 
-    viewModel {
-        MovieDetailsViewModel(
-            repository = get<MovieRepository>(),
-            savedStateHandle = get<SavedStateHandle>(),
-            roomRepository = get()
-        )
+        viewModel {
+            MovieDetailsViewModel(
+                repository = get<MovieRepository>(),
+                savedStateHandle = get<SavedStateHandle>(),
+                roomRepository = get(),
+            )
+        }
     }
-}

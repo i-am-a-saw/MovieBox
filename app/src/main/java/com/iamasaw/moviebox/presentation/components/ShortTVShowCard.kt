@@ -18,38 +18,41 @@ import com.iamasaw.moviebox.presentation.theme.White
 @Composable
 fun ShortTVShowCard(
     tvShow: TVShow,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
-    Column(modifier = Modifier
-        .width(115.dp)
-        .clickable(onClick = onClick)
+    Column(
+        modifier =
+            Modifier
+                .width(115.dp)
+                .clickable(onClick = onClick),
     ) {
         AsyncImage(
             model = tvShow.posterUrl,
             contentDescription = tvShow.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(
-                115.dp,
-                185.dp
-            )
+            modifier =
+                Modifier.size(
+                    115.dp,
+                    185.dp,
+                ),
         )
 
         Text(
             tvShow.title,
-            color = White
+            color = White,
         )
 
         Row {
             Text(
                 tvShow.releaseDate.take(4),
-                color = White
+                color = White,
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
             Text(
                 "%.1f".format(tvShow.voteAverage),
-                color = White
+                color = White,
             )
         }
     }

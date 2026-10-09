@@ -7,5 +7,5 @@ data class TVShow(
     val posterUrl: String?,
     val backdropUrl: String?,
     val releaseDate: String,
-    val voteAverage: Double
+    val voteAverage: Double,
 )

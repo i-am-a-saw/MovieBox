@@ -31,33 +31,35 @@ import com.iamasaw.moviebox.presentation.theme.White
 
 @Composable
 fun MovieCard(
-    movie: Movie, onMovieClick: () -> Unit, onRemoveClick: (() -> Unit)? = null
+    movie: Movie,
+    onMovieClick: () -> Unit,
+    onRemoveClick: (() -> Unit)? = null,
 ) {
-
     Row(
-        modifier = Modifier
-            .clickable(onClick = { onMovieClick() })
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(8.dp))
-            .padding(10.dp),
+        modifier =
+            Modifier
+                .clickable(onClick = { onMovieClick() })
+                .fillMaxWidth()
+                .clip(shape = RoundedCornerShape(8.dp))
+                .padding(10.dp),
     ) {
         AsyncImage(
             model = movie.posterUrl,
             contentDescription = movie.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(90.dp, 150.dp)
+            modifier = Modifier.size(90.dp, 150.dp),
         )
 
         Spacer(modifier = Modifier.width(10.dp))
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(
                 movie.title,
                 color = White,
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
+                fontSize = 16.sp,
             )
 
             Text(
@@ -65,14 +67,14 @@ fun MovieCard(
                 color = Grey10,
                 fontWeight = FontWeight.Light,
                 fontSize = 12.sp,
-                lineHeight = 20.sp
+                lineHeight = 20.sp,
             )
             Text(
                 "☆" + formatVoteAverage(movie.voteAverage, 1),
                 color = Grey10,
                 fontWeight = FontWeight.Light,
                 fontSize = 12.sp,
-                lineHeight = 20.sp
+                lineHeight = 20.sp,
             )
         }
 

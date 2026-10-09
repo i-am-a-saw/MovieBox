@@ -29,31 +29,29 @@ import com.iamasaw.moviebox.presentation.theme.Black
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavHost() {
-
     val navController = rememberNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    Scaffold(
-        bottomBar = { currentRoute?.startsWith("movie_details")?.let { if (!it) BottomNavBar(navController) } }) { paddingValues ->
+    Scaffold(bottomBar = {
+        currentRoute?.startsWith("movie_details")?.let { if (!it) BottomNavBar(navController) }
+    }) { paddingValues ->
 
         NavHost(
-            navController = navController, startDestination = HomeDestination.route
+            navController = navController,
+            startDestination = HomeDestination.route,
         ) {
-
             composable(HomeDestination.route) {
-                HomeScreen(
-                    onMovieClick = { movieId ->
+                HomeScreen(onMovieClick = { movieId ->
                     navController.navigate(
-                        MovieDetailsDestination(movieId).buildRoute()
+                        MovieDetailsDestination(movieId).buildRoute(),
                     )
                 }, innerPaddingValues = paddingValues)
             }
 
             composable(ProfileDestination.route) {
-                ProfileScreen(
-                    onBackClick = {
+                ProfileScreen(onBackClick = {
                     navController.popBackStack()
                 }, innerPaddingValues = paddingValues)
             }
@@ -63,7 +61,7 @@ fun AppNavHost() {
                     navController.popBackStack()
                 }, onMovieClick = { movieId ->
                     navController.navigate(
-                        MovieDetailsDestination(movieId).buildRoute()
+                        MovieDetailsDestination(movieId).buildRoute(),
                     )
                 }, innerPaddingValues = paddingValues)
             }
@@ -73,16 +71,16 @@ fun AppNavHost() {
                     navController.popBackStack()
                 }, onMovieClick = { movieId ->
                     navController.navigate(
-                        MovieDetailsDestination(movieId).buildRoute()
+                        MovieDetailsDestination(movieId).buildRoute(),
                     )
                 }, innerPaddingValues = paddingValues)
             }
 
             composable(
-                route = MovieDetailsDestination.route, arguments = MovieDetailsDestination.navArgs
+                route = MovieDetailsDestination.route,
+                arguments = MovieDetailsDestination.navArgs,
             ) {
-                MovieDetailsScreen(
-                    onBackClick = {
+                MovieDetailsScreen(onBackClick = {
                     navController.popBackStack()
                 }, innerPaddingValues = paddingValues)
             }
@@ -92,11 +90,11 @@ fun AppNavHost() {
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
-
     NavigationBar(
-        containerColor = Black, contentColor = Color.DarkGray, modifier = Modifier.height(115.dp),
+        containerColor = Black,
+        contentColor = Color.DarkGray,
+        modifier = Modifier.height(115.dp),
     ) {
-
         val navBackStackEntry by navController.currentBackStackEntryAsState()
 
         val currentRoute = navBackStackEntry?.destination?.route
@@ -111,12 +109,13 @@ fun BottomNavBar(navController: NavHostController) {
                 icon = { Icon(navItem.icon, contentDescription = navItem.label) },
                 label = { Text(navItem.label) },
                 alwaysShowLabel = false,
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = Color.White,
-                    selectedTextColor = Color.White,
-                    indicatorColor = Color(0xFF656565)
-                )
+                colors =
+                    NavigationBarItemDefaults.colors(
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = Color.White,
+                        selectedTextColor = Color.White,
+                        indicatorColor = Color(0xFF656565),
+                    ),
             )
         }
     }

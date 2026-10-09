@@ -26,37 +26,41 @@ import com.iamasaw.moviebox.presentation.theme.White
 @Composable
 fun ProfileScreen(
     onBackClick: () -> Unit,
-    innerPaddingValues: PaddingValues
+    innerPaddingValues: PaddingValues,
 ) {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(title = {
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(
+            title = {
                 Text("Profile", color = White)
-            }, navigationIcon = {
+            },
+            navigationIcon = {
                 IconButton(
-                    onClick = onBackClick
+                    onClick = onBackClick,
                 ) {
                     Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back"
+                        Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
                     )
                 }
             },
-                colors = TopAppBarColors(
+            colors =
+                TopAppBarColors(
                     containerColor = Black,
                     scrolledContainerColor = Black,
                     navigationIconContentColor = White,
                     titleContentColor = White,
                     actionIconContentColor = White,
-                    subtitleContentColor = White
-                )
-            )
-        }) {
+                    subtitleContentColor = White,
+                ),
+        )
+    }) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPaddingValues)
-                .background(Black),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPaddingValues)
+                    .background(Black),
+            contentAlignment = Alignment.Center,
         ) {
             Text("This is your profile.", color = White)
         }

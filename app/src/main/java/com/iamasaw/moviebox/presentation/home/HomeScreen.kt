@@ -57,34 +57,34 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeScreen(
     onMovieClick: (Int) -> Unit,
     innerPaddingValues: PaddingValues,
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
 ) {
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("MovieBox") }, navigationIcon = {
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text("MovieBox") },
+            navigationIcon = {
                 IconButton(onClick = {}) {
                     Icon(Icons.Default.Menu, contentDescription = "fuck")
                 }
-            }, colors = TopAppBarColors(
-                containerColor = Black,
-                scrolledContainerColor = Black,
-                navigationIconContentColor = White,
-                titleContentColor = White,
-                actionIconContentColor = White,
-                subtitleContentColor = White,
-            )
-            )
-        }) {
-
+            },
+            colors =
+                TopAppBarColors(
+                    containerColor = Black,
+                    scrolledContainerColor = Black,
+                    navigationIconContentColor = White,
+                    titleContentColor = White,
+                    actionIconContentColor = White,
+                    subtitleContentColor = White,
+                ),
+        )
+    }) {
         HomeContent(
             state = state,
             onMovieClick = onMovieClick,
             onRetry = viewModel::loadMovies,
-            modifier = Modifier.padding(innerPaddingValues)
+            modifier = Modifier.padding(innerPaddingValues),
         )
     }
 }
@@ -94,29 +94,30 @@ private fun HomeContent(
     state: HomeUiState,
     onMovieClick: (Int) -> Unit,
     onRetry: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Black)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Black),
     ) {
         when {
             state.isLoading -> {
                 CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
 
             state.error != null -> {
                 Column(
                     modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(state.error)
 
                     IconButton(
-                        onClick = onRetry
+                        onClick = onRetry,
                     ) {
                         Icon(Icons.Default.PlayArrow, contentDescription = "Retry")
                     }
@@ -128,21 +129,20 @@ private fun HomeContent(
 
                 Column(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.verticalScroll(rememberScrollState())
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
                 ) {
                     featuredMovie?.let { movie ->
-                        FeaturedMovie(
-                            movie = movie, onClick = {
-                                onMovieClick(movie.id)
-                            })
+                        FeaturedMovie(movie = movie, onClick = {
+                            onMovieClick(movie.id)
+                        })
                     }
 
                     PopularMovies(
-                        movies = state.movies, onMovieClick = onMovieClick
+                        movies = state.movies,
+                        onMovieClick = onMovieClick,
                     )
 
-                    PopularTVShows(
-                        tvShows = state.tvShows, onMovieClick = {})
+                    PopularTVShows(tvShows = state.tvShows, onMovieClick = {})
                 }
             }
         }
@@ -151,13 +151,15 @@ private fun HomeContent(
 
 @Composable
 private fun FeaturedMovie(
-    movie: Movie, onClick: () -> Unit
+    movie: Movie,
+    onClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(520.dp)
-            .clickable(onClick = onClick)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(520.dp)
+                .clickable(onClick = onClick),
     ) {
         Box {
             AsyncImage(
@@ -165,29 +167,35 @@ private fun FeaturedMovie(
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.BottomCenter,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
 
             Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent, Color.Black.copy(alpha = 0.6f)
-                            )
-                        )
-                    )
+                modifier =
+                    Modifier
+                        .matchParentSize()
+                        .background(
+                            Brush.verticalGradient(
+                                colors =
+                                    listOf(
+                                        Color.Transparent,
+                                        Color.Black.copy(alpha = 0.6f),
+                                    ),
+                            ),
+                        ),
             )
         }
 
-
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 18.dp, end = 18.dp, bottom = 20.dp
-                ), verticalArrangement = Arrangement.Bottom
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = 18.dp,
+                        end = 18.dp,
+                        bottom = 20.dp,
+                    ),
+            verticalArrangement = Arrangement.Bottom,
         ) {
             Text(
                 movie.title,
@@ -195,7 +203,7 @@ private fun FeaturedMovie(
                 fontSize = 22.sp,
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Medium,
-                letterSpacing = 0.4.sp
+                letterSpacing = 0.4.sp,
             )
 
             Text(
@@ -204,7 +212,7 @@ private fun FeaturedMovie(
                 color = White,
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
+                modifier = Modifier.padding(top = 10.dp, bottom = 4.dp),
             )
 
             Text(
@@ -212,19 +220,19 @@ private fun FeaturedMovie(
                 fontSize = 16.sp,
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Normal,
-                color = White
+                color = White,
             )
 
             Button(
                 {},
                 modifier = Modifier.padding(top = 20.dp),
                 contentPadding = PaddingValues(20.dp, 15.dp),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
             ) {
                 Icon(
                     Icons.Default.PlayArrow,
                     contentDescription = "Watch trailer",
-                    modifier = Modifier.padding(end = 12.dp)
+                    modifier = Modifier.padding(end = 12.dp),
                 )
                 Text("Watch trailer", letterSpacing = 0.3.sp)
             }
@@ -234,29 +242,28 @@ private fun FeaturedMovie(
 
 @Composable
 fun PopularMovies(
-    movies: List<Movie>, onMovieClick: (Int) -> Unit
+    movies: List<Movie>,
+    onMovieClick: (Int) -> Unit,
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 12.dp)
+        modifier = Modifier.padding(horizontal = 12.dp),
     ) {
         Text(
             "Popular Movies",
             fontSize = 18.sp,
             color = White,
             fontWeight = FontWeight.Bold,
-            letterSpacing = 0.4.sp
+            letterSpacing = 0.4.sp,
         )
 
         LazyRow(
             contentPadding = PaddingValues(top = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(
-                items = movies, key = { it.id }) { movie ->
-                ShortMovieCard(
-                    movie, onClick = {
-                        onMovieClick(movie.id)
-                    })
+            items(items = movies, key = { it.id }) { movie ->
+                ShortMovieCard(movie, onClick = {
+                    onMovieClick(movie.id)
+                })
             }
         }
     }
@@ -264,29 +271,28 @@ fun PopularMovies(
 
 @Composable
 fun PopularTVShows(
-    tvShows: List<TVShow>, onMovieClick: (Int) -> Unit
+    tvShows: List<TVShow>,
+    onMovieClick: (Int) -> Unit,
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 12.dp)
+        modifier = Modifier.padding(horizontal = 12.dp),
     ) {
         Text(
             "Popular TV Shows",
             fontSize = 18.sp,
             color = White,
             fontWeight = FontWeight.Bold,
-            letterSpacing = 0.4.sp
+            letterSpacing = 0.4.sp,
         )
 
         LazyRow(
             contentPadding = PaddingValues(top = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(
-                items = tvShows, key = { it.id }) { tvShow ->
-                ShortTVShowCard(
-                    tvShow, onClick = {
-                        onMovieClick(tvShow.id)
-                    })
+            items(items = tvShows, key = { it.id }) { tvShow ->
+                ShortTVShowCard(tvShow, onClick = {
+                    onMovieClick(tvShow.id)
+                })
             }
         }
     }
