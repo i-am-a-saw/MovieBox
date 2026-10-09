@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.iamasaw.moviebox.domain.model.Movie
 import com.iamasaw.moviebox.domain.model.MovieDetails
 import com.iamasaw.moviebox.formatDate
 import com.iamasaw.moviebox.formatRuntime
@@ -96,7 +97,7 @@ fun MovieDetailsScreen(
                             top = 150.dp, start = 10.dp, end = 10.dp
                         ), verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    PageHeader(movie)
+                    PageHeader(movie) { movie -> viewModel.insertMovie(movie) }
                     Overview(movie)
                     Gallery(movie)
                     Information(movie)
@@ -144,7 +145,8 @@ fun BackgroundImage(
 
 @Composable
 fun PageHeader(
-    movie: MovieDetails?
+    movie: MovieDetails?,
+    onAddToFavourites: (movie: MovieDetails) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -217,7 +219,11 @@ fun PageHeader(
             ) {
 
                 Button(
-                    onClick = {}, shape = RoundedCornerShape(20.dp), colors = ButtonColors(
+                    onClick = {
+                        if (movie != null) {
+                            onAddToFavourites(movie)
+                        }
+                    }, shape = RoundedCornerShape(20.dp), colors = ButtonColors(
                         containerColor = White,
                         contentColor = Black,
                         disabledContainerColor = White,

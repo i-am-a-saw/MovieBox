@@ -3,7 +3,12 @@ package com.iamasaw.moviebox.presentation.details
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.iamasaw.moviebox.data.repository.MovieRepository
+import com.iamasaw.moviebox.data.room.MovieClass
+import com.iamasaw.moviebox.data.room.RoomRepository
+import com.iamasaw.moviebox.domain.model.Movie
+import com.iamasaw.moviebox.domain.model.MovieDetails
 import com.iamasaw.moviebox.navigation.MovieDetailsDestination
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +20,8 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class MovieDetailsViewModel(
-    private val repository: MovieRepository, savedStateHandle: SavedStateHandle
+    private val repository: MovieRepository, savedStateHandle: SavedStateHandle,
+    private val roomRepository: RoomRepository
 ) : ViewModel() {
 
     private val movieId: Int = checkNotNull(
@@ -29,6 +35,28 @@ class MovieDetailsViewModel(
 
     init {
         loadMovie()
+    }
+
+    fun insertMovie(movie: MovieDetails) {
+
+        Log.w("SUCCESS", "HELLO")
+        viewModelScope.launch {
+            roomRepository.insertMovie(
+                MovieClass(
+                    id = movie.id,
+                    title = movie.title,
+                    overview = movie.overview,
+                    posterUrl = movie.posterUrl,
+                    backdropUrl = movie.backdropUrl,
+                    releaseDate = movie.releaseDate,
+                    voteAverage = movie.voteAverage,
+                    voteCount = movie.voteCount,
+                    runtime = movie.runtime,
+                    genres = movie.genres,
+                    galleryImagesUrl = movie.galleryImagesUrl
+                )
+            )
+        }
     }
 
     private fun loadMovie() {
