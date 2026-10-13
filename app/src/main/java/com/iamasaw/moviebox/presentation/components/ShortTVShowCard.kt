@@ -18,20 +18,17 @@ import com.iamasaw.moviebox.presentation.theme.White
 @Composable
 fun ShortTVShowCard(tvShow: TVShow, onClick: () -> Unit) {
     Column(
-        modifier =
-        Modifier
-            .width(115.dp)
-            .clickable(onClick = onClick),
+        modifier = Modifier.width(115.dp).clickable(onClick = onClick),
     ) {
         AsyncImage(
             model = tvShow.posterUrl,
             contentDescription = tvShow.title,
             contentScale = ContentScale.Crop,
             modifier =
-            Modifier.size(
-                115.dp,
-                185.dp,
-            ),
+                Modifier.size(
+                    115.dp,
+                    185.dp,
+                ),
         )
 
         Text(

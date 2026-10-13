@@ -18,20 +18,11 @@ object NetworkModule {
             }
 
         val client =
-            OkHttpClient
-                .Builder()
-                .addInterceptor(TmdbAuthInterceptor())
-                .addInterceptor(loggingInterceptor)
-                .build()
+            OkHttpClient.Builder().addInterceptor(TmdbAuthInterceptor()).addInterceptor(loggingInterceptor).build()
 
-        val moshi =
-            Moshi
-                .Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-        return Retrofit
-            .Builder()
+        return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create(moshi))

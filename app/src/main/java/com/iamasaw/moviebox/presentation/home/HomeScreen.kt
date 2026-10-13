@@ -32,7 +32,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -70,25 +69,27 @@ fun HomeScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(topBar = {
-        TopAppBar(
-            title = { Text(stringResource(R.string.app_name)) },
-            navigationIcon = {
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.menu))
-                }
-            },
-            colors =
-            TopAppBarColors(
-                containerColor = Black,
-                scrolledContainerColor = Black,
-                navigationIconContentColor = White,
-                titleContentColor = White,
-                actionIconContentColor = White,
-                subtitleContentColor = White,
-            ),
-        )
-    }) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.app_name)) },
+                navigationIcon = {
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.menu))
+                    }
+                },
+                colors =
+                    TopAppBarColors(
+                        containerColor = Black,
+                        scrolledContainerColor = Black,
+                        navigationIconContentColor = White,
+                        titleContentColor = White,
+                        actionIconContentColor = White,
+                        subtitleContentColor = White,
+                    ),
+            )
+        },
+    ) {
         HomeContent(
             state = state,
             onMovieClick = onMovieClick,
@@ -108,10 +109,7 @@ private fun HomeContent(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier =
-        modifier
-            .fillMaxSize()
-            .background(Black),
+        modifier = modifier.fillMaxSize().background(Black),
     ) {
         when {
             state.isLoading -> {
@@ -152,9 +150,11 @@ private fun HomeContent(
                                 context.startActivity(
                                     Intent(
                                         Intent.ACTION_VIEW,
-                                        state.featuredMovieTrailer?.let {
-                                            "https://www.youtube.com/watch?v=${it.results[0].key}"
-                                        }?.toUri(),
+                                        state.featuredMovieTrailer
+                                            ?.let {
+                                                "https://www.youtube.com/watch?v=${it.results[0].key}"
+                                            }
+                                            ?.toUri(),
                                     ),
                                 )
                             },
@@ -178,11 +178,7 @@ private fun FeaturedMovie(movie: Movie, onClick: () -> Unit, onTrailerClick: (co
     val context = LocalContext.current
 
     Box(
-        modifier =
-        Modifier
-            .fillMaxWidth()
-            .height(520.dp)
-            .clickable(onClick = onClick),
+        modifier = Modifier.fillMaxWidth().height(520.dp).clickable(onClick = onClick),
     ) {
         Box {
             AsyncImage(
@@ -195,29 +191,27 @@ private fun FeaturedMovie(movie: Movie, onClick: () -> Unit, onTrailerClick: (co
 
             Box(
                 modifier =
-                Modifier
-                    .matchParentSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors =
-                            listOf(
-                                Color.Transparent,
-                                Color.Black.copy(alpha = 0.6f),
+                    Modifier.matchParentSize()
+                        .background(
+                            Brush.verticalGradient(
+                                colors =
+                                    listOf(
+                                        Color.Transparent,
+                                        Color.Black.copy(alpha = 0.6f),
+                                    ),
                             ),
                         ),
-                    ),
             )
         }
 
         Column(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 18.dp,
-                    end = 18.dp,
-                    bottom = 20.dp,
-                ),
+                Modifier.fillMaxSize()
+                    .padding(
+                        start = 18.dp,
+                        end = 18.dp,
+                        bottom = 20.dp,
+                    ),
             verticalArrangement = Arrangement.Bottom,
         ) {
             Text(
@@ -281,9 +275,12 @@ fun PopularMovies(movies: List<Movie>, onMovieClick: (Int) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(items = movies, key = { it.id }) { movie ->
-                ShortMovieCard(movie, onClick = {
-                    onMovieClick(movie.id)
-                })
+                ShortMovieCard(
+                    movie,
+                    onClick = {
+                        onMovieClick(movie.id)
+                    },
+                )
             }
         }
     }
@@ -307,9 +304,12 @@ fun PopularTVShows(tvShows: List<TVShow>, onMovieClick: (Int) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(items = tvShows, key = { it.id }) { tvShow ->
-                ShortTVShowCard(tvShow, onClick = {
-                    onMovieClick(tvShow.id)
-                })
+                ShortTVShowCard(
+                    tvShow,
+                    onClick = {
+                        onMovieClick(tvShow.id)
+                    },
+                )
             }
         }
     }

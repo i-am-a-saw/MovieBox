@@ -1,7 +1,5 @@
 package com.iamasaw.moviebox.navigation
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -14,23 +12,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.net.toUri
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.iamasaw.moviebox.composableSlideInOut
 import com.iamasaw.moviebox.presentation.details.MovieDetailsScreen
 import com.iamasaw.moviebox.presentation.favourites.FavouritesScreen
 import com.iamasaw.moviebox.presentation.home.HomeScreen
 import com.iamasaw.moviebox.presentation.profile.ProfileScreen
 import com.iamasaw.moviebox.presentation.search.SearchScreen
 import com.iamasaw.moviebox.presentation.theme.Black
-import kotlin.coroutines.coroutineContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +38,6 @@ fun AppNavHost() {
             currentRoute?.startsWith("movie_details")?.let { if (!it) BottomNavBar(navController) }
         },
     ) { paddingValues ->
-
         NavHost(
             navController = navController,
             startDestination = HomeDestination.route,
@@ -127,7 +119,6 @@ fun BottomNavBar(navController: NavHostController) {
         val currentRoute = navBackStackEntry?.destination?.route
 
         BottomNavConstants.bottomNavItems.forEach { navItem ->
-
             NavigationBarItem(
                 selected = currentRoute == navItem.route,
                 onClick = {
@@ -137,12 +128,12 @@ fun BottomNavBar(navController: NavHostController) {
                 label = { Text(navItem.label) },
                 alwaysShowLabel = false,
                 colors =
-                NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = Color.White,
-                    selectedTextColor = Color.White,
-                    indicatorColor = Color(0xFF656565),
-                ),
+                    NavigationBarItemDefaults.colors(
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = Color.White,
+                        selectedTextColor = Color.White,
+                        indicatorColor = Color(0xFF656565),
+                    ),
             )
         }
     }

@@ -46,7 +46,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.iamasaw.moviebox.R
-import com.iamasaw.moviebox.domain.model.Movie
 import com.iamasaw.moviebox.domain.model.MovieDetails
 import com.iamasaw.moviebox.formatDate
 import com.iamasaw.moviebox.formatRuntime
@@ -86,24 +85,19 @@ fun MovieDetailsScreen(
             val movie = state.movie
 
             Box(
-                modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(innerPaddingValues)
-                    .background(Black),
+                modifier = Modifier.fillMaxSize().padding(innerPaddingValues).background(Black),
             ) {
                 BackgroundImage(movie)
 
                 Column(
                     modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(
-                            top = 150.dp,
-                            start = 10.dp,
-                            end = 10.dp,
-                        ),
+                        Modifier.fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(
+                                top = 150.dp,
+                                start = 10.dp,
+                                end = 10.dp,
+                            ),
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                 ) {
                     PageHeader(movie) { movie -> viewModel.insertMovie(movie) }
@@ -116,10 +110,10 @@ fun MovieDetailsScreen(
             IconButton(
                 onClick = onBackClick,
                 modifier =
-                Modifier.padding(
-                    start = 12.dp,
-                    top = 24.dp,
-                ),
+                    Modifier.padding(
+                        start = 12.dp,
+                        top = 24.dp,
+                    ),
             ) {
                 Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = stringResource(R.string.back))
             }
@@ -140,17 +134,16 @@ fun BackgroundImage(movie: MovieDetails?) {
 
         Box(
             modifier =
-            Modifier
-                .matchParentSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors =
-                        listOf(
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 1f),
+                Modifier.matchParentSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors =
+                                listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(alpha = 1f),
+                                ),
                         ),
                     ),
-                ),
         )
     }
 }
@@ -166,10 +159,7 @@ fun PageHeader(movie: MovieDetails?, onAddToFavourites: (movie: MovieDetails) ->
             contentDescription = movie?.title,
             contentScale = ContentScale.Fit,
             alignment = Alignment.TopCenter,
-            modifier =
-            Modifier
-                .height(200.dp)
-                .width(150.dp),
+            modifier = Modifier.height(200.dp).width(150.dp),
         )
 
         Column(
@@ -189,7 +179,9 @@ fun PageHeader(movie: MovieDetails?, onAddToFavourites: (movie: MovieDetails) ->
                 formatDate(
                     movie?.releaseDate.toString(),
                     LocalContext.current,
-                ) + " " + stringResource(R.string.period) +
+                ) +
+                    " " +
+                    stringResource(R.string.period) +
                     " " +
                     formatRuntime(
                         movie?.runtime,
@@ -210,17 +202,17 @@ fun PageHeader(movie: MovieDetails?, onAddToFavourites: (movie: MovieDetails) ->
                         onClick = {},
                         shape = RoundedCornerShape(12.dp),
                         colors =
-                        ButtonColors(
-                            containerColor = Color.DarkGray,
-                            contentColor = White,
-                            disabledContainerColor = Color.DarkGray,
-                            disabledContentColor = White,
-                        ),
+                            ButtonColors(
+                                containerColor = Color.DarkGray,
+                                contentColor = White,
+                                disabledContainerColor = Color.DarkGray,
+                                disabledContentColor = White,
+                            ),
                         contentPadding =
-                        PaddingValues(
-                            horizontal = 6.dp,
-                            vertical = 0.dp,
-                        ),
+                            PaddingValues(
+                                horizontal = 6.dp,
+                                vertical = 0.dp,
+                            ),
                         modifier = Modifier.defaultMinSize(minHeight = 25.dp),
                     ) {
                         Text(
@@ -244,12 +236,12 @@ fun PageHeader(movie: MovieDetails?, onAddToFavourites: (movie: MovieDetails) ->
                     },
                     shape = RoundedCornerShape(20.dp),
                     colors =
-                    ButtonColors(
-                        containerColor = White,
-                        contentColor = Black,
-                        disabledContainerColor = White,
-                        disabledContentColor = Black,
-                    ),
+                        ButtonColors(
+                            containerColor = White,
+                            contentColor = Black,
+                            disabledContainerColor = White,
+                            disabledContentColor = Black,
+                        ),
                 ) {
                     Text(
                         text = stringResource(R.string.add_to_favourites),
@@ -262,12 +254,12 @@ fun PageHeader(movie: MovieDetails?, onAddToFavourites: (movie: MovieDetails) ->
                 IconButton(
                     onClick = {},
                     colors =
-                    IconButtonColors(
-                        containerColor = Color.DarkGray,
-                        contentColor = White,
-                        disabledContainerColor = Color.DarkGray,
-                        disabledContentColor = White,
-                    ),
+                        IconButtonColors(
+                            containerColor = Color.DarkGray,
+                            contentColor = White,
+                            disabledContainerColor = Color.DarkGray,
+                            disabledContentColor = White,
+                        ),
                     shape = CircleShape,
                     modifier = Modifier.defaultMinSize(minHeight = 40.dp),
                 ) {
@@ -368,9 +360,6 @@ fun RowScope.TableCell(text: String, weight: Float, color: Color) {
     Text(
         text = text,
         color = color,
-        modifier =
-        Modifier
-            .weight(weight)
-            .padding(8.dp),
+        modifier = Modifier.weight(weight).padding(8.dp),
     )
 }

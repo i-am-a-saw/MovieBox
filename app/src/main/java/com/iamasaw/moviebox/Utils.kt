@@ -8,8 +8,6 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
@@ -24,15 +22,13 @@ fun NavGraphBuilder.composableSlideInOut(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    enterTransition: (
-        @JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() ->
-        EnterTransition?
-    )? = {
-        slideIntoContainer(
-            AnimatedContentTransitionScope.SlideDirection.Left,
-            tween(TRANSLATION_DURATION),
-        )
-    },
+    enterTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
+        {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                tween(TRANSLATION_DURATION),
+            )
+        },
     exitTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = {
         slideOutOfContainer(
             AnimatedContentTransitionScope.SlideDirection.Left,
@@ -40,20 +36,23 @@ fun NavGraphBuilder.composableSlideInOut(
         )
     },
     popEnterTransition:
-    (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
-        slideIntoContainer(
-            AnimatedContentTransitionScope.SlideDirection.Right,
-            tween(TRANSLATION_DURATION),
-        )
-    },
-    popExitTransition: (
-        @JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?
-    )? = {
-        slideOutOfContainer(
-            AnimatedContentTransitionScope.SlideDirection.Right,
-            tween(TRANSLATION_DURATION),
-        )
-    },
+        (@JvmSuppressWildcards
+        AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
+        {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Right,
+                tween(TRANSLATION_DURATION),
+            )
+        },
+    popExitTransition:
+        (@JvmSuppressWildcards
+        AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
+        {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Right,
+                tween(TRANSLATION_DURATION),
+            )
+        },
     content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
 ) {
     composable(
@@ -80,16 +79,16 @@ fun formatVoteAverage(vote: Double, scale: Int): String =
 
 fun formatRuntime(runtime: Int?, context: Context): String {
     val validTime =
-        runtime ?: run {
-            return "Время не указано"
-        }
+        runtime
+            ?: run {
+                return "Время не указано"
+            }
 
     val hours = validTime / 60
     val minutes = validTime % 60
 
     return if (hours > 60) {
-        "${hours}${context.getString(R.string.hour_letter)} " +
-            "${minutes}${context.getString(R.string.min_letter)}"
+        "${hours}${context.getString(R.string.hour_letter)} " + "${minutes}${context.getString(R.string.min_letter)}"
     } else {
         "${minutes}${context.getString(R.string.min_letter)}"
     }

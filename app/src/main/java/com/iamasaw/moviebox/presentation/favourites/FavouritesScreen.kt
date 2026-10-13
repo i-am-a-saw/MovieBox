@@ -50,39 +50,37 @@ fun FavouritesScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(topBar = {
-        CenterAlignedTopAppBar(
-            title = {
-                Text(stringResource(R.string.favourites), color = White)
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = onBackClick,
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back),
-                        tint = White,
-                    )
-                }
-            },
-            colors =
-            TopAppBarColors(
-                containerColor = Black,
-                scrolledContainerColor = Black,
-                navigationIconContentColor = White,
-                titleContentColor = White,
-                actionIconContentColor = White,
-                subtitleContentColor = White,
-            ),
-        )
-    }) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(stringResource(R.string.favourites), color = White)
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onBackClick,
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back),
+                            tint = White,
+                        )
+                    }
+                },
+                colors =
+                    TopAppBarColors(
+                        containerColor = Black,
+                        scrolledContainerColor = Black,
+                        navigationIconContentColor = White,
+                        titleContentColor = White,
+                        actionIconContentColor = White,
+                        subtitleContentColor = White,
+                    ),
+            )
+        },
+    ) {
         Box(
-            modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(innerPaddingValues)
-                .background(Black),
+            modifier = Modifier.fillMaxSize().padding(innerPaddingValues).background(Black),
             contentAlignment = Alignment.Center,
         ) {
             FavouritesContent(state)
@@ -93,10 +91,7 @@ fun FavouritesScreen(
 @Composable
 fun FavouritesContent(state: FavouritesUiState, modifier: Modifier = Modifier) {
     Box(
-        modifier =
-        modifier
-            .fillMaxSize()
-            .background(Black),
+        modifier = modifier.fillMaxSize().background(Black),
     ) {
         when {
             state.isLoading -> {
@@ -123,7 +118,7 @@ fun FavouritesContent(state: FavouritesUiState, modifier: Modifier = Modifier) {
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.verticalScroll(rememberScrollState()),
                 ) {
-                    PopularMovies(movies = state.movies) { }
+                    PopularMovies(movies = state.movies) {}
                 }
             }
         }
@@ -148,9 +143,12 @@ fun PopularMovies(movies: List<MovieClass>, onMovieClick: (Int) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(items = movies, key = { it.id }) { movie ->
-                ShortMovieCard(movie.toMovie(), onClick = {
-                    onMovieClick(movie.id)
-                })
+                ShortMovieCard(
+                    movie.toMovie(),
+                    onClick = {
+                        onMovieClick(movie.id)
+                    },
+                )
             }
         }
     }

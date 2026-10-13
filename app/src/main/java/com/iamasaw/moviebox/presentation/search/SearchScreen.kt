@@ -41,10 +41,7 @@ fun SearchScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
-        modifier =
-        Modifier
-            .fillMaxSize()
-            .background(Black),
+        modifier = Modifier.fillMaxSize().background(Black),
     ) {
         SearchBar(
             inputField = {
@@ -60,14 +57,14 @@ fun SearchScreen(
                         Text(stringResource(R.string.search_placeholder))
                     },
                     colors =
-                    SearchBarDefaults.inputFieldColors(
-                        focusedContainerColor = Grey30,
-                        unfocusedContainerColor = Grey30,
-                        focusedTextColor = White,
-                        unfocusedTextColor = White,
-                        focusedPlaceholderColor = White,
-                        unfocusedPlaceholderColor = White,
-                    ),
+                        SearchBarDefaults.inputFieldColors(
+                            focusedContainerColor = Grey30,
+                            unfocusedContainerColor = Grey30,
+                            focusedTextColor = White,
+                            unfocusedTextColor = White,
+                            focusedPlaceholderColor = White,
+                            unfocusedPlaceholderColor = White,
+                        ),
                 )
             },
             expanded = false,
@@ -75,18 +72,18 @@ fun SearchScreen(
             tonalElevation = 0.dp,
             shadowElevation = 0.dp,
             colors =
-            SearchBarDefaults.colors(
-                containerColor = Grey30,
-                inputFieldColors =
-                SearchBarDefaults.inputFieldColors(
-                    focusedContainerColor = Grey30,
-                    unfocusedContainerColor = Grey30,
-                    focusedTextColor = White,
-                    unfocusedTextColor = White,
-                    focusedPlaceholderColor = White,
-                    unfocusedPlaceholderColor = White,
+                SearchBarDefaults.colors(
+                    containerColor = Grey30,
+                    inputFieldColors =
+                        SearchBarDefaults.inputFieldColors(
+                            focusedContainerColor = Grey30,
+                            unfocusedContainerColor = Grey30,
+                            focusedTextColor = White,
+                            unfocusedTextColor = White,
+                            focusedPlaceholderColor = White,
+                            unfocusedPlaceholderColor = White,
+                        ),
                 ),
-            ),
             modifier = Modifier.padding(horizontal = 12.dp),
         ) {}
 
@@ -112,15 +109,18 @@ fun SearchScreen(
                     contentPadding = PaddingValues(12.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier =
-                    Modifier.padding(
-                        top = 10.dp,
-                        bottom = innerPaddingValues.calculateBottomPadding(),
-                    ),
+                        Modifier.padding(
+                            top = 10.dp,
+                            bottom = innerPaddingValues.calculateBottomPadding(),
+                        ),
                 ) {
                     items(items = state.movies, key = { it.id }) { movie ->
-                        MovieCard(movie = movie, onMovieClick = {
-                            onMovieClick(movie.id)
-                        })
+                        MovieCard(
+                            movie = movie,
+                            onMovieClick = {
+                                onMovieClick(movie.id)
+                            },
+                        )
                     }
                 }
             }

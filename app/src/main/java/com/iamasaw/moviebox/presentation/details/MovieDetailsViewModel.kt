@@ -9,6 +9,7 @@ import com.iamasaw.moviebox.data.room.MovieClass
 import com.iamasaw.moviebox.data.room.RoomRepository
 import com.iamasaw.moviebox.domain.model.MovieDetails
 import com.iamasaw.moviebox.navigation.MovieDetailsDestination
+import java.io.IOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import java.io.IOException
 
 class MovieDetailsViewModel(
     private val repository: MovieRepository,

@@ -13,5 +13,4 @@ data class Result(
     val type: String,
     val official: Boolean = true,
     val publishedAt: String,
-
 )

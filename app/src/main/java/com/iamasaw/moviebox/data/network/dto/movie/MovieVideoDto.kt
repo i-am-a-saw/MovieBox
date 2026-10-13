@@ -14,6 +14,5 @@ data class ResultDto(
     val size: Int = 0,
     val type: String,
     val official: Boolean = true,
-    @param:Json(name = "published_at")
-    val publishedAt: String,
+    @param:Json(name = "published_at") val publishedAt: String,
 )

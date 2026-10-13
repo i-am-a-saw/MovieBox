@@ -37,7 +37,8 @@ class FavouritesViewModel(private val roomRepository: RoomRepository) : ViewMode
                                 error = exception.message ?: "Неизвестная ошибка",
                             )
                         }
-                    }.collect { movies ->
+                    }
+                    .collect { movies ->
                         _uiState.update {
                             it.copy(
                                 isLoading = false,

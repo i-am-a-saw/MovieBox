@@ -13,7 +13,8 @@ class TmdbAuthInterceptor : Interceptor {
                 .addHeader(
                     "Authorization",
                     "Bearer ${BuildConfig.API_KEY}",
-                ).build()
+                )
+                .build()
 
         return chain.proceed(request)
     }

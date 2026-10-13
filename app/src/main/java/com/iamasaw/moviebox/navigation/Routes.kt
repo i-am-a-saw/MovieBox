@@ -45,11 +45,12 @@ class MovieDetailsDestination(val movieId: Int) : NavDestination {
                 },
             )
 
-        fun fromSavedStateHandle(savedStateHandle: SavedStateHandle): MovieDetailsDestination = MovieDetailsDestination(
-            movieId =
-            checkNotNull(
-                savedStateHandle.get<Int>(ARG_MOVIE_ID),
-            ),
-        )
+        fun fromSavedStateHandle(savedStateHandle: SavedStateHandle): MovieDetailsDestination =
+            MovieDetailsDestination(
+                movieId =
+                    checkNotNull(
+                        savedStateHandle.get<Int>(ARG_MOVIE_ID),
+                    ),
+            )
     }
 }

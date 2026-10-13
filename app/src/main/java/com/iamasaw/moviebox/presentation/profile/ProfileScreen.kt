@@ -27,38 +27,36 @@ import com.iamasaw.moviebox.presentation.theme.White
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(onBackClick: () -> Unit, innerPaddingValues: PaddingValues) {
-    Scaffold(topBar = {
-        CenterAlignedTopAppBar(
-            title = {
-                Text(stringResource(R.string.profile), color = White)
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = onBackClick,
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back),
-                    )
-                }
-            },
-            colors =
-            TopAppBarColors(
-                containerColor = Black,
-                scrolledContainerColor = Black,
-                navigationIconContentColor = White,
-                titleContentColor = White,
-                actionIconContentColor = White,
-                subtitleContentColor = White,
-            ),
-        )
-    }) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(stringResource(R.string.profile), color = White)
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onBackClick,
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back),
+                        )
+                    }
+                },
+                colors =
+                    TopAppBarColors(
+                        containerColor = Black,
+                        scrolledContainerColor = Black,
+                        navigationIconContentColor = White,
+                        titleContentColor = White,
+                        actionIconContentColor = White,
+                        subtitleContentColor = White,
+                    ),
+            )
+        },
+    ) {
         Box(
-            modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(innerPaddingValues)
-                .background(Black),
+            modifier = Modifier.fillMaxSize().padding(innerPaddingValues).background(Black),
             contentAlignment = Alignment.Center,
         ) {
             Text(stringResource(R.string.your_profile), color = White)
