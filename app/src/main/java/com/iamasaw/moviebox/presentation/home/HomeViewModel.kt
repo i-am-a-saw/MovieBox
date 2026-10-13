@@ -13,9 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okio.IOException
 
-class HomeViewModel(
-    private val repository: MovieRepository,
-) : ViewModel() {
+class HomeViewModel(private val repository: MovieRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
@@ -35,11 +33,13 @@ class HomeViewModel(
             try {
                 val movies = repository.getPopularMovies()
                 val tvShows = repository.getPopularTVShows()
+                val featuredMovieTrailer = repository.getMovieVideo(movies[0].id)
 
                 _uiState.update {
                     it.copy(
                         movies = movies,
                         tvShows = tvShows,
+                        featuredMovieTrailer = featuredMovieTrailer,
                         isLoading = false,
                     )
                 }

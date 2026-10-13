@@ -26,9 +26,7 @@ object SearchDestination : NavDestination {
     override val route = "search"
 }
 
-class MovieDetailsDestination(
-    val movieId: Int,
-) : NavDestination {
+class MovieDetailsDestination(val movieId: Int) : NavDestination {
     override val route: String
         get() = "$ROOT/$movieId"
 
@@ -47,12 +45,11 @@ class MovieDetailsDestination(
                 },
             )
 
-        fun fromSavedStateHandle(savedStateHandle: SavedStateHandle): MovieDetailsDestination =
-            MovieDetailsDestination(
-                movieId =
-                    checkNotNull(
-                        savedStateHandle.get<Int>(ARG_MOVIE_ID),
-                    ),
-            )
+        fun fromSavedStateHandle(savedStateHandle: SavedStateHandle): MovieDetailsDestination = MovieDetailsDestination(
+            movieId =
+            checkNotNull(
+                savedStateHandle.get<Int>(ARG_MOVIE_ID),
+            ),
+        )
     }
 }

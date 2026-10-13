@@ -1,6 +1,8 @@
 package com.iamasaw.moviebox.presentation.home
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +32,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -40,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.iamasaw.moviebox.R
@@ -59,6 +63,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
     onMovieClick: (Int) -> Unit,
+    onRetryClick: () -> Unit,
+    onTrailerClick: () -> Unit,
     innerPaddingValues: PaddingValues,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
@@ -86,7 +92,8 @@ fun HomeScreen(
         HomeContent(
             state = state,
             onMovieClick = onMovieClick,
-            onRetry = viewModel::loadMovies,
+            onRetryClick = onRetryClick,
+            onTrailerClick = onTrailerClick,
             modifier = Modifier.padding(innerPaddingValues),
         )
     }
@@ -96,7 +103,8 @@ fun HomeScreen(
 private fun HomeContent(
     state: HomeUiState,
     onMovieClick: (Int) -> Unit,
-    onRetry: () -> Unit,
+    onRetryClick: () -> Unit,
+    onTrailerClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -120,7 +128,7 @@ private fun HomeContent(
                     Text(state.error)
 
                     IconButton(
-                        onClick = onRetry,
+                        onClick = onRetryClick,
                     ) {
                         Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.retry))
                     }
@@ -135,9 +143,22 @@ private fun HomeContent(
                     modifier = Modifier.verticalScroll(rememberScrollState()),
                 ) {
                     featuredMovie?.let { movie ->
-                        FeaturedMovie(movie = movie, onClick = {
-                            onMovieClick(movie.id)
-                        })
+                        FeaturedMovie(
+                            movie = movie,
+                            onClick = {
+                                onMovieClick(movie.id)
+                            },
+                            onTrailerClick = { context ->
+                                context.startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
+                                        state.featuredMovieTrailer?.let {
+                                            "https://www.youtube.com/watch?v=${it.results[0].key}"
+                                        }?.toUri(),
+                                    ),
+                                )
+                            },
+                        )
                     }
 
                     PopularMovies(
@@ -153,7 +174,9 @@ private fun HomeContent(
 }
 
 @Composable
-private fun FeaturedMovie(movie: Movie, onClick: () -> Unit) {
+private fun FeaturedMovie(movie: Movie, onClick: () -> Unit, onTrailerClick: (context: Context) -> Unit) {
+    val context = LocalContext.current
+
     Box(
         modifier =
         Modifier
@@ -224,7 +247,7 @@ private fun FeaturedMovie(movie: Movie, onClick: () -> Unit) {
             )
 
             Button(
-                {},
+                { onTrailerClick(context) },
                 modifier = Modifier.padding(top = 20.dp),
                 contentPadding = PaddingValues(20.dp, 15.dp),
                 shape = RoundedCornerShape(12.dp),

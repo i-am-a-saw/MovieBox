@@ -23,20 +23,11 @@ data class MovieDetailsDto(
     val videos: VideosDto?,
 )
 
-data class GenreDto(
-    val id: Int,
-    val name: String,
-)
+data class GenreDto(val id: Int, val name: String)
 
-data class CreditsDto(
-    val cast: List<CastMemberDto>,
-    val crew: List<CrewMemberDto>,
-)
+data class CreditsDto(val cast: List<CastMemberDto>, val crew: List<CrewMemberDto>)
 
-data class ImagesDto(
-    val backdrops: List<ImageDto>,
-    val posters: List<ImageDto>,
-)
+data class ImagesDto(val backdrops: List<ImageDto>, val posters: List<ImageDto>)
 
 data class ImageDto(
     val height: Int,
@@ -67,9 +58,7 @@ data class CrewMemberDto(
     val knownForDepartment: String?,
 )
 
-data class VideosDto(
-    val results: List<VideoDto>,
-)
+data class VideosDto(val results: List<VideoDto>)
 
 data class VideoDto(
     val id: String,

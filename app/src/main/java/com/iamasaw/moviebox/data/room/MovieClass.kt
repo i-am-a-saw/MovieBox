@@ -30,14 +30,13 @@ data class MovieClass(
     @ColumnInfo(name = "movie_gallery_images_url")
     val galleryImagesUrl: List<String>?,
 ) {
-    fun toMovie(): Movie =
-        Movie(
-            id = this.id,
-            title = title,
-            overview = overview,
-            posterUrl = posterUrl,
-            backdropUrl = backdropUrl,
-            releaseDate = releaseDate,
-            voteAverage = voteAverage,
-        )
+    fun toMovie(): Movie = Movie(
+        id = this.id,
+        title = title,
+        overview = overview,
+        posterUrl = posterUrl,
+        backdropUrl = backdropUrl,
+        releaseDate = releaseDate,
+        voteAverage = voteAverage,
+    )
 }

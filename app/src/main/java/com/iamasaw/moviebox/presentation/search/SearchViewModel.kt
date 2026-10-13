@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okio.IOException
 
-class SearchViewModel(
-    private val repository: MovieRepository,
-) : ViewModel() {
+class SearchViewModel(private val repository: MovieRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
 

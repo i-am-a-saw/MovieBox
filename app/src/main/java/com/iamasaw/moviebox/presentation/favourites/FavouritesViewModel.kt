@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class FavouritesViewModel(
-    private val roomRepository: RoomRepository,
-) : ViewModel() {
+class FavouritesViewModel(private val roomRepository: RoomRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState())
     val uiState: StateFlow<FavouritesUiState> = _uiState.asStateFlow()
 

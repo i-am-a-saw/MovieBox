@@ -9,9 +9,8 @@ class Converters {
     fun fromStringList(value: List<String>?): String? = value?.let { Gson().toJson(it) }
 
     @TypeConverter
-    fun toStringList(value: String?): List<String>? =
-        value?.let {
-            val type = object : TypeToken<List<String>>() {}.type
-            Gson().fromJson(it, type)
-        }
+    fun toStringList(value: String?): List<String>? = value?.let {
+        val type = object : TypeToken<List<String>>() {}.type
+        Gson().fromJson(it, type)
+    }
 }

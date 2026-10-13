@@ -12,22 +12,19 @@ spotless {
     kotlin {
         target("app/src/**/*.kt")
 
-        ktlint("1.8.0")
-            .setEditorConfigPath(
-                rootProject.file(".editorconfig").absolutePath,
-            ).editorConfigOverride(
-                mapOf(
-                    "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
-                ),
-            )
+        ktfmt("0.65").googleStyle().configure {
+            it.setMaxWidth(120)
+            it.setBlockIndent(4)
+            it.setContinuationIndent(4)
+            it.setRemoveUnusedImports(true)
+        }
     }
 
     kotlinGradle {
         target("*.gradle.kts", "app/**/*.gradle.kts")
 
-        ktlint("1.8.0")
-            .setEditorConfigPath(
-                rootProject.file(".editorconfig").absolutePath,
-            )
+        ktfmt("0.65").googleStyle().configure {
+            it.setRemoveUnusedImports(true)
+        }
     }
 }
