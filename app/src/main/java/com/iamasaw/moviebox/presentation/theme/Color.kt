@@ -17,6 +17,8 @@ val Beige10 = Color(0xFFF5F5DC)
 val Beige30 = Color(0xFFD2B48C)
 val Beige50 = Color(0xFF4F3D20)
 
+val LightBlue = Color(0xFF0FF3EB)
+
 val Grey50 = Color(0xFF212020)
 val Grey30 = Color(0xFF545050)
 val Grey20 = Color(0xFFC6C2C3)

@@ -68,7 +68,7 @@ fun NavGraphBuilder.composableSlideInOut(
 }
 
 fun formatDate(date: String, context: Context): String {
-    val months = listOf("Янв", "Фев", "Мар", "Апр", "Май", "Июнь", "Июль", "Авг", "Сен", "Окт", "Ноя", "Дек")
+    val months = listOf("Янв", "Фев", "Мар", "Апр", "Май", "Июня", "Июля", "Авг", "Сен", "Окт", "Ноя", "Дек")
 
     if (date == "") return context.getString(R.string.unknown_date)
     return "${date.substring(8..9)} ${months[date.substring(5..6).toInt() - 1]} ${date.take(4)}"

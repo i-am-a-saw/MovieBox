@@ -10,22 +10,22 @@ object BottomNavConstants {
     val bottomNavItems =
         listOf(
             BottomNavItem(
-                label = "Home",
+                label = "Кино",
                 icon = Icons.Default.Home,
                 route = HomeDestination.route,
             ),
             BottomNavItem(
-                label = "Search",
+                label = "Поиск",
                 icon = Icons.Default.Search,
                 route = SearchDestination.route,
             ),
             BottomNavItem(
-                label = "Favourites",
+                label = "Избранное",
                 icon = Icons.Default.FavoriteBorder,
                 route = FavouritesDestination.route,
             ),
             BottomNavItem(
-                label = "Profile",
+                label = "Профиль",
                 icon = Icons.Default.Person,
                 route = ProfileDestination.route,
             ),
