@@ -1,11 +1,9 @@
 package com.iamasaw.moviebox.presentation.components
 
-import com.iamasaw.moviebox.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -18,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.domain.model.TVShow
 import com.iamasaw.moviebox.presentation.theme.White
 
@@ -42,10 +41,11 @@ fun ShortTVShowCard(tvShow: TVShow, onClick: () -> Unit) {
             color = White,
         )
 
-        Row(horizontalArrangement = Arrangement.SpaceBetween,
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()) {
-
+            modifier = Modifier.fillMaxWidth(),
+        ) {
             Text(
                 tvShow.releaseDate.take(4),
                 fontSize = 12.sp,
@@ -53,10 +53,9 @@ fun ShortTVShowCard(tvShow: TVShow, onClick: () -> Unit) {
             )
 
             Text(
-                stringResource(R.string.star_outline) +
-                "%.1f".format(tvShow.voteAverage),
+                stringResource(R.string.star_outline) + "%.1f".format(tvShow.voteAverage),
                 color = White,
-                fontSize = 12.sp
+                fontSize = 12.sp,
             )
         }
     }

@@ -41,6 +41,7 @@ class SearchViewModel(private val repository: MovieRepository) : ViewModel() {
                     it.copy(
                         isLoading = false,
                         movies = movies,
+                        nothing_found = movies.isEmpty(),
                     )
                 }
             } catch (e: IOException) {

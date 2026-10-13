@@ -82,14 +82,15 @@ fun HomeScreen(
                         Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.menu))
                     }
                 },
-                colors = TopAppBarColors(
-                    containerColor = Black,
-                    scrolledContainerColor = Black,
-                    navigationIconContentColor = White,
-                    titleContentColor = White,
-                    actionIconContentColor = White,
-                    subtitleContentColor = White,
-                ),
+                colors =
+                    TopAppBarColors(
+                        containerColor = Black,
+                        scrolledContainerColor = Black,
+                        navigationIconContentColor = White,
+                        titleContentColor = White,
+                        actionIconContentColor = White,
+                        subtitleContentColor = White,
+                    ),
             )
         },
     ) {
@@ -112,9 +113,7 @@ private fun HomeContent(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Black),
+        modifier = modifier.fillMaxSize().background(Black),
     ) {
         when {
             state.isLoading -> {
@@ -155,9 +154,11 @@ private fun HomeContent(
                                 context.startActivity(
                                     Intent(
                                         Intent.ACTION_VIEW,
-                                        state.featuredMovieTrailer?.let {
-                                            "https://www.youtube.com/watch?v=${it.results[0].key}"
-                                        }?.toUri(),
+                                        state.featuredMovieTrailer
+                                            ?.let {
+                                                "https://www.youtube.com/watch?v=${it.results[0].key}"
+                                            }
+                                            ?.toUri(),
                                     ),
                                 )
                             },
@@ -181,10 +182,7 @@ private fun FeaturedMovie(movie: Movie, onClick: () -> Unit, onTrailerClick: (co
     val context = LocalContext.current
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(520.dp)
-            .clickable(onClick = onClick),
+        modifier = Modifier.fillMaxWidth().height(520.dp).clickable(onClick = onClick),
     ) {
         Box {
             AsyncImage(
@@ -196,27 +194,28 @@ private fun FeaturedMovie(movie: Movie, onClick: () -> Unit, onTrailerClick: (co
             )
 
             Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black.copy(alpha = 0.6f),
+                modifier =
+                    Modifier.matchParentSize()
+                        .background(
+                            Brush.verticalGradient(
+                                colors =
+                                    listOf(
+                                        Color.Transparent,
+                                        Color.Black.copy(alpha = 0.6f),
+                                    ),
                             ),
                         ),
-                    ),
             )
         }
 
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 18.dp,
-                    end = 18.dp,
-                    bottom = 20.dp,
-                ),
+            modifier =
+                Modifier.fillMaxSize()
+                    .padding(
+                        start = 18.dp,
+                        end = 18.dp,
+                        bottom = 20.dp,
+                    ),
             verticalArrangement = Arrangement.Bottom,
         ) {
             Text(
@@ -265,14 +264,13 @@ private fun FeaturedMovie(movie: Movie, onClick: () -> Unit, onTrailerClick: (co
 @Composable
 fun PopularMovies(movies: List<Movie>, onMovieClick: (Int) -> Unit) {
     Column(
-        modifier = Modifier.padding(horizontal = 12.dp)
+        modifier = Modifier.padding(horizontal = 12.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-
             Text(
                 stringResource(R.string.popular_movies),
                 fontSize = 18.sp,
@@ -282,23 +280,22 @@ fun PopularMovies(movies: List<Movie>, onMovieClick: (Int) -> Unit) {
             )
 
             Button(
-                onClick = {}, modifier = Modifier
-                    .background(Color.Transparent)
-                    .defaultMinSize(minHeight = 30.dp),
-                colors = ButtonColors(
-                    containerColor = Black,
-                    contentColor = LightBlue,
-                    disabledContainerColor = Black,
-                    disabledContentColor = White,
-                ),
-                contentPadding = PaddingValues(5.dp)
+                onClick = {},
+                modifier = Modifier.background(Color.Transparent).defaultMinSize(minHeight = 30.dp),
+                colors =
+                    ButtonColors(
+                        containerColor = Black,
+                        contentColor = LightBlue,
+                        disabledContainerColor = Black,
+                        disabledContentColor = White,
+                    ),
+                contentPadding = PaddingValues(5.dp),
             ) {
-
                 Text(
                     stringResource(R.string.see_more),
                     fontSize = 14.sp,
                     color = LightBlue,
-                    fontWeight = FontWeight.Light
+                    fontWeight = FontWeight.Light,
                 )
             }
         }
@@ -327,9 +324,8 @@ fun PopularTVShows(tvShows: List<TVShow>, onMovieClick: (Int) -> Unit) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-
             Text(
                 stringResource(R.string.popular_shows),
                 fontSize = 18.sp,
@@ -339,24 +335,23 @@ fun PopularTVShows(tvShows: List<TVShow>, onMovieClick: (Int) -> Unit) {
             )
 
             Button(
-                onClick = {}, modifier = Modifier
-                    .background(Color.Transparent)
-                    .defaultMinSize(minHeight = 30.dp),
-                colors = ButtonColors(
-                    containerColor = Black,
-                    contentColor = LightBlue,
-                    disabledContainerColor = Black,
-                    disabledContentColor = White,
-                ),
-                contentPadding = PaddingValues(5.dp)
+                onClick = {},
+                modifier = Modifier.background(Color.Transparent).defaultMinSize(minHeight = 30.dp),
+                colors =
+                    ButtonColors(
+                        containerColor = Black,
+                        contentColor = LightBlue,
+                        disabledContainerColor = Black,
+                        disabledContentColor = White,
+                    ),
+                contentPadding = PaddingValues(5.dp),
             ) {
-
                 Text(
                     stringResource(R.string.see_more),
                     fontSize = 14.sp,
                     color = LightBlue,
                     fontWeight = FontWeight.Light,
-                    )
+                )
             }
         }
 

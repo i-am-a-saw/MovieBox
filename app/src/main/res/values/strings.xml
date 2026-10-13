@@ -25,6 +25,8 @@
     <string name="your_profile">Это Ваш профиль.</string>
     <string name="search_placeholder">Поиск…</string>
     <string name="unknown_date">Дата выхода не указана</string>
+    <string name="nothing_found">По Вашему запросу ничего не найдено</string>
+    <string name="empty_favourites">В избранном пока пусто</string>
 
     <string name="hour_letter">ч</string>
     <string name="min_letter">мин</string>

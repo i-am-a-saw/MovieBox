@@ -1,12 +1,9 @@
 package com.iamasaw.moviebox.presentation.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,7 +24,7 @@ import com.iamasaw.moviebox.presentation.theme.White
 fun ShortMovieCard(movie: Movie, onClick: () -> Unit) {
     Column(
         modifier = Modifier.width(115.dp).clickable(onClick = onClick),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         AsyncImage(
             model = movie.posterUrl,
@@ -45,10 +42,11 @@ fun ShortMovieCard(movie: Movie, onClick: () -> Unit) {
             color = White,
         )
 
-        Row(horizontalArrangement = Arrangement.SpaceBetween,
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()) {
-
+            modifier = Modifier.fillMaxWidth(),
+        ) {
             Text(
                 movie.releaseDate.take(4),
                 fontSize = 12.sp,
@@ -56,10 +54,9 @@ fun ShortMovieCard(movie: Movie, onClick: () -> Unit) {
             )
 
             Text(
-                stringResource(R.string.star_outline) +
-                "%.1f".format(movie.voteAverage),
+                stringResource(R.string.star_outline) + "%.1f".format(movie.voteAverage),
                 color = White,
-                fontSize = 12.sp
+                fontSize = 12.sp,
             )
         }
     }

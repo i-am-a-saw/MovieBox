@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,6 +38,7 @@ import com.iamasaw.moviebox.data.room.MovieClass
 import com.iamasaw.moviebox.presentation.components.ShortMovieCard
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.White
+import com.iamasaw.moviebox.presentation.theme.rubikFontFamily
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -110,6 +112,18 @@ fun FavouritesContent(state: FavouritesUiState, modifier: Modifier = Modifier) {
                     IconButton(onClick = {}) {
                         Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.retry))
                     }
+                }
+            }
+
+            state.movies.isEmpty() -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(
+                        stringResource(R.string.empty_favourites),
+                        fontSize = 20.sp,
+                        color = White,
+                        textAlign = TextAlign.Center,
+                        fontFamily = rubikFontFamily,
+                    )
                 }
             }
 

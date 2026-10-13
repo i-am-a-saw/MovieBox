@@ -17,16 +17,22 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.presentation.components.MovieCard
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.Grey30
 import com.iamasaw.moviebox.presentation.theme.White
+import com.iamasaw.moviebox.presentation.theme.rubikFontFamily
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -39,6 +45,7 @@ fun SearchScreen(
     viewModel: SearchViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var searched by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.fillMaxSize().background(Black),
@@ -100,6 +107,18 @@ fun SearchScreen(
                         state.error.toString(),
                         modifier = Modifier.padding(16.dp),
                         color = White,
+                    )
+                }
+            }
+
+            state.nothing_found -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(
+                        stringResource(R.string.nothing_found) + "\n\uD83D\uDE14",
+                        fontSize = 20.sp,
+                        color = White,
+                        textAlign = TextAlign.Center,
+                        fontFamily = rubikFontFamily,
                     )
                 }
             }
