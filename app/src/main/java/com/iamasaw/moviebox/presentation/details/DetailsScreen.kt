@@ -1,6 +1,5 @@
 package com.iamasaw.moviebox.presentation.details
 
-import com.iamasaw.moviebox.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.domain.model.Movie
 import com.iamasaw.moviebox.domain.model.MovieDetails
 import com.iamasaw.moviebox.formatDate
@@ -87,23 +87,23 @@ fun MovieDetailsScreen(
 
             Box(
                 modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(innerPaddingValues)
-                        .background(Black),
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPaddingValues)
+                    .background(Black),
             ) {
                 BackgroundImage(movie)
 
                 Column(
                     modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(
-                                top = 150.dp,
-                                start = 10.dp,
-                                end = 10.dp,
-                            ),
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(
+                            top = 150.dp,
+                            start = 10.dp,
+                            end = 10.dp,
+                        ),
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                 ) {
                     PageHeader(movie) { movie -> viewModel.insertMovie(movie) }
@@ -116,10 +116,10 @@ fun MovieDetailsScreen(
             IconButton(
                 onClick = onBackClick,
                 modifier =
-                    Modifier.padding(
-                        start = 12.dp,
-                        top = 24.dp,
-                    ),
+                Modifier.padding(
+                    start = 12.dp,
+                    top = 24.dp,
+                ),
             ) {
                 Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = stringResource(R.string.back))
             }
@@ -140,26 +140,23 @@ fun BackgroundImage(movie: MovieDetails?) {
 
         Box(
             modifier =
-                Modifier
-                    .matchParentSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors =
-                                listOf(
-                                    Color.Transparent,
-                                    Color.Black.copy(alpha = 1f),
-                                ),
+            Modifier
+                .matchParentSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors =
+                        listOf(
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 1f),
                         ),
                     ),
+                ),
         )
     }
 }
 
 @Composable
-fun PageHeader(
-    movie: MovieDetails?,
-    onAddToFavourites: (movie: MovieDetails) -> Unit,
-) {
+fun PageHeader(movie: MovieDetails?, onAddToFavourites: (movie: MovieDetails) -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -170,9 +167,9 @@ fun PageHeader(
             contentScale = ContentScale.Fit,
             alignment = Alignment.TopCenter,
             modifier =
-                Modifier
-                    .height(200.dp)
-                    .width(150.dp),
+            Modifier
+                .height(200.dp)
+                .width(150.dp),
         )
 
         Column(
@@ -189,10 +186,14 @@ fun PageHeader(
             )
 
             Text(
-                formatDate(movie?.releaseDate.toString(), LocalContext.current) + " " + stringResource(R.string.period) + " " +
+                formatDate(
+                    movie?.releaseDate.toString(),
+                    LocalContext.current,
+                ) + " " + stringResource(R.string.period) +
+                    " " +
                     formatRuntime(
                         movie?.runtime,
-                        LocalContext.current
+                        LocalContext.current,
                     ),
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Light,
@@ -209,17 +210,17 @@ fun PageHeader(
                         onClick = {},
                         shape = RoundedCornerShape(12.dp),
                         colors =
-                            ButtonColors(
-                                containerColor = Color.DarkGray,
-                                contentColor = White,
-                                disabledContainerColor = Color.DarkGray,
-                                disabledContentColor = White,
-                            ),
+                        ButtonColors(
+                            containerColor = Color.DarkGray,
+                            contentColor = White,
+                            disabledContainerColor = Color.DarkGray,
+                            disabledContentColor = White,
+                        ),
                         contentPadding =
-                            PaddingValues(
-                                horizontal = 6.dp,
-                                vertical = 0.dp,
-                            ),
+                        PaddingValues(
+                            horizontal = 6.dp,
+                            vertical = 0.dp,
+                        ),
                         modifier = Modifier.defaultMinSize(minHeight = 25.dp),
                     ) {
                         Text(
@@ -243,12 +244,12 @@ fun PageHeader(
                     },
                     shape = RoundedCornerShape(20.dp),
                     colors =
-                        ButtonColors(
-                            containerColor = White,
-                            contentColor = Black,
-                            disabledContainerColor = White,
-                            disabledContentColor = Black,
-                        ),
+                    ButtonColors(
+                        containerColor = White,
+                        contentColor = Black,
+                        disabledContainerColor = White,
+                        disabledContentColor = Black,
+                    ),
                 ) {
                     Text(
                         text = stringResource(R.string.add_to_favourites),
@@ -261,12 +262,12 @@ fun PageHeader(
                 IconButton(
                     onClick = {},
                     colors =
-                        IconButtonColors(
-                            containerColor = Color.DarkGray,
-                            contentColor = White,
-                            disabledContainerColor = Color.DarkGray,
-                            disabledContentColor = White,
-                        ),
+                    IconButtonColors(
+                        containerColor = Color.DarkGray,
+                        contentColor = White,
+                        disabledContainerColor = Color.DarkGray,
+                        disabledContentColor = White,
+                    ),
                     shape = CircleShape,
                     modifier = Modifier.defaultMinSize(minHeight = 40.dp),
                 ) {
@@ -363,17 +364,13 @@ fun Information(movie: MovieDetails?) {
 }
 
 @Composable
-fun RowScope.TableCell(
-    text: String,
-    weight: Float,
-    color: Color,
-) {
+fun RowScope.TableCell(text: String, weight: Float, color: Color) {
     Text(
         text = text,
         color = color,
         modifier =
-            Modifier
-                .weight(weight)
-                .padding(8.dp),
+        Modifier
+            .weight(weight)
+            .padding(8.dp),
     )
 }

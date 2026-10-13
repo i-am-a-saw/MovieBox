@@ -1,6 +1,5 @@
 package com.iamasaw.moviebox.presentation.components
 
-import com.iamasaw.moviebox.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.domain.model.Movie
 import com.iamasaw.moviebox.formatVoteAverage
 import com.iamasaw.moviebox.presentation.theme.Black
@@ -32,18 +32,14 @@ import com.iamasaw.moviebox.presentation.theme.Grey10
 import com.iamasaw.moviebox.presentation.theme.White
 
 @Composable
-fun MovieCard(
-    movie: Movie,
-    onMovieClick: () -> Unit,
-    onRemoveClick: (() -> Unit)? = null,
-) {
+fun MovieCard(movie: Movie, onMovieClick: () -> Unit, onRemoveClick: (() -> Unit)? = null) {
     Row(
         modifier =
-            Modifier
-                .clickable(onClick = { onMovieClick() })
-                .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(8.dp))
-                .padding(10.dp),
+        Modifier
+            .clickable(onClick = { onMovieClick() })
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(8.dp))
+            .padding(10.dp),
     ) {
         AsyncImage(
             model = movie.posterUrl,

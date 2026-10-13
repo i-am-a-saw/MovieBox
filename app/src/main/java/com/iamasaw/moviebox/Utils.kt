@@ -40,7 +40,7 @@ fun NavGraphBuilder.composableSlideInOut(
         )
     },
     popEnterTransition:
-        (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
+    (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
         slideIntoContainer(
             AnimatedContentTransitionScope.SlideDirection.Right,
             tween(TRANSLATION_DURATION),
@@ -71,14 +71,12 @@ fun NavGraphBuilder.composableSlideInOut(
 fun formatDate(date: String, context: Context): String {
     val months = listOf("Янв", "Фев", "Мар", "Апр", "Май", "Июнь", "Июль", "Авг", "Сен", "Окт", "Ноя", "Дек")
 
-    if (date == "") return  context.getString(R.string.unknown_date)
+    if (date == "") return context.getString(R.string.unknown_date)
     return "${date.substring(8..9)} ${months[date.substring(5..6).toInt() - 1]} ${date.take(4)}"
 }
 
-fun formatVoteAverage(
-    vote: Double,
-    scale: Int,
-): String = vote.toBigDecimal().setScale(scale, RoundingMode.HALF_UP).toString()
+fun formatVoteAverage(vote: Double, scale: Int): String =
+    vote.toBigDecimal().setScale(scale, RoundingMode.HALF_UP).toString()
 
 fun formatRuntime(runtime: Int?, context: Context): String {
     val validTime =

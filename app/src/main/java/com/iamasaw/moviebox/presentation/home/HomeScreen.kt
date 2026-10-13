@@ -1,6 +1,5 @@
 package com.iamasaw.moviebox.presentation.home
 
-import com.iamasaw.moviebox.R
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.domain.model.Movie
 import com.iamasaw.moviebox.domain.model.TVShow
 import com.iamasaw.moviebox.formatDate
@@ -73,14 +73,14 @@ fun HomeScreen(
                 }
             },
             colors =
-                TopAppBarColors(
-                    containerColor = Black,
-                    scrolledContainerColor = Black,
-                    navigationIconContentColor = White,
-                    titleContentColor = White,
-                    actionIconContentColor = White,
-                    subtitleContentColor = White,
-                ),
+            TopAppBarColors(
+                containerColor = Black,
+                scrolledContainerColor = Black,
+                navigationIconContentColor = White,
+                titleContentColor = White,
+                actionIconContentColor = White,
+                subtitleContentColor = White,
+            ),
         )
     }) {
         HomeContent(
@@ -101,9 +101,9 @@ private fun HomeContent(
 ) {
     Box(
         modifier =
-            modifier
-                .fillMaxSize()
-                .background(Black),
+        modifier
+            .fillMaxSize()
+            .background(Black),
     ) {
         when {
             state.isLoading -> {
@@ -153,16 +153,13 @@ private fun HomeContent(
 }
 
 @Composable
-private fun FeaturedMovie(
-    movie: Movie,
-    onClick: () -> Unit,
-) {
+private fun FeaturedMovie(movie: Movie, onClick: () -> Unit) {
     Box(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(520.dp)
-                .clickable(onClick = onClick),
+        Modifier
+            .fillMaxWidth()
+            .height(520.dp)
+            .clickable(onClick = onClick),
     ) {
         Box {
             AsyncImage(
@@ -175,29 +172,29 @@ private fun FeaturedMovie(
 
             Box(
                 modifier =
-                    Modifier
-                        .matchParentSize()
-                        .background(
-                            Brush.verticalGradient(
-                                colors =
-                                    listOf(
-                                        Color.Transparent,
-                                        Color.Black.copy(alpha = 0.6f),
-                                    ),
+                Modifier
+                    .matchParentSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors =
+                            listOf(
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.6f),
                             ),
                         ),
+                    ),
             )
         }
 
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(
-                        start = 18.dp,
-                        end = 18.dp,
-                        bottom = 20.dp,
-                    ),
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 18.dp,
+                    end = 18.dp,
+                    bottom = 20.dp,
+                ),
             verticalArrangement = Arrangement.Bottom,
         ) {
             Text(
@@ -244,10 +241,7 @@ private fun FeaturedMovie(
 }
 
 @Composable
-fun PopularMovies(
-    movies: List<Movie>,
-    onMovieClick: (Int) -> Unit,
-) {
+fun PopularMovies(movies: List<Movie>, onMovieClick: (Int) -> Unit) {
     Column(
         modifier = Modifier.padding(horizontal = 12.dp),
     ) {
@@ -273,10 +267,7 @@ fun PopularMovies(
 }
 
 @Composable
-fun PopularTVShows(
-    tvShows: List<TVShow>,
-    onMovieClick: (Int) -> Unit,
-) {
+fun PopularTVShows(tvShows: List<TVShow>, onMovieClick: (Int) -> Unit) {
     Column(
         modifier = Modifier.padding(horizontal = 12.dp),
     ) {

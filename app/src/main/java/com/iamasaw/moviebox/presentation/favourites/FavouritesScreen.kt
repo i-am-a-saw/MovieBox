@@ -1,6 +1,5 @@
 package com.iamasaw.moviebox.presentation.favourites
 
-import com.iamasaw.moviebox.R
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.data.room.MovieClass
 import com.iamasaw.moviebox.presentation.components.ShortMovieCard
 import com.iamasaw.moviebox.presentation.theme.Black
@@ -67,22 +67,22 @@ fun FavouritesScreen(
                 }
             },
             colors =
-                TopAppBarColors(
-                    containerColor = Black,
-                    scrolledContainerColor = Black,
-                    navigationIconContentColor = White,
-                    titleContentColor = White,
-                    actionIconContentColor = White,
-                    subtitleContentColor = White,
-                ),
+            TopAppBarColors(
+                containerColor = Black,
+                scrolledContainerColor = Black,
+                navigationIconContentColor = White,
+                titleContentColor = White,
+                actionIconContentColor = White,
+                subtitleContentColor = White,
+            ),
         )
     }) {
         Box(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(innerPaddingValues)
-                    .background(Black),
+            Modifier
+                .fillMaxSize()
+                .padding(innerPaddingValues)
+                .background(Black),
             contentAlignment = Alignment.Center,
         ) {
             FavouritesContent(state)
@@ -91,15 +91,12 @@ fun FavouritesScreen(
 }
 
 @Composable
-fun FavouritesContent(
-    state: FavouritesUiState,
-    modifier: Modifier = Modifier,
-) {
+fun FavouritesContent(state: FavouritesUiState, modifier: Modifier = Modifier) {
     Box(
         modifier =
-            modifier
-                .fillMaxSize()
-                .background(Black),
+        modifier
+            .fillMaxSize()
+            .background(Black),
     ) {
         when {
             state.isLoading -> {
@@ -134,10 +131,7 @@ fun FavouritesContent(
 }
 
 @Composable
-fun PopularMovies(
-    movies: List<MovieClass>,
-    onMovieClick: (Int) -> Unit,
-) {
+fun PopularMovies(movies: List<MovieClass>, onMovieClick: (Int) -> Unit) {
     Column(
         modifier = Modifier.padding(horizontal = 12.dp),
     ) {
