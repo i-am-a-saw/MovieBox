@@ -1,11 +1,16 @@
 package com.iamasaw.moviebox
 
+import android.content.Context
+import android.provider.Settings.Global.getString
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
@@ -63,10 +68,10 @@ fun NavGraphBuilder.composableSlideInOut(
     )
 }
 
-fun formatDate(date: String): String {
-    val months = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Nov", "Dec")
+fun formatDate(date: String, context: Context): String {
+    val months = listOf("Янв", "Фев", "Мар", "Апр", "Май", "Июнь", "Июль", "Авг", "Сен", "Окт", "Ноя", "Дек")
 
-    if (date == "") return "Unknown"
+    if (date == "") return  context.getString(R.string.unknown_date)
     return "${date.substring(8..9)} ${months[date.substring(5..6).toInt() - 1]} ${date.take(4)}"
 }
 
@@ -75,18 +80,19 @@ fun formatVoteAverage(
     scale: Int,
 ): String = vote.toBigDecimal().setScale(scale, RoundingMode.HALF_UP).toString()
 
-fun formatRuntime(runtime: Int?): String {
+fun formatRuntime(runtime: Int?, context: Context): String {
     val validTime =
         runtime ?: run {
-            return "Unknown runtime"
+            return "Время не указано"
         }
 
     val hours = validTime / 60
     val minutes = validTime % 60
 
     return if (hours > 60) {
-        "${hours}h ${minutes}min"
+        "${hours}${context.getString(R.string.hour_letter)} " +
+            "${minutes}${context.getString(R.string.min_letter)}"
     } else {
-        "${minutes}min"
+        "${minutes}${context.getString(R.string.min_letter)}"
     }
 }

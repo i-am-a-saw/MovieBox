@@ -1,5 +1,6 @@
 package com.iamasaw.moviebox.presentation.components
 
+import com.iamasaw.moviebox.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,7 +72,7 @@ fun MovieCard(
                 lineHeight = 20.sp,
             )
             Text(
-                "☆" + formatVoteAverage(movie.voteAverage, 1),
+                stringResource(R.string.star_outline) + formatVoteAverage(movie.voteAverage, 1),
                 color = Grey10,
                 fontWeight = FontWeight.Light,
                 fontSize = 12.sp,

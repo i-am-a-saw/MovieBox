@@ -1,5 +1,6 @@
 package com.iamasaw.moviebox.presentation.profile
 
+import com.iamasaw.moviebox.R
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.White
 
@@ -31,7 +33,7 @@ fun ProfileScreen(
     Scaffold(topBar = {
         CenterAlignedTopAppBar(
             title = {
-                Text("Profile", color = White)
+                Text(stringResource(R.string.profile), color = White)
             },
             navigationIcon = {
                 IconButton(
@@ -39,7 +41,7 @@ fun ProfileScreen(
                 ) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                     )
                 }
             },
@@ -62,7 +64,7 @@ fun ProfileScreen(
                     .background(Black),
             contentAlignment = Alignment.Center,
         ) {
-            Text("This is your profile.", color = White)
+            Text(stringResource(R.string.your_profile), color = White)
         }
     }
 }

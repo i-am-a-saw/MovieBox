@@ -1,5 +1,6 @@
 package com.iamasaw.moviebox.presentation.home
 
+import com.iamasaw.moviebox.R
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,6 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,10 +66,10 @@ fun HomeScreen(
 
     Scaffold(topBar = {
         TopAppBar(
-            title = { Text("MovieBox") },
+            title = { Text(stringResource(R.string.app_name)) },
             navigationIcon = {
                 IconButton(onClick = {}) {
-                    Icon(Icons.Default.Menu, contentDescription = "fuck")
+                    Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.menu))
                 }
             },
             colors =
@@ -119,7 +122,7 @@ private fun HomeContent(
                     IconButton(
                         onClick = onRetry,
                     ) {
-                        Icon(Icons.Default.PlayArrow, contentDescription = "Retry")
+                        Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.retry))
                     }
                 }
             }
@@ -207,7 +210,7 @@ private fun FeaturedMovie(
             )
 
             Text(
-                formatDate(movie.releaseDate),
+                formatDate(movie.releaseDate, LocalContext.current),
                 fontSize = 16.sp,
                 color = White,
                 fontFamily = rubikFontFamily,
@@ -216,7 +219,7 @@ private fun FeaturedMovie(
             )
 
             Text(
-                "⭐ " + formatVoteAverage(movie.voteAverage, 1),
+                stringResource(R.string.star_yellow) + " " + formatVoteAverage(movie.voteAverage, 1),
                 fontSize = 16.sp,
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Normal,
@@ -231,10 +234,10 @@ private fun FeaturedMovie(
             ) {
                 Icon(
                     Icons.Default.PlayArrow,
-                    contentDescription = "Watch trailer",
+                    contentDescription = null,
                     modifier = Modifier.padding(end = 12.dp),
                 )
-                Text("Watch trailer", letterSpacing = 0.3.sp)
+                Text(stringResource(R.string.watch_trailer), letterSpacing = 0.3.sp)
             }
         }
     }
@@ -249,7 +252,7 @@ fun PopularMovies(
         modifier = Modifier.padding(horizontal = 12.dp),
     ) {
         Text(
-            "Popular Movies",
+            stringResource(R.string.popular_movies),
             fontSize = 18.sp,
             color = White,
             fontWeight = FontWeight.Bold,
@@ -278,7 +281,7 @@ fun PopularTVShows(
         modifier = Modifier.padding(horizontal = 12.dp),
     ) {
         Text(
-            "Popular TV Shows",
+            stringResource(R.string.popular_shows),
             fontSize = 18.sp,
             color = White,
             fontWeight = FontWeight.Bold,

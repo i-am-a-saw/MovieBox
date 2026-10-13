@@ -1,3 +1,31 @@
 <resources>
-    <string name="app_name">MovieBox</string>
+    <string name="app_name" translatable="false">MovieBox</string>
+    <string name="star_outline">☆</string>
+    <string name="period">•</string>
+    <string name="star_yellow">⭐</string>
+
+    <string name="favourites">Избранное</string>
+    <string name="profile">Профиль</string>
+
+    <string name="add_to_favourites">В избранное</string>
+    <string name="description_not_found">Описание не найдено</string>
+    <string name="gallery">Галерея</string>
+    <string name="info">Информация</string>
+
+    <string name="back">Назад</string>
+    <string name="share">Поделиться</string>
+    <string name="retry">Попробовать снова</string>
+    <string name="menu">Меню</string>
+
+    <string name="popular_movies">Популярное</string>
+    <string name="popular_shows">ТВ-шоу</string>
+    <string name="watch_trailer">Смотреть трейлер</string>
+
+    <string name="your_profile">Это Ваш профиль.</string>
+    <string name="search_placeholder">Поиск…</string>
+    <string name="unknown_date">Дата выхода не указана</string>
+
+    <string name="hour_letter">ч</string>
+    <string name="min_letter">мин</string>
+
 </resources>

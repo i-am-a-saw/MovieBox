@@ -1,5 +1,6 @@
 package com.iamasaw.moviebox.presentation.details
 
+import com.iamasaw.moviebox.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,6 +39,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -118,7 +121,7 @@ fun MovieDetailsScreen(
                         top = 24.dp,
                     ),
             ) {
-                Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Back")
+                Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = stringResource(R.string.back))
             }
         }
     }
@@ -186,9 +189,10 @@ fun PageHeader(
             )
 
             Text(
-                formatDate(movie?.releaseDate.toString()) + " • " +
+                formatDate(movie?.releaseDate.toString(), LocalContext.current) + " " + stringResource(R.string.period) + " " +
                     formatRuntime(
                         movie?.runtime,
+                        LocalContext.current
                     ),
                 fontFamily = rubikFontFamily,
                 fontWeight = FontWeight.Light,
@@ -247,7 +251,7 @@ fun PageHeader(
                         ),
                 ) {
                     Text(
-                        text = "В избранное",
+                        text = stringResource(R.string.add_to_favourites),
                         fontSize = 16.sp,
                         fontFamily = rubikFontFamily,
                         fontWeight = FontWeight.Normal,
@@ -266,7 +270,7 @@ fun PageHeader(
                     shape = CircleShape,
                     modifier = Modifier.defaultMinSize(minHeight = 40.dp),
                 ) {
-                    Icon(Icons.Default.Share, contentDescription = "Save")
+                    Icon(Icons.Default.Share, contentDescription = stringResource(R.string.share))
                 }
             }
         }
@@ -278,7 +282,7 @@ fun Overview(movie: MovieDetails?) {
     val description = movie?.overview.toString()
 
     Text(
-        if (description != "") description else "Описание не найдено",
+        if (description != "") description else stringResource(R.string.description_not_found),
         fontFamily = rubikFontFamily,
         fontSize = 14.sp,
         fontWeight = FontWeight.Light,
@@ -289,7 +293,7 @@ fun Overview(movie: MovieDetails?) {
 @Composable
 fun Gallery(movie: MovieDetails?) {
     Text(
-        "Галерея",
+        stringResource(R.string.gallery),
         fontSize = 22.sp,
         color = White,
         fontWeight = FontWeight.Bold,
@@ -319,7 +323,7 @@ fun Information(movie: MovieDetails?) {
     val c2 = Color(0xFFA19F9F)
 
     Text(
-        "Информация",
+        stringResource(R.string.info),
         fontSize = 22.sp,
         color = White,
         fontWeight = FontWeight.Bold,

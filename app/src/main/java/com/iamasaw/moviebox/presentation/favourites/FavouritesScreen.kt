@@ -1,5 +1,6 @@
 package com.iamasaw.moviebox.presentation.favourites
 
+import com.iamasaw.moviebox.R
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,7 +53,7 @@ fun FavouritesScreen(
     Scaffold(topBar = {
         CenterAlignedTopAppBar(
             title = {
-                Text("Favourites", color = White)
+                Text(stringResource(R.string.favourites), color = White)
             },
             navigationIcon = {
                 IconButton(
@@ -59,7 +61,7 @@ fun FavouritesScreen(
                 ) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = White,
                     )
                 }
@@ -114,7 +116,7 @@ fun FavouritesContent(
                     Text(state.error)
 
                     IconButton(onClick = {}) {
-                        Icon(Icons.Default.PlayArrow, contentDescription = "Retry")
+                        Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.retry))
                     }
                 }
             }
@@ -140,7 +142,7 @@ fun PopularMovies(
         modifier = Modifier.padding(horizontal = 12.dp),
     ) {
         Text(
-            "Popular Movies",
+            stringResource(R.string.popular_movies),
             fontSize = 18.sp,
             color = White,
             fontWeight = FontWeight.Bold,

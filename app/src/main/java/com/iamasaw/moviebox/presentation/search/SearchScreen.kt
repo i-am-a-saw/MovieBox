@@ -19,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.presentation.components.MovieCard
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.Grey30
@@ -55,7 +57,7 @@ fun SearchScreen(
                     expanded = false,
                     onExpandedChange = {},
                     placeholder = {
-                        Text("Search...")
+                        Text(stringResource(R.string.search_placeholder))
                     },
                     colors =
                         SearchBarDefaults.inputFieldColors(
