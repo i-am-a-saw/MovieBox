@@ -28,9 +28,11 @@ android {
 
         val keystoreFile = project.rootProject.file("scratch.properties")
         val properties = Properties()
-        properties.load(keystoreFile.inputStream())
+        if (keystoreFile.exists()){
+            properties.load(keystoreFile.inputStream())
+        }
 
-        val tmdbApiKey = properties.getProperty("TMDB_API_KEY") ?: ""
+        val tmdbApiKey = properties.getProperty("TMDB_API_KEY") ?: "\"\""
 
         buildConfigField(
             type = "String",
