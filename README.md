@@ -1,95 +1,69 @@
 # MovieBox 🎬
 
-MovieBox — Android-приложение для просмотра информации о фильмах. Данные загружаются из **The Movie Database (TMDB) API**.
+MovieBox — Android-приложение для просмотра информации о фильмах и сериалах. Данные загружаются из **The Movie Database (TMDB) API**.
 
 Проект создан для практического изучения современной Android-разработки на Kotlin и Jetpack Compose.
 
 ## ✨ Возможности
 
-* Популярные фильмы из TMDB
-* Карточки фильмов с постерами и рейтингом
-* Экран подробной информации
-* Поиск фильмов
-* Навигация между экранами
-* Загрузка изображений через Coil
+* **Главная** — популярные фильмы с трейлером главного фильма и трендовые ТВ-шоу
+* **Поиск** фильмов по названию
+* **Детали фильма** — описание, рейтинг, длительность, галерея кадров, трейлер
+* **Избранное** — фильмы сохраняются локально в базе Room
+* **Профиль** — выбор языка приложения (русский / английский); язык применяется и к интерфейсу, и к данным TMDB
 
 ## 🛠 Стек
 
-* Kotlin
-* Jetpack Compose + Material 3
+* Kotlin, Coroutines, StateFlow
+* Jetpack Compose + Material 3, Navigation Compose
 * MVVM
-* StateFlow
-* Retrofit
-* Moshi
-* OkHttp
-* Coil 3
-* Koin
-* Navigation Compose
-* Coroutines
+* Retrofit, OkHttp, Moshi
+* Room (+ Gson для конвертеров)
+* Coil — загрузка изображений
+* Koin — Dependency Injection
 
 ## 🏗 Архитектура
 
-Проект разделён на несколько слоёв, каждый из которых отвечает за свою задачу:
-
 ```text
-Presentation
-     ↓
- ViewModel
-     ↓
-Repository
-     ↓
-Network
-     ↓
-   TMDB
+Compose UI → ViewModel → Repository → Retrofit (TMDB) / Room (избранное)
 ```
 
-`Presentation` отвечает за UI и отображение состояния.
-
-`ViewModel` управляет состоянием экрана и запускает операции загрузки данных.
-
-`Repository` является промежуточным слоем между ViewModel и API. Он получает данные и преобразует их в модели приложения.
-
-`Network` отвечает за HTTP-запросы к TMDB с помощью Retrofit, OkHttp и Moshi.
-
-### Путь данных
-
-```text
-TMDB JSON
-   ↓
-MovieDto
-   ↓
-Mapper
-   ↓
-Movie
-   ↓
-ViewModel
-   ↓
-StateFlow
-   ↓
-Jetpack Compose
-```
-
-DTO описывает структуру ответа TMDB, а `Movie` содержит модель, используемую внутри приложения. Mapper преобразует данные между ними.
-
-Такое разделение позволяет UI не зависеть напрямую от структуры API и упрощает дальнейшую разработку и отладку.
+* `Presentation` — экраны на Compose, отображают `UiState` из ViewModel.
+* `ViewModel` — хранит состояние экрана в `StateFlow` и запускает загрузку данных.
+* `Repository` — получает данные из сети или базы и через Mapper превращает DTO в доменные модели (`Movie`, `MovieDetails`, `TVShow`), чтобы UI не зависел от структуры API.
+* `Network` — запросы к TMDB; интерсепторы добавляют токен авторизации и язык.
 
 ## 📂 Структура
 
 ```text
-data/         API, DTO, Mapper, Repository
+data/         network (API, DTO, интерсепторы), room, mapper, repository
 domain/       модели приложения
-presentation/ экраны и ViewModel
-navigation/   навигация
-di/           Dependency Injection
+presentation/ экраны, ViewModel, тема, компоненты
+navigation/   навигация и нижнее меню
+di/           модули Koin
 ```
 
 ## 🚀 Запуск
 
-Для запуска проекта необходим TMDB API token.
+1. Клонируйте репозиторий и откройте его в Android Studio.
+2. Получите токен TMDB: зарегистрируйтесь на [themoviedb.org](https://www.themoviedb.org/), откройте **Settings → API** и скопируйте **API Read Access Token** (длинная строка, начинается с `eyJ...`).
+   > Нужен именно Read Access Token, а не короткий *API Key* — приложение передаёт его в заголовке `Authorization: Bearer`.
+3. Скопируйте файл-шаблон в корне проекта:
 
-Токен хранится локально и передаётся в приложение через `BuildConfig`.
+   ```bash
+   cp scratch.properties.example scratch.properties
+   ```
 
-После добавления токена откройте проект в Android Studio и запустите приложение.
+4. Вставьте токен в `scratch.properties` **в двойных кавычках**:
+
+   ```properties
+   TMDB_API_KEY="eyJhbGciOiJIUzI1NiJ9..."
+   ```
+
+   Кавычки обязательны: значение подставляется в `BuildConfig` как строка, без них проект не соберётся.
+5. Выполните **Sync Project with Gradle Files** и запустите приложение.
+
+`scratch.properties` указан в `.gitignore` — не коммитьте свой токен. Если файла нет, проект соберётся, но запросы к TMDB будут возвращать ошибку 401.
 
 ## 📚 TMDB
 
