@@ -18,7 +18,11 @@ object NetworkModule {
             }
 
         val client =
-            OkHttpClient.Builder().addInterceptor(TmdbAuthInterceptor()).addInterceptor(loggingInterceptor).build()
+            OkHttpClient.Builder()
+                .addInterceptor(TmdbAuthInterceptor())
+                .addInterceptor(TmdbLanguageInterceptor())
+                .addInterceptor(loggingInterceptor)
+                .build()
 
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 

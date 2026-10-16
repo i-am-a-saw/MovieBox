@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="favourites">Favourites</string>
+    <string name="profile">Profile</string>
+    <string name="add_to_favourites">Add to favourites</string>
+    <string name="description_not_found">Description not found</string>
+    <string name="gallery">Gallery</string>
+    <string name="info">Information</string>
+    <string name="language">Language</string>
+    <string name="back">Back</string>
+    <string name="share">Share</string>
+    <string name="retry">Retry</string>
+    <string name="menu">Menu</string>
+    <string name="popular_movies">Popular</string>
+    <string name="popular_shows">TV-show</string>
+    <string name="watch_trailer">Watch trailer</string>
+    <string name="see_more">See more</string>
+    <string name="your_profile">This is your profile</string>
+    <string name="search_placeholder">Search…</string>
+    <string name="unknown_date">Release date not found</string>
+    <string name="nothing_found">We couldn\'t find anything matching your query</string>
+    <string name="empty_favourites">There is nothing here yet</string>
+    <string name="hour_letter">h</string>
+    <string name="min_letter">min</string>
+
+</resources>

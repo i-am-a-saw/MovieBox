@@ -57,57 +57,42 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.material3)
-    implementation("androidx.compose.material:material-icons-extended:1.7.8")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.17.0")
-
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.moshi:moshi:1.14.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
-
-    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
-
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.12.0")
-
-    implementation(libs.androidx.compose.runtime.livedata)
-
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
+    // AndroidX
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.1")
+    // Compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.bundles.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.ui.text.google.fonts)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.coil.compose)
 
-    val composeNavVersion = "2.7.7"
+    // Networking & serialization
+    implementation(libs.bundles.networking)
+    implementation(libs.gson)
 
-    implementation("androidx.navigation:navigation-compose:$composeNavVersion")
+    // Room
+    implementation(libs.bundles.room)
+    ksp(libs.androidx.room.compiler)
 
-    val koinVersion = "3.5.6"
+    // DI
+    implementation(libs.bundles.koin)
 
-    implementation("io.insert-koin:koin-core:$koinVersion")
-
-    implementation("io.insert-koin:koin-android:$koinVersion")
-
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
-
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Debug
     debugImplementation(libs.androidx.compose.ui.tooling)
-
-    val roomVersion = "2.8.3"
-
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
-
-    implementation("com.google.code.gson:gson:2.11.0")
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

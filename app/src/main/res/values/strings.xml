@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name" translatable="false">MovieBox</string>
-    <string name="star_outline">☆</string>
-    <string name="period">•</string>
-    <string name="star_yellow">⭐</string>
+    <string name="app_name" translatable="false">Movie Box</string>
+    <string name="star_outline" translatable="false">☆</string>
+    <string name="period" translatable="false">•</string>
+    <string name="star_yellow" translatable="false">⭐</string>
 
     <string name="favourites">Избранное</string>
     <string name="profile">Профиль</string>
@@ -32,7 +32,7 @@
     <string name="hour_letter">ч</string>
     <string name="min_letter">мин</string>
 
-    <string name="russian">Русский</string>
-    <string name="english">Английский</string>
+    <string name="russian" translatable="false">Русский</string>
+    <string name="english" translatable="false">English</string>
 
 </resources>

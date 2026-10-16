@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.iamasaw.moviebox.R
+import com.iamasaw.moviebox.presentation.language.AppLanguage
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.White
 import com.iamasaw.moviebox.presentation.theme.rubikFontFamily
@@ -65,39 +66,29 @@ fun ProfileScreen(onBackClick: () -> Unit, innerPaddingValues: PaddingValues = P
                         )
                     }
                 },
-                colors = TopAppBarColors(
-                    containerColor = Black,
-                    scrolledContainerColor = Black,
-                    navigationIconContentColor = White,
-                    titleContentColor = White,
-                    actionIconContentColor = White,
-                    subtitleContentColor = White,
-                ),
+                colors =
+                    TopAppBarColors(
+                        containerColor = Black,
+                        scrolledContainerColor = Black,
+                        navigationIconContentColor = White,
+                        titleContentColor = White,
+                        actionIconContentColor = White,
+                        subtitleContentColor = White,
+                    ),
             )
         },
     ) { padding ->
-
         var expanded by remember { mutableStateOf(false) }
-        var lang by remember { mutableStateOf("Русский") }
+        val currentLanguage = AppLanguage.current()
         var textFieldSize by remember { mutableStateOf(Size.Zero) }
-        val icon = if (expanded) Icons.Filled.KeyboardArrowUp
-        else Icons.Filled.KeyboardArrowDown
-
-        val russian = stringResource(R.string.russian)
-        val english = stringResource(R.string.english)
+        val icon = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown
 
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(Black),
+            modifier = Modifier.fillMaxSize().padding(padding).background(Black),
             contentAlignment = Alignment.TopCenter,
         ) {
-
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(PaddingValues(horizontal = 18.dp)),
+                modifier = Modifier.fillMaxWidth().padding(PaddingValues(horizontal = 18.dp)),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -109,32 +100,34 @@ fun ProfileScreen(onBackClick: () -> Unit, innerPaddingValues: PaddingValues = P
                 )
 
                 Box(
-                    modifier = Modifier.padding(start = 40.dp)
+                    modifier = Modifier.padding(start = 40.dp),
                 ) {
                     TextField(
-                        value = lang,
-                        onValueChange = { lang = it },
+                        value = stringResource(currentLanguage.labelRes),
+                        onValueChange = {},
                         enabled = false,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .onGloballyPositioned { coordinates ->
-                                textFieldSize = coordinates.size.toSize()
-                            }
-                            .clickable { expanded = !expanded }
-                            .border(1.dp, White, RoundedCornerShape(8.dp)),
+                        modifier =
+                            Modifier.fillMaxWidth()
+                                .onGloballyPositioned { coordinates ->
+                                    textFieldSize = coordinates.size.toSize()
+                                }
+                                .clickable { expanded = !expanded }
+                                .border(1.dp, White, RoundedCornerShape(8.dp)),
                         trailingIcon = {
                             Icon(
-                                icon, contentDescription = null,
+                                icon,
+                                contentDescription = null,
                                 Modifier.clickable { expanded = !expanded },
                             )
                         },
-                        colors = TextFieldDefaults.colors(
-                            disabledTextColor = White,
-                            disabledContainerColor = Black,
-                            disabledPlaceholderColor = White,
-                            disabledTrailingIconColor = White,
-                            unfocusedContainerColor = White,
-                        ),
+                        colors =
+                            TextFieldDefaults.colors(
+                                disabledTextColor = White,
+                                disabledContainerColor = Black,
+                                disabledPlaceholderColor = White,
+                                disabledTrailingIconColor = White,
+                                unfocusedContainerColor = White,
+                            ),
                     )
 
                     DropdownMenu(
@@ -142,21 +135,15 @@ fun ProfileScreen(onBackClick: () -> Unit, innerPaddingValues: PaddingValues = P
                         onDismissRequest = { expanded = false },
                         modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() }),
                     ) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.russian)) },
-                            onClick = {
-                                lang = russian
-                                expanded = false
-                            },
-                        )
-
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.english)) },
-                            onClick = {
-                                lang = english
-                                expanded = false
-                            },
-                        )
+                        AppLanguage.entries.forEach { language ->
+                            DropdownMenuItem(
+                                text = { Text(stringResource(language.labelRes)) },
+                                onClick = {
+                                    expanded = false
+                                    if (currentLanguage != language) language.apply()
+                                },
+                            )
+                        }
                     }
                 }
             }
