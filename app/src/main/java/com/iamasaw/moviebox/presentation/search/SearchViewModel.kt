@@ -21,6 +21,37 @@ class SearchViewModel(private val repository: MovieRepository) : ViewModel() {
         }
     }
 
+    fun onToggleMovieSearch() {
+        _uiState.update {
+            if (!it.search_show && it.search_movie) {
+                it.copy(
+                    search_movie = false,
+                    search_show = true
+                )
+            }
+            else {
+                it.copy(
+                    search_movie = !it.search_movie
+                )
+            }
+        }
+    }
+
+    fun onToggleShowSearch() {
+        _uiState.update {
+            if (!it.search_movie && it.search_show) {
+                it.copy(
+                    search_show = false,
+                    search_movie = true
+                )
+            } else {
+                it.copy(
+                    search_show = !it.search_show
+                )
+            }
+        }
+    }
+
     fun search() {
         val query = _uiState.value.query.trim()
 
