@@ -48,7 +48,7 @@ import com.iamasaw.moviebox.presentation.theme.rubikFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(onBackClick: () -> Unit, innerPaddingValues: PaddingValues) {
+fun ProfileScreen(onBackClick: () -> Unit, innerPaddingValues: PaddingValues = PaddingValues()) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -79,9 +79,12 @@ fun ProfileScreen(onBackClick: () -> Unit, innerPaddingValues: PaddingValues) {
 
         var expanded by remember { mutableStateOf(false) }
         var lang by remember { mutableStateOf("Русский") }
-        var mTextFieldSize by remember { mutableStateOf(Size.Zero) }
+        var textFieldSize by remember { mutableStateOf(Size.Zero) }
         val icon = if (expanded) Icons.Filled.KeyboardArrowUp
         else Icons.Filled.KeyboardArrowDown
+
+        val russian = stringResource(R.string.russian)
+        val english = stringResource(R.string.english)
 
         Box(
             modifier = Modifier
@@ -105,58 +108,56 @@ fun ProfileScreen(onBackClick: () -> Unit, innerPaddingValues: PaddingValues) {
                     fontFamily = rubikFontFamily,
                 )
 
-                TextField(
-                    value = lang,
-                    onValueChange = { lang = it },
-                    enabled = false,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .onGloballyPositioned { coordinates ->
-                            mTextFieldSize = coordinates.size.toSize()
-                        }
-                        .padding(start = 40.dp)
-                        .clickable { expanded = !expanded }
-                        .border(1.dp, White, RoundedCornerShape(8.dp)),
-                    trailingIcon = {
-                        Icon(
-                            icon, "contentDescription",
-                            Modifier.clickable { expanded = !expanded },
-                        )
-                    },
-                    colors = TextFieldDefaults.colors(
-                        disabledTextColor = White,
-                        disabledContainerColor = Black,
-                        disabledPlaceholderColor = White,
-                        disabledTrailingIconColor = White,
-                        unfocusedContainerColor = White,
-                    ),
-                )
-
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    modifier = Modifier
-                        .width(with(LocalDensity.current) { mTextFieldSize.width.toDp() })
-                        .onGloballyPositioned { coordinates ->
-                            mTextFieldSize = coordinates.size.toSize()
-                        },
+                Box(
+                    modifier = Modifier.padding(start = 40.dp)
                 ) {
-
-                    DropdownMenuItem(
-                        text = { Text("Русский") },
-                        onClick = {
-                            lang = "Русский"
-                            expanded = false
+                    TextField(
+                        value = lang,
+                        onValueChange = { lang = it },
+                        enabled = false,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onGloballyPositioned { coordinates ->
+                                textFieldSize = coordinates.size.toSize()
+                            }
+                            .clickable { expanded = !expanded }
+                            .border(1.dp, White, RoundedCornerShape(8.dp)),
+                        trailingIcon = {
+                            Icon(
+                                icon, contentDescription = null,
+                                Modifier.clickable { expanded = !expanded },
+                            )
                         },
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Английский") },
-                        onClick = {
-                            lang = "Английский"
-                            expanded = false
-                        },
+                        colors = TextFieldDefaults.colors(
+                            disabledTextColor = White,
+                            disabledContainerColor = Black,
+                            disabledPlaceholderColor = White,
+                            disabledTrailingIconColor = White,
+                            unfocusedContainerColor = White,
+                        ),
                     )
 
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() }),
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.russian)) },
+                            onClick = {
+                                lang = russian
+                                expanded = false
+                            },
+                        )
+
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.english)) },
+                            onClick = {
+                                lang = english
+                                expanded = false
+                            },
+                        )
+                    }
                 }
             }
         }

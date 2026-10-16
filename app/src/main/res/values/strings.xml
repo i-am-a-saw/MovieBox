@@ -32,4 +32,7 @@
     <string name="hour_letter">ч</string>
     <string name="min_letter">мин</string>
 
+    <string name="russian">Русский</string>
+    <string name="english">Английский</string>
+
 </resources>
