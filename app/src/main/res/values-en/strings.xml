@@ -26,4 +26,8 @@
     <string name="hour_letter">h</string>
     <string name="min_letter">min</string>
 
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_favourites">Favourites</string>
+
 </resources>

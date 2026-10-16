@@ -1,5 +1,7 @@
 package com.iamasaw.moviebox.navigation
 
+import androidx.annotation.StringRes
+import com.iamasaw.moviebox.R
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
@@ -10,22 +12,22 @@ object BottomNavConstants {
     val bottomNavItems =
         listOf(
             BottomNavItem(
-                label = "Кино",
+                labelRes = R.string.nav_home,
                 icon = Icons.Default.Home,
                 route = HomeDestination.route,
             ),
             BottomNavItem(
-                label = "Поиск",
+                labelRes = R.string.nav_search,
                 icon = Icons.Default.Search,
                 route = SearchDestination.route,
             ),
             BottomNavItem(
-                label = "Избранное",
+                labelRes = R.string.nav_favourites,
                 icon = Icons.Default.FavoriteBorder,
                 route = FavouritesDestination.route,
             ),
             BottomNavItem(
-                label = "Профиль",
+                labelRes = R.string.profile,
                 icon = Icons.Default.Person,
                 route = ProfileDestination.route,
             ),

@@ -37,4 +37,8 @@
     <string name="russian" translatable="false">Русский</string>
     <string name="english" translatable="false">English</string>
 
+    <string name="nav_home">Кино</string>
+    <string name="nav_search">Поиск</string>
+    <string name="nav_favourites">Избранное</string>
+
 </resources>
