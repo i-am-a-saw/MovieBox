@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.data.room.MovieClass
 import com.iamasaw.moviebox.presentation.components.ShortMovieCard
+import com.iamasaw.moviebox.presentation.home.PopularTVShows
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.White
 import com.iamasaw.moviebox.presentation.theme.rubikFontFamily
@@ -80,18 +81,22 @@ fun FavouritesScreen(
                     ),
             )
         },
-    ) {
+    ) { paddingValues ->
         Box(
-            modifier = Modifier.fillMaxSize().padding(innerPaddingValues).background(Black),
+            modifier = Modifier.fillMaxSize().padding(paddingValues).background(Black),
             contentAlignment = Alignment.Center,
         ) {
-            FavouritesContent(state)
+            FavouritesContent(state, onMovieClick)
         }
     }
 }
 
 @Composable
-fun FavouritesContent(state: FavouritesUiState, modifier: Modifier = Modifier) {
+fun FavouritesContent(
+    state: FavouritesUiState,
+    onMovieClick: (Int) -> Unit,
+    onShowClick: (Int) -> Unit = {},
+    modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize().background(Black),
     ) {
@@ -132,7 +137,13 @@ fun FavouritesContent(state: FavouritesUiState, modifier: Modifier = Modifier) {
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.verticalScroll(rememberScrollState()),
                 ) {
-                    PopularMovies(movies = state.movies) {}
+                    if (state.movies.isNotEmpty()) {
+                        PopularMovies(movies = state.movies, onMovieClick)
+                    }
+
+                    if (state.shows.isNotEmpty()) {
+                        PopularTVShows(tvShows = state.shows, onShowClick)
+                    }
                 }
             }
         }
@@ -145,7 +156,7 @@ fun PopularMovies(movies: List<MovieClass>, onMovieClick: (Int) -> Unit) {
         modifier = Modifier.padding(horizontal = 12.dp),
     ) {
         Text(
-            stringResource(R.string.popular_movies),
+            stringResource(R.string.movies),
             fontSize = 18.sp,
             color = White,
             fontWeight = FontWeight.Bold,
