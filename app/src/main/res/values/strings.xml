@@ -40,5 +40,6 @@
     <string name="nav_home">Кино</string>
     <string name="nav_search">Поиск</string>
     <string name="nav_favourites">Избранное</string>
+    <string name="added_to_favourites">В избранном</string>
 
 </resources>

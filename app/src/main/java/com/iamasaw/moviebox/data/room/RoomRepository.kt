@@ -1,19 +1,24 @@
 package com.iamasaw.moviebox.data.room
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 
-class RoomRepository(private val movieDao: MovieDao) {
+class RoomRepository(private val movieDao: MovieDao, private val showsDao: ShowDao) {
     val allMovies: Flow<List<MovieClass>> = movieDao.getAllMovies()
-
-    suspend fun createMovie(movie: MovieClass): Long = movieDao.insertMovie(movie)
+    val allTVShows: Flow<List<TVShowClass>> = showsDao.getAllShows()
 
     suspend fun insertMovie(movie: MovieClass): Long {
-        Log.w("SUCCESS2`", "HELLO")
         return movieDao.insertMovie(movie)
     }
 
-    //    suspend fun  getMovie(movieId: Int): Movie? {
-    //
-    //    }
+    suspend fun deleteMovie(title: String): Int {
+        return movieDao.deleteMovie(title)
+    }
+
+    suspend fun findMovieByTitle(title: String) : List<MovieClass> {
+        return movieDao.findMovieByTitle(title)
+    }
+
+    suspend fun clearMovies() {
+        movieDao.deleteAllMovies()
+    }
 }

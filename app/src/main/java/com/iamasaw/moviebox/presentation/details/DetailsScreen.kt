@@ -33,6 +33,8 @@ import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -49,6 +51,7 @@ import com.iamasaw.moviebox.R
 import com.iamasaw.moviebox.domain.model.MovieDetails
 import com.iamasaw.moviebox.formatDate
 import com.iamasaw.moviebox.formatRuntime
+import com.iamasaw.moviebox.presentation.home.HomeUiState
 import com.iamasaw.moviebox.presentation.theme.Black
 import com.iamasaw.moviebox.presentation.theme.White
 import com.iamasaw.moviebox.presentation.theme.rubikFontFamily
@@ -100,7 +103,7 @@ fun MovieDetailsScreen(
                             ),
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                 ) {
-                    PageHeader(movie) { movie -> viewModel.insertMovie(movie) }
+                    PageHeader(movie,  { movie -> viewModel.insertMovie(movie) }, state)
                     Overview(movie)
                     Gallery(movie)
                     Information(movie)
@@ -149,7 +152,11 @@ fun BackgroundImage(movie: MovieDetails?) {
 }
 
 @Composable
-fun PageHeader(movie: MovieDetails?, onAddToFavourites: (movie: MovieDetails) -> Unit) {
+fun PageHeader(
+    movie: MovieDetails?,
+    onAddToFavourites: (movie: MovieDetails) -> Unit,
+    state: DetailsUiState
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -244,7 +251,9 @@ fun PageHeader(movie: MovieDetails?, onAddToFavourites: (movie: MovieDetails) ->
                         ),
                 ) {
                     Text(
-                        text = stringResource(R.string.add_to_favourites),
+                        text =
+                            if (state.isPresent) stringResource(R.string.added_to_favourites)
+                            else {stringResource(R.string.add_to_favourites)},
                         fontSize = 16.sp,
                         fontFamily = rubikFontFamily,
                         fontWeight = FontWeight.Normal,

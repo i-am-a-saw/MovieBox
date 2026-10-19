@@ -29,5 +29,6 @@
     <string name="nav_home">Home</string>
     <string name="nav_search">Search</string>
     <string name="nav_favourites">Favourites</string>
+    <string name="added_to_favourites">Added to library</string>
 
 </resources>

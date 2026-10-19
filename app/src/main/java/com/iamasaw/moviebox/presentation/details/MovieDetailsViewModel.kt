@@ -12,6 +12,7 @@ import com.iamasaw.moviebox.navigation.MovieDetailsDestination
 import java.io.IOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -40,21 +41,36 @@ class MovieDetailsViewModel(
     fun insertMovie(movie: MovieDetails) {
         Log.w("SUCCESS", "HELLO")
         viewModelScope.launch {
-            roomRepository.insertMovie(
-                MovieClass(
-                    id = movie.id,
-                    title = movie.title,
-                    overview = movie.overview,
-                    posterUrl = movie.posterUrl,
-                    backdropUrl = movie.backdropUrl,
-                    releaseDate = movie.releaseDate,
-                    voteAverage = movie.voteAverage,
-                    voteCount = movie.voteCount,
-                    runtime = movie.runtime,
-                    genres = movie.genres,
-                    galleryImagesUrl = movie.galleryImagesUrl,
-                ),
-            )
+
+            if (roomRepository.findMovieByTitle(movie.title).isEmpty()) {
+                roomRepository.insertMovie(
+                    MovieClass(
+                        id = movie.id,
+                        title = movie.title,
+                        overview = movie.overview,
+                        posterUrl = movie.posterUrl,
+                        backdropUrl = movie.backdropUrl,
+                        releaseDate = movie.releaseDate,
+                        voteAverage = movie.voteAverage,
+                        voteCount = movie.voteCount,
+                        runtime = movie.runtime,
+                        genres = movie.genres,
+                        galleryImagesUrl = movie.galleryImagesUrl,
+                    ),
+                )
+                _uiState.update {
+                    it.copy(
+                        isPresent = true
+                    )
+                }
+            } else {
+                roomRepository.deleteMovie(movie.title)
+                _uiState.update {
+                    it.copy(
+                        isPresent = false
+                    )
+                }
+            }
         }
     }
 
@@ -75,6 +91,7 @@ class MovieDetailsViewModel(
                         movie = movie,
                         isLoading = false,
                         error = null,
+                        isPresent = roomRepository.findMovieByTitle(movie.title).isNotEmpty()
                     )
                 }
             } catch (e: IOException) {

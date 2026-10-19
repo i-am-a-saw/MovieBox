@@ -7,13 +7,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [MovieClass::class],
-    version = 1,
+    entities = [MovieClass::class, TVShowClass::class],
+    version = 2,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
+    abstract fun showDao(): ShowDao
 
     companion object {
         @Volatile private var instance: AppDatabase? = null

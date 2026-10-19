@@ -7,6 +7,7 @@ import com.iamasaw.moviebox.data.repository.MovieRepository
 import com.iamasaw.moviebox.data.room.AppDatabase
 import com.iamasaw.moviebox.data.room.MovieDao
 import com.iamasaw.moviebox.data.room.RoomRepository
+import com.iamasaw.moviebox.data.room.ShowDao
 import com.iamasaw.moviebox.presentation.details.MovieDetailsViewModel
 import com.iamasaw.moviebox.presentation.favourites.FavouritesViewModel
 import com.iamasaw.moviebox.presentation.home.HomeViewModel
@@ -35,9 +36,14 @@ val AppModule = module {
         get<AppDatabase>().movieDao()
     }
 
+    single<ShowDao> {
+        get<AppDatabase>().showDao()
+    }
+
     single {
         RoomRepository(
             movieDao = get(),
+            showsDao = get()
         )
     }
 
