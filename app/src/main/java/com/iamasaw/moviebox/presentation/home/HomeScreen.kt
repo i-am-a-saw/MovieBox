@@ -66,6 +66,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
     onMovieClick: (Int) -> Unit,
+    onShowClick: (Int) -> Unit,
     onRetryClick: () -> Unit,
     onTrailerClick: () -> Unit,
     innerPaddingValues: PaddingValues,
@@ -97,6 +98,7 @@ fun HomeScreen(
         HomeContent(
             state = state,
             onMovieClick = onMovieClick,
+            onShowClick = onShowClick,
             onRetryClick = onRetryClick,
             onTrailerClick = onTrailerClick,
             modifier = Modifier.padding(innerPaddingValues),
@@ -108,6 +110,7 @@ fun HomeScreen(
 private fun HomeContent(
     state: HomeUiState,
     onMovieClick: (Int) -> Unit,
+    onShowClick: (Int) -> Unit,
     onRetryClick: () -> Unit,
     onTrailerClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -170,7 +173,7 @@ private fun HomeContent(
                         onMovieClick = onMovieClick,
                     )
 
-                    PopularTVShows(tvShows = state.tvShows, onMovieClick = {})
+                    PopularTVShows(tvShows = state.tvShows, onShowClick = onShowClick)
                 }
             }
         }
@@ -317,7 +320,7 @@ fun PopularMovies(movies: List<Movie>, onMovieClick: (Int) -> Unit) {
 }
 
 @Composable
-fun PopularTVShows(tvShows: List<TVShow>, onMovieClick: (Int) -> Unit) {
+fun PopularTVShows(tvShows: List<TVShow>, onShowClick: (Int) -> Unit) {
     Column(
         modifier = Modifier.padding(horizontal = 12.dp),
     ) {
@@ -363,7 +366,7 @@ fun PopularTVShows(tvShows: List<TVShow>, onMovieClick: (Int) -> Unit) {
                 ShortTVShowCard(
                     tvShow,
                     onClick = {
-                        onMovieClick(tvShow.id)
+                        onShowClick(tvShow.id)
                     },
                 )
             }

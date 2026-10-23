@@ -6,6 +6,7 @@ import com.iamasaw.moviebox.domain.model.Movie
 import com.iamasaw.moviebox.domain.model.MovieDetails
 import com.iamasaw.moviebox.domain.model.MovieVideo
 import com.iamasaw.moviebox.domain.model.TVShow
+import com.iamasaw.moviebox.domain.model.TVShowDetails
 import kotlin.collections.map
 
 class MovieRepository(private val api: TmdbApi) {
@@ -14,6 +15,8 @@ class MovieRepository(private val api: TmdbApi) {
     suspend fun searchMovie(query: String): List<Movie> = api.searchMovie(query).results.map { it.toDomain() }
 
     suspend fun getMovieDetails(movieId: Int): MovieDetails = api.getMovieDetails(movieId).toDomain()
+
+    suspend fun getShowDetails(showId: Int): TVShowDetails = api.getShowDetails(showId).toDomain()
 
     suspend fun getMovieVideo(movieId: Int): MovieVideo = api.getMovieTrailer(movieId).toDomain()
 

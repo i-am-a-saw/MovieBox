@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.iamasaw.moviebox.presentation.details.MovieDetailsScreen
+import com.iamasaw.moviebox.presentation.details.ShowDetailsScreen
 import com.iamasaw.moviebox.presentation.favourites.FavouritesScreen
 import com.iamasaw.moviebox.presentation.home.HomeScreen
 import com.iamasaw.moviebox.presentation.profile.ProfileScreen
@@ -34,7 +35,9 @@ fun AppNavHost() {
 
     Scaffold(
         bottomBar = {
-            currentRoute?.startsWith("movie_details")?.let { if (!it) BottomNavBar(navController) }
+            val isDetails = currentRoute?.startsWith("movie_details") == true ||
+                currentRoute?.startsWith("show_details") == true
+            if (!isDetails) BottomNavBar(navController)
         },
     ) { paddingValues ->
         NavHost(
@@ -47,6 +50,12 @@ fun AppNavHost() {
                         navController.navigate(
                             MovieDetailsDestination(movieId).buildRoute(),
                         )
+                    },
+                    onShowClick = { showId ->
+                        navController.navigate(
+                            TVShowDetailsDestination(showId).buildRoute()
+                        )
+
                     },
                     innerPaddingValues = paddingValues,
                     onTrailerClick = {},
@@ -96,6 +105,18 @@ fun AppNavHost() {
                 arguments = MovieDetailsDestination.navArgs,
             ) {
                 MovieDetailsScreen(
+                    onBackClick = {
+                        navController.popBackStack()
+                    },
+                    innerPaddingValues = paddingValues,
+                )
+            }
+
+            composable(
+                route = TVShowDetailsDestination.route,
+                arguments = TVShowDetailsDestination.navArgs,
+            ) {
+                ShowDetailsScreen(
                     onBackClick = {
                         navController.popBackStack()
                     },

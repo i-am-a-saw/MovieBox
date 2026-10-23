@@ -9,6 +9,7 @@ import com.iamasaw.moviebox.data.room.MovieDao
 import com.iamasaw.moviebox.data.room.RoomRepository
 import com.iamasaw.moviebox.data.room.ShowDao
 import com.iamasaw.moviebox.presentation.details.MovieDetailsViewModel
+import com.iamasaw.moviebox.presentation.details.ShowDetailsViewModel
 import com.iamasaw.moviebox.presentation.favourites.FavouritesViewModel
 import com.iamasaw.moviebox.presentation.home.HomeViewModel
 import com.iamasaw.moviebox.presentation.search.SearchViewModel
@@ -56,6 +57,14 @@ val AppModule = module {
     viewModel {
         SearchViewModel(
             repository = get<MovieRepository>(),
+        )
+    }
+
+    viewModel {
+        ShowDetailsViewModel(
+            repository = get<MovieRepository>(),
+            savedStateHandle = get<SavedStateHandle>(),
+            roomRepository = get<RoomRepository>()
         )
     }
 

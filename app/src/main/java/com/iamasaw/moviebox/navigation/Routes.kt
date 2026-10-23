@@ -54,3 +54,27 @@ class MovieDetailsDestination(val movieId: Int) : NavDestination {
             )
     }
 }
+
+class TVShowDetailsDestination(val showId: Int) : NavDestination {
+    override val route: String
+        get() = "$ROOT/$showId"
+
+    companion object {
+        private const val ROOT = "show_details"
+
+        const val ARG_SHOW_ID = "showId"
+
+        const val ROUTE = "${ROOT}/{$ARG_SHOW_ID}"
+        val route = ROUTE
+
+        val navArgs =
+            listOf(
+                navArgument(ARG_SHOW_ID) {
+                    type = NavType.IntType
+                }
+            )
+
+        fun fromSavedStateHandle(savedStateHandle: SavedStateHandle) =
+            TVShowDetailsDestination(checkNotNull(savedStateHandle.get<Int>(ARG_SHOW_ID)))
+    }
+}

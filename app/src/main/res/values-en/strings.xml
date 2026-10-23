@@ -3,7 +3,7 @@
 
     <string name="favourites">Favourites</string>
     <string name="profile">Profile</string>
-    <string name="add_to_favourites">Add to favourites</string>
+    <string name="add_to_favourites">To favourites</string>
     <string name="description_not_found">Description not found</string>
     <string name="gallery">Gallery</string>
     <string name="info">Information</string>
@@ -29,6 +29,6 @@
     <string name="nav_home">Home</string>
     <string name="nav_search">Search</string>
     <string name="nav_favourites">Favourites</string>
-    <string name="added_to_favourites">Added to library</string>
+    <string name="added_to_favourites">In library</string>
 
 </resources>

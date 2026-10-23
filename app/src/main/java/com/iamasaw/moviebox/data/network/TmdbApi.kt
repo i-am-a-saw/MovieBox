@@ -4,6 +4,7 @@ import com.iamasaw.moviebox.data.network.dto.movie.MovieDetailsDto
 import com.iamasaw.moviebox.data.network.dto.movie.MovieResponseDto
 import com.iamasaw.moviebox.data.network.dto.movie.MovieVideoDto
 import com.iamasaw.moviebox.data.network.dto.tv.TVShowResponseDto
+import com.iamasaw.moviebox.data.network.dto.tv.TvShowDetailsDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -40,4 +41,11 @@ interface TmdbApi {
         @Query("query") query: String,
         @Query("page") page: Int = 1,
     )
+
+    @GET("tv/{series_id}")
+    suspend fun getShowDetails(
+        @Path("series_id") showId: Int,
+        @Query("include_image_language") imageLanguage: String = "en, null",
+        @Query("append_to_response") appendToResponse: String = "images,credits,videos",
+    ): TvShowDetailsDto
 }
