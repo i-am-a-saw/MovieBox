@@ -1,6 +1,10 @@
 package com.iamasaw.moviebox.presentation.details
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,6 +42,24 @@ class ShowDetailsViewModel(
 
     init {
         loadShow()
+    }
+
+    fun share(context: Context) {
+        val type = "text/plain"
+        val subject = "Show search"
+        val extraText = "https://www.google.com/search?q=" + (_uiState.value.show?.title ?: "")
+        val shareWith = "shareWith"
+
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = type
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        intent.putExtra(Intent.EXTRA_TEXT, extraText)
+
+        ContextCompat.startActivity(
+            context,
+            Intent.createChooser(intent, shareWith),
+            null
+        )
     }
 
 //    fun insertMovie(movie: MovieDetails) {

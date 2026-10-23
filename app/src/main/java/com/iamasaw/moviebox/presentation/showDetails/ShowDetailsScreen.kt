@@ -1,5 +1,6 @@
 package com.iamasaw.moviebox.presentation.details
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -105,7 +106,7 @@ fun ShowDetailsScreen(
                             ),
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                 ) {
-                    PageHeader(show,  { show -> {} }, state)
+                    PageHeader(show,  { show -> {} }, {context -> viewModel.share(context)}, state)
                     Overview(show)
                     Gallery(show)
                     Information(show)
@@ -157,8 +158,11 @@ fun BackgroundImage(movie: TVShowDetails?) {
 fun PageHeader(
     movie: TVShowDetails?,
     onAddToFavourites: (show: TVShowDetails) -> Unit,
+    onShare: (Context) -> Unit,
     state: ShowUiState
 ) {
+    val context = LocalContext.current
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -263,7 +267,7 @@ fun PageHeader(
                 }
 
                 IconButton(
-                    onClick = {},
+                    onClick = { onShare(context) },
                     colors =
                         IconButtonColors(
                             containerColor = Color.DarkGray,
